@@ -75,8 +75,7 @@
         nav a:hover {
             text-decoration: underline;
         }
-        .content { display: none; }
-        .content.active { display: block; }
+        #lang-cs, #lang-en { display: none; }
         .info-box {
             border: 1px solid #ccc;
             padding: 15px;
@@ -209,121 +208,73 @@
 
     <div class="container">
         <header>
-            <h1><a href="#" onclick="showPage('home-cs', 'cs'); return false;">Eko-Oáza Prachov</a></h1>
-            <nav id="nav-cs">
-                <a href="#" onclick="showPage('main-cs', 'cs')">Provozní řád</a>
-                <a href="#" onclick="showPage('places-cs', 'cs')">Zajímavá místa</a>
-                <a href="#" onclick="showPage('home-en', 'en')">English version</a>
-            </nav>
-            <nav id="nav-en" style="display:none;">
-                <a href="#" onclick="showPage('main-en', 'en')">Operating rules</a>
-                <a href="#" onclick="showPage('places-en', 'en')">Places of interest</a>
-                <a href="#" onclick="showPage('home-cs', 'cs')">Česká verze</a>
-            </nav>
+            <h1><a href="index.html">Eko-Oáza Prachov</a></h1>
+            <div id="nav-cs">
+                <nav>
+                    <a href="provozni-rad.html">Provozní řád</a>
+                    <a href="zajimava-mista.html">Zajímavá místa</a>
+                    <a href="index.html?lang=en">English version</a>
+                </nav>
+            </div>
+            <div id="nav-en" style="display:none;">
+                 <nav>
+                    <a href="provozni-rad.html?lang=en">Operating rules</a>
+                    <a href="zajimava-mista.html?lang=en">Places of interest</a>
+                    <a href="index.html?lang=cs">Česká verze</a>
+                </nav>
+            </div>
         </header>
 
         <main>
             <div id="lang-cs">
-                <div id="home-cs" class="content active">
-                    <div class="info-box editable-text" data-field="cs-info-box"><p>Chatová osada v Českém ráji, Prachov 58, provozovatel: Ing. Petr Hejna</p><p>IČO: 66314364</p><p>Provozní doba: červenec-srpen (jen po dohodě s klientem)</p><p>č.ú.: 19-6866210217/0100</p><p>tel.: <span class="bold">606 930 170 (nejlépe večer)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>staré stránky na: eo-prachov.cz</p></div>
-                    <p class="editable-text" data-field="cs-intro">Jedná se o sedm 3-lůžkových chatek vhodných pro rodiče s dětmi. Přistýlka pro čtvrtou osobu (dítě) ve formě propojení dvou lůžek je možná.</p>
-                    <div class="gallery">
-                        <img src="obrazky/1.png" alt="Chatka zvenku" onclick="openModal(this)"><img src="obrazky/2.png" alt="Interiér chatky" onclick="openModal(this)"><img src="obrazky/3.png" alt="Interiér chatky" onclick="openModal(this)"><img src="obrazky/4.png" alt="Postel v chatce" onclick="openModal(this)">
-                    </div>
-                    <div class="map-container">
-                        <h3 class="editable-text" data-field="cs-map-header">Kde nás najdete?</h3>
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        <div class="editable-text" data-field="cs-map-text"><p>Chatová osada se nachází na slunné stráni 6km severozápadně od Jičína, v samém centru Prachovských skal.</p><p>GPS souřadnice: Loc: 50°27'52.835"N, 15°18'23.299"E</p><p>Z hlavní silnice sjet do do cesty označené zákazem vjezdu, který pro ubytováné neplatí. Po 50m je vjezd.</p></div>
-                    </div>
-                    <p class="editable-text" data-field="cs-socials-intro">Chatová dědinka je vybavena novým sociálním zařízením se sprchami.</p>
-                    <div class="gallery">
-                        <img src="obrazky/5.png" alt="Exteriér" onclick="openModal(this)"><img src="obrazky/6.png" alt="Sociální zařízení" onclick="openModal(this)"><img src="obrazky/7.png" alt="Sociální zařízení" onclick="openModal(this)">
-                    </div>
-                    <p class="editable-text" data-field="cs-kitchen-intro">V chatové dědince je společná kuchyňka (lednice, dvouplotnový vařič, varná konvice, nádobí, teplá/studená voda).</p>
-                    <div class="gallery">
-                        <img src="obrazky/8.png" alt="Kuchyňka" onclick="openModal(this)"><img src="obrazky/9.png" alt="Kuchyňka interiér" onclick="openModal(this)"><img src="obrazky/10.png" alt="Kuchyňka interiér" onclick="openModal(this)"><img src="obrazky/11.png" alt="Okolí" onclick="openModal(this)">
-                    </div>
-                    <div class="text-center editable-text" data-field="cs-video-link"><a href="https://www.youtube.com/watch?v=XWXlBmBIE80" target="_blank">Letecký pohled do EOP</a></div>
-                    <div class="editable-text" data-field="cs-activities"><h3>Co poskytuje dovolená v Chatové dědince v Českém ráji?</h3><ul><li><span class="bold">pěší turistiku</span> Prachovskými skalami v Českém ráji s krásnými vyhlídkami</li><li><span class="bold">cyklistiku</span> po vyznačených cyklotrasách Českým rájem</li><li><span class="bold">horolezectví</span> v Prachovských skalách a dalších skalních městech, i na "indoor" umělých stěnách</li><li><span class="bold">plavání a koupání</span> v koupališti u Pelíška ve středu Prachovských skal, ve známých Jinolických rybníkách či Aqua-centru v Jičíně, a dalších lokalitách (rybníky v Podtroseckých údolích)</li><li><span class="bold">návštěvy a prohlídky</span> četných zámků (Humprecht, Malá skála, Hrubá skála, Valdštein, ...), hradů (Kost, Staré hrady, ...) a zřícenin (Trosky, Valečov....) v celém Českém ráji, míst bitvy u Jičína 1866</li><li><span class="bold">prohlídky pohádkového města Jičína</span> s krásnou vyhlídkou z Valdštejnské brány po celém kraji i prohlídku zámku Smiřických na náměstí v Jičíně, a také Valdštejnem založenou dvou-kilometrovou lipovou alejí zakončenou Valdštejnskou lodí, druhý týden v září každý rok akce "Jičín-město pohádky"</li><li><span class="bold">vyhlídkové lety</span> nad Českým rájem z nedalekého letiště</li><li><span class="bold">návštěvu festivalu</span> Šrámkova Sobotka (v červenci)</li><li><span class="bold">jízdu na koni</span> pro malé děti</li><li><span class="bold">klidný pobyt</span> doma v chatové dědince s ohřátím a úpravou svého jídla v kuchyňce.</li></ul></div>
-                    <h3 class="text-center editable-text" data-field="cs-price-header">Ceník</h3>
-                    <div class="editable-text" data-field="cs-price-table"><table class="price-table"><thead><tr><th>Služba</th><th>Cena</th></tr></thead><tbody><tr><td data-label="Služba">chata (3 osoby)/noc - 2-týdenní a více pobyt (bez lůžkovin, prostěradlo v ceně)</td><td data-label="Cena">450 Kč</td></tr><tr><td data-label="Služba">chata (3 osoby)/noc - 1-týdenní a více pobyt (bez lůžkovin, prostěradlo v ceně)</td><td data-label="Cena">600,-Kč</td></tr><tr><td data-label="Služba">chata (3 osoby)/noc - méně než týdenní pobyt (bez lůžkovin, prostěradlo v ceně)</td><td data-label="Cena">700,-Kč</td></tr><tr><td data-label="Služba">chata (3 osoby)/noc - 2 noci (bez lůžkovin, prostěradlo v ceně)</td><td data-label="Cena">900 Kč</td></tr><tr><td data-label="Služba">s lůžkovinama: lůžkoviny/lůžko/noc</td><td data-label="Cena">200,- Kč</td></tr><tr><td data-label="Služba">Čtvrtá osoba v chatce</td><td data-label="Cena">0-100 Kč/1x noc</td></tr><tr><td data-label="Služba">Sprcha</td><td data-label="Cena">50 Kč/1x použití</td></tr><tr><td data-label="Služba">Parkování</td><td data-label="Cena">zdarma</td></tr><tr><td data-label="Služba">Domácí zvíře</td><td data-label="Cena">zdarma</td></tr></tbody></table></div>
-                    <div class="socials editable-text" data-field="cs-facebook-link"><a href="https://www.facebook.com/petr.hejna.3762" target="_blank" rel="noopener noreferrer">https://www.facebook.com/petr.hejna.3762</a></div>
+                <div class="info-box editable-text" data-field="cs-info-box"><p>Chatová osada v Českém ráji, Prachov 58, provozovatel: Ing. Petr Hejna</p><p>IČO: 66314364</p><p>Provozní doba: červenec-srpen (jen po dohodě s klientem)</p><p>č.ú.: 19-6866210217/0100</p><p>tel.: <span class="bold">606 930 170 (nejlépe večer)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>staré stránky na: eo-prachov.cz</p></div>
+                <p class="editable-text" data-field="cs-intro">Jedná se o sedm 3-lůžkových chatek vhodných pro rodiče s dětmi. Přistýlka pro čtvrtou osobu (dítě) ve formě propojení dvou lůžek je možná.</p>
+                <div class="gallery">
+                    <img src="obrazky/1.png" alt="Chatka zvenku" onclick="openModal(this)"><img src="obrazky/2.png" alt="Interiér chatky" onclick="openModal(this)"><img src="obrazky/3.png" alt="Interiér chatky" onclick="openModal(this)"><img src="obrazky/4.png" alt="Postel v chatce" onclick="openModal(this)">
                 </div>
-                <div id="main-cs" class="content">
-                     <div class="info-box editable-text" data-field="cs-rules-info-box"><p>Chatová osada v Českém ráji, Prachov 58, provozovatel: Ing.Petr Hejna</p><p>IČO: 66314364</p><p>Provozní doba: červenec-srpen (jen po dohodě s klientem)</p><p>č.ú. 19-6866210217/0100</p><p>tel.: <span class="bold">606 930 170 (nejlépe večer)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>staré stránky na: eo-prachov.cz</p></div>
-                     <div class="editable-text" data-field="cs-rules-content"><h3>Provozní řád</h3><p>V zásadě platí jednoduché pravidlo. Pobyt v této malé chatové osadě se řídí <span class="bold">zásadami lidské slušnosti a ohleduplnosti, rozumem</span> a <span class="bold">Ubytovacím řádem</span>, který je k dispozici v kuchyňce.</p><ul><li>V chatkách se nesmí kouřit a přestavovat nábytek.</li><li>Na WC se do záchodových mís má vhazovat pouze toaletní papír. Čistička nedokáže rozložit jiný materiál (např. "papírové" kapesníčky, hygienické vložky, apod.).</li><li>V kuchyňce nedotahovat přílišnou silou kohoutek teplé vody. Po dotažení musí teplá voda ještě trochu odtékat, po několika vteřinách sama přestane téct. (Jedná se o beztlakový systém).</li></ul><h3 class="text-center">UBYTOVACÍ ŘÁD</h3><p class="bold text-center">Ubytování v této malé chatové osadě se řídí zejména zásadami lidské slušnosti a ohleduplnosti, ale i následujícími pravidly.</p><p>Provozovatelem a vlastníkem rekreačního střediska Eko-Oáza-Prachov (dále jen „EOP“), které se nachází na adrese Prachov 58, 50601 Jičín, je fyzická osoba Ing.Petr Hejna, se sídlem Komenského 59, 50601 Jičín, IČO:66314364, zapsaná v živnostenském rejstříku vedeném Městským úřadem v Jičíně, (dále jen „ubytovatel“).</p><p>Každý host je povinen seznámit se s tímto ubytovacím řádem před zahájením ubytování a je povinen jej dodržovat po celou dobu ubytování. V případě, že hostem je nezletilé dítě nebo mladiství, je povinností zákonného zástupce, příp. odpovědné osoby seznámit je, vzhledem k jeho rozumové a volní vyspělosti, s ubytovacím řádem a s právy a povinnostmi z ubytovacího řádu vyplývajícími, a z bezpečnostních důvodů nenechávat nezletilé dítě do 10ti let bez dozoru v areálu EOP.</p><p>V prostoru EOP se může ubytovat pouze host, která se řádně zaevidoval u ubytovatele, prokázal svou totožnost průkazem totožnosti a má zaplacenu sjednanou částku převodem z účtu na účet. Ubytování je povoleno pouze hostům, kteří nejsou postiženi infekčními nebo parazitními nemocemi, ani jim nebyl nařízen zvýšený zdravotní dozor nebo karanténa.</p><p>Nebylo-li sjednáno jinak, nástup na ubytováni je po 14:00hod., opuštěni nejpozději do 10:00hod.</p><p>V době od 22:00hod do 07:00hod je nutno dodržovat noční klid. Po dohodě s ubytovatelem je možné večerku posunout na pozdější hodinu. Host osobně převezme a předá zpět chatku ubytovateli s vrácením klíčů.</p><p>Psi nebo jiná zvířata mohou být přítomna za předpokladu, že host prokáže jejich způsobilý stav (očkovací průkaz). Po celou dobu pobytu za zvíře odpovídá majitel. Zvíře nesmí zůstat bez dozoru. Majitelé zvířat jsou povinni zabezpečit, aby zvířata nepobíhala po areálu volně, bez náhubku, a jsou povinni po svém zvířeti uklízet. <span class="bold">Zvířata nesmí spát v posteli určené pro spaní hostů.</span></p><p>Ubytování, pohyb a pobyt osob po areálu EOP je <span class="bold">výhradně na vlastní nebezpečí.</span> Při pobytu dětí a mladistvích je nutné dbát zvýšené opatrnosti. <span class="bold">Ubytovatel nenese zodpovědnost za újmu na zdraví.</span></p><p>Parkování je možné na plochách u chatek. <span class="bold">Je třeba zvýšené opatrnosti při jízdě mezi chatkami.</span></p><p>V ubytovacích prostorách nesmí být bez souhlasu ubytovatele přemísťován nábytek. V areálu EOP je zakázáno kácení a ořezávání jakékoliv vegetace.</p><p>Platí přísný zákaz kouření v chatkách a celém areálu mimo k tomu účelu vyhrazený prostor, nošení zbraní, přechovávání omamných a psychotropních látek, jedů či jiných nebezpečných chemikálií s výjimkou léčivých přípravků pro osobní potřebu hosta.</p><p>Oheň je povoleno rozdělávat pouze na vyhrazeném místě, při vhodných klimatických podmínkách, po předchozím souhlasu ubytovatele, a u ohně musí být osoba starší 18 let. Musí byt dodrženy protipožární předpisy.</p><p>Hosté jsou povinni třídit komunální odpad, odkládat jej do určených nádob jen na vyhrazém místě.</p><p>Do WC mísy patří <span class="bold">pouze toaletní papír</span> (rozložitelné. čističkou). Ostatní použité hygienické pomůcky patří do k tomu určených odpadkových košů.</p><p>V kuchyňce <span class="bold">nedotahovat kohoutky silou</span> (přetlakový systém). Voda se zastaví po chvilce sama.</p><p><span class="bold">Ubytovatel neodpovídá nikomu za ztrátu a škodu majetku.</span> Z cennosti odpovídá zásadně host, vyjma těch, které se hosté u ubytovatele uschovají proti podpisu o převzetí do úschovy.</p><p>Host je povinen dodržovat ustanovení tohoto ubytovacího řádu. V případě, že ubytovací řád poruší, má ubytovatel právo bez předchozího upozornění ukončit ubytování před uplynutím dohodnuté doby bez poskytnutí jakékoliv náhrady pro hosta.</p><p>Eko-Oáza-Prachov přeje příjemný pobyt.</p><p class="text-right">Toto znění ubytovacího řádu platí od 1.1.2019</p><p class="text-right">Ing.Petr Hejna, majitel EOP</p><p><span class="bold">Tísňová volání 112, První pomoc 155, Hasiči 150, Policie 158</span></p></div>
+                <div class="map-container">
+                    <h3 class="editable-text" data-field="cs-map-header">Kde nás najdete?</h3>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="editable-text" data-field="cs-map-text"><p>Chatová osada se nachází na slunné stráni 6km severozápadně od Jičína, v samém centru Prachovských skal.</p><p>GPS souřadnice: Loc: 50°27'52.835"N, 15°18'23.299"E</p><p>Z hlavní silnice sjet do do cesty označené zákazem vjezdu, který pro ubytováné neplatí. Po 50m je vjezd.</p></div>
                 </div>
-                <div id="places-cs" class="content">
-                     <div class="info-box editable-text" data-field="cs-places-info-box"><p>Chatová osada v Českém ráji, Prachov 58, provozovatel: Ing.Petr Hejna</p><p>IČO: 66314364</p><p>Provozní doba: červenec-srpen (jen po dohodě s klientem)</p><p>č.ú. 19-6866210217/0100</p><p>tel.: <span class="bold">606 930 170 (nejlépe večer)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>staré stránky na: eo-prachov.cz</p></div>
-                     <div class="editable-text" data-field="cs-places-intro"><h3>Zajímavá místa</h3><p>Prachovské skály leží v srdci Českého ráje. Níže jsou uvedena jen některá turisticky zajímavá místa.</p></div>
-                     <h4 class="editable-text" data-field="cs-places-header-1">Prachovské skály</h4>
-                     <div class="gallery">
-                        <img src="obrazky/12.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/13.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/14.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/15.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/16.png" alt="Prachovské skály" onclick="openModal(this)">
-                     </div>
-                     <h4 class="editable-text" data-field="cs-places-header-2">Koupání (přírodní-Jinolické rybníky (10min. pěšky), městské koupaliště (10min.autem), kryté aqua centrum (15min.autem))</h4>
-                     <div class="gallery">
-                        <img src="obrazky/17.png" alt="Koupání" onclick="openModal(this)"><img src="obrazky/18.png" alt="Koupání" onclick="openModal(this)"><img src="obrazky/19.png" alt="Koupání" onclick="openModal(this)"><img src="obrazky/20.png" alt="Koupání" onclick="openModal(this)">
-                     </div>
-                     <h4 class="editable-text" data-field="cs-places-header-3">Hrady, zříceniny a zámky Českého ráje</h4>
-                     <div class="gallery">
-                        <img src="obrazky/21.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/22.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/23.png" alt="Zřícenina" onclick="openModal(this)"><img src="obrazky/24.png" alt="Zámek" onclick="openModal(this)"><img src="obrazky/25.png" alt="Zámek" onclick="openModal(this)"><img src="obrazky/26.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/27.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/28.png" alt="Jičín" onclick="openModal(this)">
-                     </div>
-                     <h4 class="editable-text" data-field="cs-places-header-4">Zajímavá místa v Jičíně a bezprostředním okolí</h4>
-                     <div class="gallery">
-                        <img src="obrazky/29.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/30.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/31.png" alt="Okolí" onclick="openModal(this)"><img src="obrazky/32.png" alt="Okolí" onclick="openModal(this)"><img src="obrazky/33.png" alt="Okolí" onclick="openModal(this)">
-                     </div>
+                <p class="editable-text" data-field="cs-socials-intro">Chatová dědinka je vybavena novým sociálním zařízením se sprchami.</p>
+                <div class="gallery">
+                    <img src="obrazky/5.png" alt="Exteriér" onclick="openModal(this)"><img src="obrazky/6.png" alt="Sociální zařízení" onclick="openModal(this)"><img src="obrazky/7.png" alt="Sociální zařízení" onclick="openModal(this)">
                 </div>
+                <p class="editable-text" data-field="cs-kitchen-intro">V chatové dědince je společná kuchyňka (lednice, dvouplotnový vařič, varná konvice, nádobí, teplá/studená voda).</p>
+                <div class="gallery">
+                    <img src="obrazky/8.png" alt="Kuchyňka" onclick="openModal(this)"><img src="obrazky/9.png" alt="Kuchyňka interiér" onclick="openModal(this)"><img src="obrazky/10.png" alt="Kuchyňka interiér" onclick="openModal(this)"><img src="obrazky/11.png" alt="Okolí" onclick="openModal(this)">
+                </div>
+                <div class="text-center editable-text" data-field="cs-video-link"><a href="https://www.youtube.com/watch?v=XWXlBmBIE80" target="_blank">Letecký pohled do EOP</a></div>
+                <div class="editable-text" data-field="cs-activities"><h3>Co poskytuje dovolená v Chatové dědince v Českém ráji?</h3><ul><li><span class="bold">pěší turistiku</span> Prachovskými skalami v Českém ráji s krásnými vyhlídkami</li><li><span class="bold">cyklistiku</span> po vyznačených cyklotrasách Českým rájem</li><li><span class="bold">horolezectví</span> v Prachovských skalách a dalších skalních městech, i na "indoor" umělých stěnách</li><li><span class="bold">plavání a koupání</span> v koupališti u Pelíška ve středu Prachovských skal, ve známých Jinolických rybníkách či Aqua-centru v Jičíně, a dalších lokalitách (rybníky v Podtroseckých údolích)</li><li><span class="bold">návštěvy a prohlídky</span> četných zámků (Humprecht, Malá skála, Hrubá skála, Valdštein, ...), hradů (Kost, Staré hrady, ...) a zřícenin (Trosky, Valečov....) v celém Českém ráji, míst bitvy u Jičína 1866</li><li><span class="bold">prohlídky pohádkového města Jičína</span> s krásnou vyhlídkou z Valdštejnské brány po celém kraji i prohlídku zámku Smiřických na náměstí v Jičíně, a také Valdštejnem založenou dvou-kilometrovou lipovou alejí zakončenou Valdštejnskou lodí, druhý týden v září každý rok akce "Jičín-město pohádky"</li><li><span class="bold">vyhlídkové lety</span> nad Českým rájem z nedalekého letiště</li><li><span class="bold">návštěvu festivalu</span> Šrámkova Sobotka (v červenci)</li><li><span class="bold">jízdu na koni</span> pro malé děti</li><li><span class="bold">klidný pobyt</span> doma v chatové dědince s ohřátím a úpravou svého jídla v kuchyňce.</li></ul></div>
+                <h3 class="text-center editable-text" data-field="cs-price-header">Ceník</h3>
+                <div class="editable-text" data-field="cs-price-table"><table class="price-table"><thead><tr><th>Služba</th><th>Cena</th></tr></thead><tbody><tr><td data-label="Služba">chata (3 osoby)/noc - 2-týdenní a více pobyt (bez lůžkovin, prostěradlo v ceně)</td><td data-label="Cena">450 Kč</td></tr><tr><td data-label="Služba">chata (3 osoby)/noc - 1-týdenní a více pobyt (bez lůžkovin, prostěradlo v ceně)</td><td data-label="Cena">600,-Kč</td></tr><tr><td data-label="Služba">chata (3 osoby)/noc - méně než týdenní pobyt (bez lůžkovin, prostěradlo v ceně)</td><td data-label="Cena">700,-Kč</td></tr><tr><td data-label="Služba">chata (3 osoby)/noc - 2 noci (bez lůžkovin, prostěradlo v ceně)</td><td data-label="Cena">900 Kč</td></tr><tr><td data-label="Služba">s lůžkovinama: lůžkoviny/lůžko/noc</td><td data-label="Cena">200,- Kč</td></tr><tr><td data-label="Služba">Čtvrtá osoba v chatce</td><td data-label="Cena">0-100 Kč/1x noc</td></tr><tr><td data-label="Služba">Sprcha</td><td data-label="Cena">50 Kč/1x použití</td></tr><tr><td data-label="Služba">Parkování</td><td data-label="Cena">zdarma</td></tr><tr><td data-label="Služba">Domácí zvíře</td><td data-label="Cena">zdarma</td></tr></tbody></table></div>
+                <div class="socials editable-text" data-field="cs-facebook-link"><a href="https://www.facebook.com/petr.hejna.3762" target="_blank" rel="noopener noreferrer">https://www.facebook.com/petr.hejna.3762</a></div>
             </div>
             <div id="lang-en" style="display:none;">
-                <div id="home-en" class="content">
-                    <div class="info-box editable-text" data-field="en-info-box"><p>Cottage settlement in Bohemian Paradise, Prachov 58, operator: Ing. Petr Hejna</p><p>ID: 66314364</p><p>Opening hours: July-August (by appointment only)</p><p>Bank account: 19-6866210217/0100</p><p>tel.: <span class="bold">+420 606 930 170 (preferably in the evening)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>old website: eo-prachov.cz</p></div>
-                    <p class="editable-text" data-field="en-intro">There are seven 3-bed cottages suitable for families with children. An extra bed for a fourth person (child) by connecting two beds is possible.</p>
-                    <div class="gallery">
-                        <img src="obrazky/1.png" alt="Cottage exterior" onclick="openModal(this)"><img src="obrazky/2.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/3.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/4.png" alt="Bed in cottage" onclick="openModal(this)">
-                    </div>
-                    <div class="map-container">
-                        <h3 class="editable-text" data-field="en-map-header">Where to find us?</h3>
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        <div class="editable-text" data-field="en-map-text"><p>The cottage settlement is located on a sunny slope 6km northwest of Jičín, in the very center of the Prachov Rocks.</p><p>GPS coordinates: Loc: 50°27'52.835"N, 15°18'23.299"E</p><p>From the main road, turn into the settlement, marked with a no-entry sign, which does not apply to guests. The entrance is 50m away.</p></div>
-                    </div>
-                    <p class="editable-text" data-field="en-socials-intro">The cottage village is equipped with new sanitary facilities with showers.</p>
-                    <div class="gallery">
-                        <img src="obrazky/5.png" alt="Exterior" onclick="openModal(this)"><img src="obrazky/6.png" alt="Sanitary facilities" onclick="openModal(this)"><img src="obrazky/7.png" alt="Sanitary facilities" onclick="openModal(this)">
-                    </div>
-                    <p class="editable-text" data-field="en-kitchen-intro">In the cottage village, there is a shared kitchen (refrigerator, double hotplate, electric kettle, dishes, hot/cold water).</p>
-                    <div class="gallery">
-                        <img src="obrazky/8.png" alt="Kitchen" onclick="openModal(this)"><img src="obrazky/9.png" alt="Kitchen interior" onclick="openModal(this)"><img src="obrazky/10.png" alt="Kitchen interior" onclick="openModal(this)"><img src="obrazky/11.png" alt="Surroundings" onclick="openModal(this)">
-                    </div>
-                    <div class="text-center editable-text" data-field="en-video-link"><a href="https://www.youtube.com/watch?v=XWXlBmBIE80" target="_blank" rel="noopener noreferrer">Aerial view of EOP</a></div>
-                    <div class="editable-text" data-field="en-activities"><h3>What does a holiday in the Cottage Village in Bohemian Paradise offer?</h3><ul><li><span class="bold">hiking</span> through the Prachov Rocks in the Bohemian Paradise with beautiful views</li><li><span class="bold">cycling</span> on marked cycle paths in the Bohemian Paradise</li><li><span class="bold">rock climbing</span> in the Prachov Rocks and other rock towns, and on "indoor" artificial walls</li><li><span class="bold">swimming</span> at the Pelíšek swimming pool in the middle of the Prachov Rocks, in the famous Jinolice Ponds or the Aqua-center in Jičín, and other locations (ponds in the Podtrosecká valleys)</li><li><span class="bold">visits and tours</span> of numerous castles (Humprecht, Malá skála, Hrubá skála, Valdštejn, ...), forts (Kost, Staré hrady, ...) and ruins (Trosky, Valečov....) throughout the Bohemian Paradise, sites of the Battle of Jičín 1866</li><li><span class="bold">tours of the fairy-tale town of Jičín</span> with a beautiful view from the Wallenstein Gate over the entire region and a tour of the Smiřický Chateau on the square in Jičín, as well as the two-kilometer linden alley founded by Wallenstein ending with the Wallenstein Loggia, every year in the second week of September the "Jičín - the city of fairy tales" event</li><li><span class="bold">sightseeing flights</span> over the Bohemian Paradise from a nearby airport</li><li><span class="bold">visiting the Šrámkova Sobotka festival</span> (in July)</li><li><span class="bold">horse riding</span> for young children</li><li><span class="bold">a quiet stay</span> at home in the cottage village with heating and preparing your own food in the kitchen.</li></ul></div>
-                    <h3 class="text-center editable-text" data-field="en-price-header">Price List</h3>
-                    <div class="editable-text" data-field="en-price-table"><table class="price-table"><thead><tr><th>Service</th><th>Price</th></tr></thead><tbody><tr><td data-label="Service">cottage (3 persons)/night - 2-week stay or longer (without bed linen, sheet included)</td><td data-label="Price">450 CZK</td></tr><tr><td data-label="Service">cottage (3 persons)/night - 1-week stay or longer (without bed linen, sheet included)</td><td data-label="Price">600 CZK</td></tr><tr><td data-label="Service">cottage (3 persons)/night - less than a week stay (without bed linen, sheet included)</td><td data-label="Price">700 CZK</td></tr><tr><td data-label="Service">cottage (3 persons)/night - 2 nights (without bed linen, sheet included)</td><td data-label="Price">900 CZK</td></tr><tr><td data-label="Service">with bed linen: bed linen/bed/night</td><td data-label="Price">200 CZK</td></tr><tr><td data-label="Service">Fourth person in the cottage</td><td data-label="Price">0-100 CZK/1x night</td></tr><tr><td data-label="Service">Shower</td><td data-label="Price">50 CZK/1x use</td></tr><tr><td data-label="Service">Parking</td><td data-label="Price">free</td></tr><tr><td data-label="Service">Pet</td><td data-label="Price">free</td></tr></tbody></table></div>
-                    <div class="socials editable-text" data-field="en-facebook-link"><a href="https://www.facebook.com/petr.hejna.3762" target="_blank" rel="noopener noreferrer">https://www.facebook.com/petr.hejna.3762</a></div>
+                <div class="info-box editable-text" data-field="en-info-box"><p>Cottage settlement in Bohemian Paradise, Prachov 58, operator: Ing. Petr Hejna</p><p>ID: 66314364</p><p>Opening hours: July-August (by appointment only)</p><p>Bank account: 19-6866210217/0100</p><p>tel.: <span class="bold">+420 606 930 170 (preferably in the evening)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>old website: eo-prachov.cz</p></div>
+                <p class="editable-text" data-field="en-intro">There are seven 3-bed cottages suitable for families with children. An extra bed for a fourth person (child) by connecting two beds is possible.</p>
+                <div class="gallery">
+                    <img src="obrazky/1.png" alt="Cottage exterior" onclick="openModal(this)"><img src="obrazky/2.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/3.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/4.png" alt="Bed in cottage" onclick="openModal(this)">
                 </div>
-                <div id="main-en" class="content">
-                    <div class="info-box editable-text" data-field="en-rules-info-box"><p>Cottage settlement in Bohemian Paradise, Prachov 58, operator: Ing.Petr Hejna</p><p>ID: 66314364</p><p>Opening hours: July-August (by appointment only)</p><p>Bank account: 19-6866210217/0100</p><p>tel.: <span class="bold">+420 606 930 170 (preferably in the evening)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>old website: eo-prachov.cz</p></div>
-                    <div class="editable-text" data-field="en-rules-content"><h3>Operating Rules</h3><p>Basically, a simple rule applies. The stay in this small cottage settlement is governed by the <span class="bold">principles of human decency and consideration, reason</span> and the <span class="bold">Accommodation Rules</span>, which are available in the kitchen.</p><ul><li>Smoking and rearranging furniture are not allowed in the cottages.</li><li>Only toilet paper should be thrown into the toilet bowls. The treatment plant cannot break down other materials (e.g., "paper" tissues, sanitary napkins, etc.).</li><li>Do not overtighten the hot water tap in the kitchen. After tightening, the hot water must still drip a little; it will stop on its own after a few seconds. (This is a non-pressurized system).</li></ul><h3 class="text-center">ACCOMMODATION RULES</h3><p class="bold text-center">Accommodation in this small cottage settlement is governed mainly by the principles of human decency and consideration, but also by the following rules.</p><p>The operator and owner of the recreational facility Eko-Oáza-Prachov (hereinafter "EOP"), located at Prachov 58, 50601 Jičín, is the natural person Ing.Petr Hejna, with his registered office at Komenského 59, 50601 Jičín, ID: 66314364, registered in the trade register kept by the Municipal Office in Jičín, (hereinafter "the accommodation provider").</p><p>Every guest is obliged to familiarize themselves with these accommodation rules before the start of their stay and is obliged to comply with them throughout their stay. If the guest is a minor child or adolescent, it is the duty of the legal guardian or responsible person to acquaint them, according to their mental and volitional maturity, with the accommodation rules and with the rights and obligations arising from the accommodation rules, and for safety reasons not to leave a child under 10 years of age unattended in the EOP area.</p><p>Only a guest who has duly registered with the accommodation provider, proved their identity with an identity card and has paid the agreed amount by bank transfer can be accommodated in the EOP area. Accommodation is only allowed for guests who are not suffering from infectious or parasitic diseases, nor have they been ordered to be under increased medical supervision or quarantine.</p><p>Unless otherwise agreed, check-in is after 2:00 PM, check-out is by 10:00 AM at the latest.</p><p>Quiet hours must be observed from 10:00 PM to 7:00 AM. By agreement with the accommodation provider, the curfew can be moved to a later hour. The guest personally takes over and hands back the cottage to the accommodation provider with the return of the keys.</p><p>Dogs or other animals may be present provided that the guest proves their eligible condition (vaccination certificate). The owner is responsible for the animal throughout the stay. The animal must not be left unattended. Pet owners are obliged to ensure that the animals do not run freely around the area without a muzzle, and are obliged to clean up after their animal. <span class="bold">Animals must not sleep in the bed intended for guests.</span></p><p>Accommodation, movement and stay of persons in the EOP area is <span class="bold">exclusively at their own risk.</span> When children and adolescents are staying, increased caution must be exercised. <span class="bold">The accommodation provider is not responsible for any personal injury.</span></p><p>Parking is possible on the areas near the cottages. <span class="bold">Increased caution is required when driving between the cottages.</span></p><p>Furniture may not be moved in the accommodation facilities without the consent of the accommodation provider. It is forbidden to cut and trim any vegetation in the EOP area.</p><p>There is a strict ban on smoking in the cottages and the entire area except for the designated space, carrying weapons, storing narcotics and psychotropic substances, poisons or other dangerous chemicals with the exception of medicinal products for the personal use of the guest.</p><p>Fires may only be lit in the designated place, under suitable climatic conditions, with the prior consent of the accommodation provider, and a person over 18 years of age must be present at the fire. Fire safety regulations must be observed.</p><p>Guests are required to sort municipal waste and dispose of it in the designated containers only in the designated place.</p><p>Only <span class="bold">toilet paper</span> (decomposable by the treatment plant) belongs in the toilet bowl. Other used sanitary items belong in the designated waste bins.</p><p>In the kitchen, <span class="bold">do not overtighten the taps</span> (overpressure system). The water will stop by itself after a while.</p><p><span class="bold">The accommodation provider is not responsible for any loss or damage to property.</span> The guest is solely responsible for valuables, except for those that the guest deposits with the accommodation provider against a signature of receipt.</p><p>The guest is obliged to comply with the provisions of these accommodation rules. In the event that the accommodation rules are violated, the accommodation provider has the right to terminate the stay without prior notice before the end of the agreed period without providing any compensation to the guest.</p><p>Eko-Oáza-Prachov wishes you a pleasant stay.</p><p class="text-right">This version of the accommodation rules is valid from 1.1.2019</p><p class="text-right">Ing.Petr Hejna, owner of EOP</p><p><span class="bold">Emergency calls 112, First aid 155, Firefighters 150, Police 158</span></p></div>
+                <div class="map-container">
+                    <h3 class="editable-text" data-field="en-map-header">Where to find us?</h3>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="editable-text" data-field="en-map-text"><p>The cottage settlement is located on a sunny slope 6km northwest of Jičín, in the very center of the Prachov Rocks.</p><p>GPS coordinates: Loc: 50°27'52.835"N, 15°18'23.299"E</p><p>From the main road, turn into the settlement, marked with a no-entry sign, which does not apply to guests. The entrance is 50m away.</p></div>
                 </div>
-                <div id="places-en" class="content">
-                     <div class="info-box editable-text" data-field="en-places-info-box"><p>Cottage settlement in Bohemian Paradise, Prachov 58, operator: Ing.Petr Hejna</p><p>ID: 66314364</p><p>Opening hours: July-August (by appointment only)</p><p>Bank account: 19-6866210217/0100</p><p>tel.: <span class="bold">+420 606 930 170 (preferably in the evening)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>old website: eo-prachov.cz</p></div>
-                     <div class="editable-text" data-field="en-places-intro"><h3>Interesting Places</h3><p>The Prachov Rocks are located in the heart of the Bohemian Paradise. Below are just some of the tourist attractions.</p></div>
-                     <h4 class="editable-text" data-field="en-places-header-1">Prachov Rocks</h4>
-                     <div class="gallery">
-                        <img src="obrazky/12.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/13.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/14.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/15.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/16.png" alt="Prachov Rocks" onclick="openModal(this)">
-                     </div>
-                     <h4 class="editable-text" data-field="en-places-header-2">Swimming (natural-Jinolice Ponds (10 min. walk), municipal swimming pool (10 min. by car), indoor aqua center (15 min. by car))</h4>
-                     <div class="gallery">
-                        <img src="obrazky/17.png" alt="Swimming" onclick="openModal(this)"><img src="obrazky/18.png" alt="Swimming" onclick="openModal(this)"><img src="obrazky/19.png" alt="Swimming" onclick="openModal(this)"><img src="obrazky/20.png" alt="Swimming" onclick="openModal(this)">
-                     </div>
-                     <h4 class="editable-text" data-field="en-places-header-3">Castles, ruins and chateaux of the Bohemian Paradise</h4>
-                     <div class="gallery">
-                        <img src="obrazky/21.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/22.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/23.png" alt="Ruin" onclick="openModal(this)"><img src="obrazky/24.png" alt="Chateau" onclick="openModal(this)"><img src="obrazky/25.png" alt="Chateau" onclick="openModal(this)"><img src="obrazky/26.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/27.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/28.png" alt="Jičín" onclick="openModal(this)">
-                     </div>
-                     <h4 class="editable-text" data-field="en-places-header-4">Interesting places in Jičín and the immediate surroundings</h4>
-                     <div class="gallery">
-                        <img src="obrazky/29.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/30.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/31.png" alt="Surroundings" onclick="openModal(this)"><img src="obrazky/32.png" alt="Surroundings" onclick="openModal(this)"><img src="obrazky/33.png" alt="Surroundings" onclick="openModal(this)">
-                     </div>
+                <p class="editable-text" data-field="en-socials-intro">The cottage village is equipped with new sanitary facilities with showers.</p>
+                <div class="gallery">
+                    <img src="obrazky/5.png" alt="Exterior" onclick="openModal(this)"><img src="obrazky/6.png" alt="Sanitary facilities" onclick="openModal(this)"><img src="obrazky/7.png" alt="Sanitary facilities" onclick="openModal(this)">
                 </div>
+                <p class="editable-text" data-field="en-kitchen-intro">In the cottage village, there is a shared kitchen (refrigerator, double hotplate, electric kettle, dishes, hot/cold water).</p>
+                <div class="gallery">
+                    <img src="obrazky/8.png" alt="Kitchen" onclick="openModal(this)"><img src="obrazky/9.png" alt="Kitchen interior" onclick="openModal(this)"><img src="obrazky/10.png" alt="Kitchen interior" onclick="openModal(this)"><img src="obrazky/11.png" alt="Surroundings" onclick="openModal(this)">
+                </div>
+                <div class="text-center editable-text" data-field="en-video-link"><a href="https://www.youtube.com/watch?v=XWXlBmBIE80" target="_blank" rel="noopener noreferrer">Aerial view of EOP</a></div>
+                <div class="editable-text" data-field="en-activities"><h3>What does a holiday in the Cottage Village in Bohemian Paradise offer?</h3><ul><li><span class="bold">hiking</span> through the Prachov Rocks in the Bohemian Paradise with beautiful views</li><li><span class="bold">cycling</span> on marked cycle paths in the Bohemian Paradise</li><li><span class="bold">rock climbing</span> in the Prachov Rocks and other rock towns, and on "indoor" artificial walls</li><li><span class="bold">swimming</span> at the Pelíšek swimming pool in the middle of the Prachov Rocks, in the famous Jinolice Ponds or the Aqua-center in Jičín, and other locations (ponds in the Podtrosecká valleys)</li><li><span class="bold">visits and tours</span> of numerous castles (Humprecht, Malá skála, Hrubá skála, Valdštejn, ...), forts (Kost, Staré hrady, ...) and ruins (Trosky, Valečov....) throughout the Bohemian Paradise, sites of the Battle of Jičín 1866</li><li><span class="bold">tours of the fairy-tale town of Jičín</span> with a beautiful view from the Wallenstein Gate over the entire region and a tour of the Smiřický Chateau on the square in Jičín, as well as the two-kilometer linden alley founded by Wallenstein ending with the Wallenstein Loggia, every year in the second week of September the "Jičín - the city of fairy tales" event</li><li><span class="bold">sightseeing flights</span> over the Bohemian Paradise from a nearby airport</li><li><span class="bold">visiting the Šrámkova Sobotka festival</span> (in July)</li><li><span class="bold">horse riding</span> for young children</li><li><span class="bold">a quiet stay</span> at home in the cottage village with heating and preparing your own food in the kitchen.</li></ul></div>
+                <h3 class="text-center editable-text" data-field="en-price-header">Price List</h3>
+                <div class="editable-text" data-field="en-price-table"><table class="price-table"><thead><tr><th>Service</th><th>Price</th></tr></thead><tbody><tr><td data-label="Service">cottage (3 persons)/night - 2-week stay or longer (without bed linen, sheet included)</td><td data-label="Price">450 CZK</td></tr><tr><td data-label="Service">cottage (3 persons)/night - 1-week stay or longer (without bed linen, sheet included)</td><td data-label="Price">600 CZK</td></tr><tr><td data-label="Service">cottage (3 persons)/night - less than a week stay (without bed linen, sheet included)</td><td data-label="Price">700 CZK</td></tr><tr><td data-label="Service">cottage (3 persons)/night - 2 nights (without bed linen, sheet included)</td><td data-label="Price">900 CZK</td></tr><tr><td data-label="Service">with bed linen: bed linen/bed/night</td><td data-label="Price">200 CZK</td></tr><tr><td data-label="Service">Fourth person in the cottage</td><td data-label="Price">0-100 CZK/1x night</td></tr><tr><td data-label="Service">Shower</td><td data-label="Price">50 CZK/1x use</td></tr><tr><td data-label="Service">Parking</td><td data-label="Price">free</td></tr><tr><td data-label="Service">Pet</td><td data-label="Price">free</td></tr></tbody></table></div>
+                <div class="socials editable-text" data-field="en-facebook-link"><a href="https://www.facebook.com/petr.hejna.3762" target="_blank" rel="noopener noreferrer">https://www.facebook.com/petr.hejna.3762</a></div>
             </div>
         </main>
         
@@ -356,13 +307,14 @@
 
     <script id="main-script">
         const firebaseConfig = {
-          apiKey: "PASTE_YOUR_API_KEY_HERE",
-          authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
-          projectId: "PASTE_YOUR_PROJECT_ID_HERE",
-          storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
-          messagingSenderId: "PASTE_YOUR_SENDER_ID_HERE",
-          appId: "PASTE_YOUR_APP_ID_HERE"
-        };
+  apiKey: "AIzaSyCuI9hhPtQMDkNqlQmmPfJRMWZWZFrT3hw",
+  authDomain: "eko-oaza-website.firebaseapp.com",
+  projectId: "eko-oaza-website",
+  storageBucket: "eko-oaza-website.firebasestorage.app",
+  messagingSenderId: "32000760259",
+  appId: "1:32000760259:web:b6b797ca91de9bd7688576",
+  measurementId: "G-0KLWHCEM16"
+};
 
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
@@ -387,21 +339,15 @@
             document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description);
         }
 
-        function showPage(pageId, lang) {
+        function setLanguage(lang) {
             document.documentElement.lang = lang;
             document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none';
             document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none';
-            document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none';
-            document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none';
+            document.getElementById('nav-cs').style.display = lang === 'cs' ? 'block' : 'none';
+            document.getElementById('nav-en').style.display = lang === 'en' ? 'block' : 'none';
             footerCS.style.display = lang === 'cs' ? 'block' : 'none';
             footerEN.style.display = lang === 'en' ? 'block' : 'none';
-            
             updateSEO(lang);
-            const langContainer = document.getElementById('lang-' + lang);
-            langContainer.querySelectorAll('.content').forEach(section => section.classList.remove('active'));
-            const activePage = document.getElementById(pageId);
-            if (activePage) activePage.classList.add('active');
-            else document.getElementById('home-' + lang).classList.add('active');
         }
         
         function openModal(element) {
@@ -509,7 +455,6 @@
                         document.querySelectorAll(`#lang-${lang} [data-field]`).forEach(el => {
                             if (data[el.dataset.field]) el.innerHTML = data[el.dataset.field];
                         });
-                        // Set flag that content was loaded
                         document.body.dataset.contentLoaded = "true";
                     }
                 } catch (error) {
@@ -518,11 +463,11 @@
             };
             await Promise.all([loadDataForLang('cs'), loadDataForLang('en')]);
         }
-
+        
         async function runInitialSetup() {
             const setupFlagRef = db.collection('internal').doc('setup');
             const setupDoc = await setupFlagRef.get();
-            if (setupDoc.exists) {
+            if (setupDoc.exists && setupDoc.data().completed) {
                 console.log("Initial setup already completed. Skipping.");
                 return;
             }
@@ -571,9 +516,9 @@
         });
 
         document.addEventListener('DOMContentLoaded', async () => {
-            showPage('home-cs', 'cs');
-            // Try to load content from DB. If it's the first time, this won't do much,
-            // but the text from the HTML will be visible until the admin logs in.
+            const urlParams = new URLSearchParams(window.location.search);
+            const lang = urlParams.get('lang') === 'en' ? 'en' : 'cs';
+            setLanguage(lang);
             await loadContent();
         });
     </script>
