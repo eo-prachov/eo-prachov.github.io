@@ -307,14 +307,14 @@
 
     <script id="main-script">
         const firebaseConfig = {
-  apiKey: "AIzaSyCuI9hhPtQMDkNqlQmmPfJRMWZWZFrT3hw",
-  authDomain: "eko-oaza-website.firebaseapp.com",
-  projectId: "eko-oaza-website",
-  storageBucket: "eko-oaza-website.firebasestorage.app",
-  messagingSenderId: "32000760259",
-  appId: "1:32000760259:web:b6b797ca91de9bd7688576",
-  measurementId: "G-0KLWHCEM16"
-};
+          apiKey: "AIzaSyCuI9hhPtQMDkNqlQmmPfJRMWZWZFrT3hw",
+          authDomain: "eko-oaza-website.firebaseapp.com",
+          projectId: "eko-oaza-website",
+          storageBucket: "eko-oaza-website.firebasestorage.app",
+          messagingSenderId: "32000760259",
+          appId: "1:32000760259:web:b6b797ca91de9bd7688576",
+          measurementId: "G-0KLWHCEM16"
+        };
 
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
@@ -468,34 +468,25 @@
             const setupFlagRef = db.collection('internal').doc('setup');
             const setupDoc = await setupFlagRef.get();
             if (setupDoc.exists && setupDoc.data().completed) {
-                console.log("Initial setup already completed. Skipping.");
                 return;
             }
-
-            console.log("Running one-time initial content setup...");
             alert("This is the first admin login. The website's initial text will now be saved to the database. This will only happen once.");
-            
             const allContent = {};
-
             document.querySelectorAll('.editable-text').forEach(el => {
                 const fieldId = el.dataset.field;
                 const content = el.innerHTML;
                 const lang = fieldId.startsWith('cs-') ? 'cs' : 'en';
-                
-                if (!allContent[lang]) {
-                    allContent[lang] = {};
-                }
+                if (!allContent[lang]) allContent[lang] = {};
                 allContent[lang][fieldId] = content;
             });
-            
             try {
-                await db.collection('content').doc('cs').set(allContent['cs']);
-                await db.collection('content').doc('en').set(allContent['en']);
+                if(allContent['cs']) await db.collection('content').doc('cs').set(allContent['cs'], {merge: true});
+                if(allContent['en']) await db.collection('content').doc('en').set(allContent['en'], {merge: true});
                 await setupFlagRef.set({ completed: true });
                 alert("Initial setup successful! The content is now saved in the database.");
             } catch(error) {
                 console.error("Initial setup failed:", error);
-                alert("The initial setup failed. Please check the console for errors and contact your developer.");
+                alert("The initial setup failed. Please check the console for errors.");
             }
         }
 
