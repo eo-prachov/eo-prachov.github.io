@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <title>Zajímavá místa - Eko-Oáza Prachov</title>
+    <title>Zajímavá místa v okolí | Eko-Oáza Prachov</title>
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tipy na výlety v okolí Prachovských skal a Jičína. Hrady, zámky, koupání a další zajímavá místa v Českém ráji.">
-    
+    <meta name="description" content="Tipy na výlety v okolí Eko-Oázy Prachov. Objevte krásy Prachovských skal a Českého ráje.">
+    <link rel="canonical" href="https://www.example.com/zajimava-mista.html">
+    <!-- Note: CSS is identical to index.html and is included below -->
     <style>
         :root {
             --primary-blue: #007bff;
@@ -58,11 +59,11 @@
             text-decoration: none;
             color: var(--primary-blue);
             font-weight: bold;
+            cursor: pointer;
         }
         nav a:hover {
             text-decoration: underline;
         }
-        #lang-cs, #lang-en { display: none; }
         .info-box {
             border: 1px solid #ccc;
             padding: 15px;
@@ -89,7 +90,37 @@
             transform: scale(1.05);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
+        .map-container { margin: 20px 0; }
+        .map-container h3 { margin-top: 0; }
+        .map-embed {
+            width: 100%;
+            height: 450px;
+            border: 0;
+        }
+        .price-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .price-table th, .price-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        .price-table th { background-color: #f2f2f2; }
+        .socials { text-align: center; margin: 20px 0; }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #ccc;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        footer a { margin: 0 5px; }
         .bold { font-weight: bold; }
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
 
         .modal {
             display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
@@ -128,7 +159,7 @@
         #login-modal form { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 400px; text-align: center; border-radius: 5px; }
         #login-modal input { width: 90%; padding: 12px 20px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; box-sizing: border-box; }
         #login-modal button { background-color: #4CAF50; color: white; padding: 14px 20px; margin: 8px 0; border: none; cursor: pointer; width: 90%; }
-        
+
         @media screen and (max-width: 768px) {
             body { font-size: 16px; }
             .container { width: 100%; margin: 0; padding: 0 10px 10px 10px; box-shadow: none; }
@@ -137,6 +168,14 @@
             nav { display: flex; justify-content: space-around; width: 100%;}
             nav a { margin: 5px 0; font-size: 14px;}
             .gallery img { max-width: 48%; flex-basis: 48%; }
+            .price-table, .price-table thead, .price-table tbody, .price-table th, .price-table td, .price-table tr { display: block; }
+            .price-table thead tr { position: absolute; top: -9999px; left: -9999px; }
+            .price-table tr { border: 1px solid #ccc; margin-bottom: 10px; }
+            .price-table td { border: none; border-bottom: 1px solid #eee; position: relative; padding-left: 50%; text-align: right; min-height: 30px;}
+            .price-table td:before {
+                content: attr(data-label); position: absolute; left: 10px; width: 45%; padding-right: 10px;
+                white-space: nowrap; text-align: left; font-weight: bold;
+            }
         }
     </style>
 </head>
@@ -158,59 +197,55 @@
     <div class="container">
         <header>
             <h1><a href="index.html">Eko-Oáza Prachov</a></h1>
-            <div id="nav-cs">
-                <nav>
-                    <a href="provozni-rad.html">Provozní řád</a>
-                    <a href="zajimava-mista.html">Zajímavá místa</a>
-                    <a href="zajimava-mista.html?lang=en">English version</a>
-                </nav>
-            </div>
-            <div id="nav-en" style="display:none;">
-                 <nav>
-                    <a href="provozni-rad.html?lang=en">Operating rules</a>
-                    <a href="zajimava-mista.html?lang=en">Places of interest</a>
-                    <a href="zajimava-mista.html?lang=cs">Česká verze</a>
-                </nav>
-            </div>
+            <nav id="nav-cs">
+                <a href="index.html">Úvod</a>
+                <a href="provozni-rad.html">Provozní řád</a>
+                <a onclick="switchLanguage('en')">English version</a>
+            </nav>
+            <nav id="nav-en" style="display:none;">
+                <a href="index.html?lang=en">Home</a>
+                <a href="provozni-rad.html?lang=en">Operating rules</a>
+                <a onclick="switchLanguage('cs')">Česká verze</a>
+            </nav>
         </header>
 
         <main>
             <div id="lang-cs">
-                 <div class="info-box editable-text" data-field="cs-places-info-box"><p>Chatová osada v Českém ráji, Prachov 58, provozovatel: Ing.Petr Hejna</p><p>IČO: 66314364</p><p>Provozní doba: červenec-srpen (jen po dohodě s klientem)</p><p>č.ú. 19-6866210217/0100</p><p>tel.: <span class="bold">606 930 170 (nejlépe večer)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>staré stránky na: eo-prachov.cz</p></div>
-                 <div class="editable-text" data-field="cs-places-intro"><h3>Zajímavá místa</h3><p>Prachovské skály leží v srdci Českého ráje. Níže jsou uvedena jen některá turisticky zajímavá místa.</p></div>
-                 <h4 class="editable-text" data-field="cs-places-header-1">Prachovské skály</h4>
+                 <div class="info-box editable-text" data-field="cs-places-info-box"></div>
+                 <div class="editable-text" data-field="cs-places-intro"></div>
+                 <h4 class="editable-text" data-field="cs-places-header-1"></h4>
                  <div class="gallery">
                     <img src="obrazky/12.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/13.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/14.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/15.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/16.png" alt="Prachovské skály" onclick="openModal(this)">
                  </div>
-                 <h4 class="editable-text" data-field="cs-places-header-2">Koupání (přírodní-Jinolické rybníky (10min. pěšky), městské koupaliště (10min.autem), kryté aqua centrum (15min.autem))</h4>
+                 <h4 class="editable-text" data-field="cs-places-header-2"></h4>
                  <div class="gallery">
                     <img src="obrazky/17.png" alt="Koupání" onclick="openModal(this)"><img src="obrazky/18.png" alt="Koupání" onclick="openModal(this)"><img src="obrazky/19.png" alt="Koupání" onclick="openModal(this)"><img src="obrazky/20.png" alt="Koupání" onclick="openModal(this)">
                  </div>
-                 <h4 class="editable-text" data-field="cs-places-header-3">Hrady, zříceniny a zámky Českého ráje</h4>
+                 <h4 class="editable-text" data-field="cs-places-header-3"></h4>
                  <div class="gallery">
                     <img src="obrazky/21.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/22.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/23.png" alt="Zřícenina" onclick="openModal(this)"><img src="obrazky/24.png" alt="Zámek" onclick="openModal(this)"><img src="obrazky/25.png" alt="Zámek" onclick="openModal(this)"><img src="obrazky/26.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/27.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/28.png" alt="Jičín" onclick="openModal(this)">
                  </div>
-                 <h4 class="editable-text" data-field="cs-places-header-4">Zajímavá místa v Jičíně a bezprostředním okolí</h4>
+                 <h4 class="editable-text" data-field="cs-places-header-4"></h4>
                  <div class="gallery">
                     <img src="obrazky/29.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/30.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/31.png" alt="Okolí" onclick="openModal(this)"><img src="obrazky/32.png" alt="Okolí" onclick="openModal(this)"><img src="obrazky/33.png" alt="Okolí" onclick="openModal(this)">
                  </div>
             </div>
             <div id="lang-en" style="display:none;">
-                 <div class="info-box editable-text" data-field="en-places-info-box"><p>Cottage settlement in Bohemian Paradise, Prachov 58, operator: Ing.Petr Hejna</p><p>ID: 66314364</p><p>Opening hours: July-August (by appointment only)</p><p>Bank account: 19-6866210217/0100</p><p>tel.: <span class="bold">+420 606 930 170 (preferably in the evening)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>old website: eo-prachov.cz</p></div>
-                 <div class="editable-text" data-field="en-places-intro"><h3>Interesting Places</h3><p>The Prachov Rocks are located in the heart of the Bohemian Paradise. Below are just some of the tourist attractions.</p></div>
-                 <h4 class="editable-text" data-field="en-places-header-1">Prachov Rocks</h4>
+                 <div class="info-box editable-text" data-field="en-places-info-box"></div>
+                 <div class="editable-text" data-field="en-places-intro"></div>
+                 <h4 class="editable-text" data-field="en-places-header-1"></h4>
                  <div class="gallery">
                     <img src="obrazky/12.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/13.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/14.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/15.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/16.png" alt="Prachov Rocks" onclick="openModal(this)">
                  </div>
-                 <h4 class="editable-text" data-field="en-places-header-2">Swimming (natural-Jinolice Ponds (10 min. walk), municipal swimming pool (10 min. by car), indoor aqua center (15 min. by car))</h4>
+                 <h4 class="editable-text" data-field="en-places-header-2"></h4>
                  <div class="gallery">
                     <img src="obrazky/17.png" alt="Swimming" onclick="openModal(this)"><img src="obrazky/18.png" alt="Swimming" onclick="openModal(this)"><img src="obrazky/19.png" alt="Swimming" onclick="openModal(this)"><img src="obrazky/20.png" alt="Swimming" onclick="openModal(this)">
                  </div>
-                 <h4 class="editable-text" data-field="en-places-header-3">Castles, ruins and chateaux of the Bohemian Paradise</h4>
+                 <h4 class="editable-text" data-field="en-places-header-3"></h4>
                  <div class="gallery">
                     <img src="obrazky/21.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/22.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/23.png" alt="Ruin" onclick="openModal(this)"><img src="obrazky/24.png" alt="Chateau" onclick="openModal(this)"><img src="obrazky/25.png" alt="Chateau" onclick="openModal(this)"><img src="obrazky/26.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/27.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/28.png" alt="Jičín" onclick="openModal(this)">
                  </div>
-                 <h4 class="editable-text" data-field="en-places-header-4">Interesting places in Jičín and the immediate surroundings</h4>
+                 <h4 class="editable-text" data-field="en-places-header-4"></h4>
                  <div class="gallery">
                     <img src="obrazky/29.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/30.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/31.png" alt="Surroundings" onclick="openModal(this)"><img src="obrazky/32.png" alt="Surroundings" onclick="openModal(this)"><img src="obrazky/33.png" alt="Surroundings" onclick="openModal(this)">
                  </div>
@@ -232,6 +267,7 @@
     </div>
 
     <div id="myModal" class="modal">
+        <!-- Modal HTML is the same -->
         <span class="close" onclick="closeModal()">&times;</span>
         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
         <a class="next" onclick="plusSlides(1)">&#10095;</a>
@@ -262,30 +298,34 @@
         const modal = document.getElementById("myModal");
         const modalImg = document.getElementById("img01");
         const modalContentWrapper = document.querySelector(".modal-content-wrapper");
-        const footerCS = document.getElementById("footer-cs");
-        const footerEN = document.getElementById("footer-en");
         let currentImageIndex, currentGalleryImages, isAdmin = false;
         
         const loginModal = document.getElementById('login-modal');
 
         const seoData = {
-            cs: { title: "Zajímavá místa - Eko-Oáza Prachov", description: "Tipy na výlety v okolí Prachovských skal a Jičína. Hrady, zámky, koupání a další zajímavá místa v Českém ráji." },
-            en: { title: "Interesting Places - Eko-Oáza Prachov", description: "Trip tips around the Prachov Rocks and Jičín. Castles, chateaux, swimming and other interesting places in Bohemian Paradise." }
+            cs: { title: "Zajímavá místa v okolí | Eko-Oáza Prachov", description: "Tipy na výlety v okolí Eko-Oázy Prachov. Objevte krásy Prachovských skal a Českého ráje." },
+            en: { title: "Places of Interest | Eko-Oáza Prachov", description: "Trip ideas around Eko-Oáza Prachov. Discover the beauty of Prachov Rocks and the Bohemian Paradise." }
         };
 
         function updateSEO(lang) {
             document.title = seoData[lang].title;
+            document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description);
         }
 
         function setLanguage(lang) {
             document.documentElement.lang = lang;
             document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none';
             document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none';
-            document.getElementById('nav-cs').style.display = lang === 'cs' ? 'block' : 'none';
-            document.getElementById('nav-en').style.display = lang === 'en' ? 'block' : 'none';
-            footerCS.style.display = lang === 'cs' ? 'block' : 'none';
-            footerEN.style.display = lang === 'en' ? 'block' : 'none';
+            document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none';
+            document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none';
+            document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none';
+            document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none';
             updateSEO(lang);
+        }
+
+        function switchLanguage(lang) {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            window.location.href = `${currentPage}?lang=${lang}`;
         }
         
         function openModal(element) {
@@ -334,12 +374,8 @@
 
         auth.onAuthStateChanged(user => {
             isAdmin = !!user;
-            if (isAdmin) {
-                enableAdminMode();
-                runInitialSetup(); 
-            } else {
-                disableAdminMode();
-            }
+            if (isAdmin) enableAdminMode();
+            else disableAdminMode();
         });
 
         async function handleLogin(event) {
@@ -390,42 +426,17 @@
                     const doc = await db.collection('content').doc(lang).get();
                     if (doc.exists) {
                         const data = doc.data();
-                        document.querySelectorAll(`#lang-${lang} [data-field]`).forEach(el => {
-                            if (data[el.dataset.field]) el.innerHTML = data[el.dataset.field];
+                        document.querySelectorAll(`[data-field]`).forEach(el => {
+                            if(el.dataset.field.startsWith(lang)) {
+                                if (data[el.dataset.field]) el.innerHTML = data[el.dataset.field];
+                            }
                         });
-                        document.body.dataset.contentLoaded = "true";
                     }
                 } catch (error) {
                     console.error("Error loading content for " + lang + ":", error);
                 }
             };
             await Promise.all([loadDataForLang('cs'), loadDataForLang('en')]);
-        }
-        
-        async function runInitialSetup() {
-            const setupFlagRef = db.collection('internal').doc('setup');
-            const setupDoc = await setupFlagRef.get();
-            if (setupDoc.exists && setupDoc.data().completed) {
-                return;
-            }
-            alert("This is the first admin login. The website's initial text will now be saved to the database. This will only happen once.");
-            const allContent = {};
-            document.querySelectorAll('.editable-text').forEach(el => {
-                const fieldId = el.dataset.field;
-                const content = el.innerHTML;
-                const lang = fieldId.startsWith('cs-') ? 'cs' : 'en';
-                if (!allContent[lang]) allContent[lang] = {};
-                allContent[lang][fieldId] = content;
-            });
-            try {
-                if(allContent['cs']) await db.collection('content').doc('cs').set(allContent['cs'], {merge: true});
-                if(allContent['en']) await db.collection('content').doc('en').set(allContent['en'], {merge: true});
-                await setupFlagRef.set({ completed: true });
-                alert("Initial setup successful! The content is now saved in the database.");
-            } catch(error) {
-                console.error("Initial setup failed:", error);
-                alert("The initial setup failed. Please check the console for errors.");
-            }
         }
 
         document.addEventListener('keydown', (event) => {
@@ -435,13 +446,18 @@
                 document.getElementById('password').focus();
             }
             if (event.key === "Escape") {
+                if (modal.style.display === "block") closeModal();
                 if (loginModal.style.display === 'block') loginModal.style.display = 'none';
+            }
+            if (modal.style.display === "block") {
+                if (event.key === "ArrowLeft") plusSlides(-1);
+                else if (event.key === "ArrowRight") plusSlides(1);
             }
         });
 
         document.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const lang = urlParams.get('lang') === 'en' ? 'en' : 'cs';
+            const lang = urlParams.get('lang') || 'cs';
             setLanguage(lang);
             await loadContent();
         });

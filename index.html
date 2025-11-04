@@ -71,12 +71,11 @@
             text-decoration: none;
             color: var(--primary-blue);
             font-weight: bold;
+            cursor: pointer;
         }
         nav a:hover {
             text-decoration: underline;
         }
-        .content { display: none; }
-        .content.active { display: block; }
         .info-box {
             border: 1px solid #ccc;
             padding: 15px;
@@ -209,121 +208,69 @@
 
     <div class="container">
         <header>
-            <h1><a href="#" onclick="showPage('home-cs', 'cs'); return false;">Eko-Oáza Prachov</a></h1>
+            <h1><a href="index.html">Eko-Oáza Prachov</a></h1>
             <nav id="nav-cs">
-                <a href="#" onclick="showPage('main-cs', 'cs')">Provozní řád</a>
-                <a href="#" onclick="showPage('places-cs', 'cs')">Zajímavá místa</a>
-                <a href="#" onclick="showPage('home-en', 'en')">English version</a>
+                <a href="provozni-rad.html">Provozní řád</a>
+                <a href="zajimava-mista.html">Zajímavá místa</a>
+                <a onclick="switchLanguage('en')">English version</a>
             </nav>
             <nav id="nav-en" style="display:none;">
-                <a href="#" onclick="showPage('main-en', 'en')">Operating rules</a>
-                <a href="#" onclick="showPage('places-en', 'en')">Places of interest</a>
-                <a href="#" onclick="showPage('home-cs', 'cs')">Česká verze</a>
+                <a href="provozni-rad.html?lang=en">Operating rules</a>
+                <a href="zajimava-mista.html?lang=en">Places of interest</a>
+                <a onclick="switchLanguage('cs')">Česká verze</a>
             </nav>
         </header>
 
         <main>
             <div id="lang-cs">
-                <div id="home-cs" class="content active">
-                    <div class="info-box editable-text" data-field="cs-info-box"></div>
-                    <p class="editable-text" data-field="cs-intro"></p>
-                    <div class="gallery">
-                        <img src="obrazky/1.png" alt="Chatka zvenku" onclick="openModal(this)"><img src="obrazky/2.png" alt="Interiér chatky" onclick="openModal(this)"><img src="obrazky/3.png" alt="Interiér chatky" onclick="openModal(this)"><img src="obrazky/4.png" alt="Postel v chatce" onclick="openModal(this)">
-                    </div>
-                    <div class="map-container">
-                        <h3 class="editable-text" data-field="cs-map-header"></h3>
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        <div class="editable-text" data-field="cs-map-text"></div>
-                    </div>
-                    <p class="editable-text" data-field="cs-socials-intro"></p>
-                    <div class="gallery">
-                        <img src="obrazky/5.png" alt="Exteriér" onclick="openModal(this)"><img src="obrazky/6.png" alt="Sociální zařízení" onclick="openModal(this)"><img src="obrazky/7.png" alt="Sociální zařízení" onclick="openModal(this)">
-                    </div>
-                    <p class="editable-text" data-field="cs-kitchen-intro"></p>
-                    <div class="gallery">
-                        <img src="obrazky/8.png" alt="Kuchyňka" onclick="openModal(this)"><img src="obrazky/9.png" alt="Kuchyňka interiér" onclick="openModal(this)"><img src="obrazky/10.png" alt="Kuchyňka interiér" onclick="openModal(this)"><img src="obrazky/11.png" alt="Okolí" onclick="openModal(this)">
-                    </div>
-                    <div class="text-center editable-text" data-field="cs-video-link"></div>
-                    <div class="editable-text" data-field="cs-activities"></div>
-                    <h3 class="text-center editable-text" data-field="cs-price-header"></h3>
-                    <div class="editable-text" data-field="cs-price-table"></div>
-                    <div class="socials editable-text" data-field="cs-facebook-link"></div>
+                <div class="info-box editable-text" data-field="cs-info-box"></div>
+                <p class="editable-text" data-field="cs-intro"></p>
+                <div class="gallery">
+                    <img src="obrazky/1.png" alt="Chatka zvenku" onclick="openModal(this)"><img src="obrazky/2.png" alt="Interiér chatky" onclick="openModal(this)"><img src="obrazky/3.png" alt="Interiér chatky" onclick="openModal(this)"><img src="obrazky/4.png" alt="Postel v chatce" onclick="openModal(this)">
                 </div>
-                <div id="main-cs" class="content">
-                     <div class="info-box editable-text" data-field="cs-rules-info-box"></div>
-                     <div class="editable-text" data-field="cs-rules-content"></div>
+                <div class="map-container">
+                    <h3 class="editable-text" data-field="cs-map-header"></h3>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="editable-text" data-field="cs-map-text"></div>
                 </div>
-                <div id="places-cs" class="content">
-                     <div class="info-box editable-text" data-field="cs-places-info-box"></div>
-                     <div class="editable-text" data-field="cs-places-intro"></div>
-                     <h4 class="editable-text" data-field="cs-places-header-1"></h4>
-                     <div class="gallery">
-                        <img src="obrazky/12.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/13.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/14.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/15.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/16.png" alt="Prachovské skály" onclick="openModal(this)">
-                     </div>
-                     <h4 class="editable-text" data-field="cs-places-header-2"></h4>
-                     <div class="gallery">
-                        <img src="obrazky/17.png" alt="Koupání" onclick="openModal(this)"><img src="obrazky/18.png" alt="Koupání" onclick="openModal(this)"><img src="obrazky/19.png" alt="Koupání" onclick="openModal(this)"><img src="obrazky/20.png" alt="Koupání" onclick="openModal(this)">
-                     </div>
-                     <h4 class="editable-text" data-field="cs-places-header-3"></h4>
-                     <div class="gallery">
-                        <img src="obrazky/21.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/22.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/23.png" alt="Zřícenina" onclick="openModal(this)"><img src="obrazky/24.png" alt="Zámek" onclick="openModal(this)"><img src="obrazky/25.png" alt="Zámek" onclick="openModal(this)"><img src="obrazky/26.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/27.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/28.png" alt="Jičín" onclick="openModal(this)">
-                     </div>
-                     <h4 class="editable-text" data-field="cs-places-header-4"></h4>
-                     <div class="gallery">
-                        <img src="obrazky/29.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/30.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/31.png" alt="Okolí" onclick="openModal(this)"><img src="obrazky/32.png" alt="Okolí" onclick="openModal(this)"><img src="obrazky/33.png" alt="Okolí" onclick="openModal(this)">
-                     </div>
+                <p class="editable-text" data-field="cs-socials-intro"></p>
+                <div class="gallery">
+                    <img src="obrazky/5.png" alt="Exteriér" onclick="openModal(this)"><img src="obrazky/6.png" alt="Sociální zařízení" onclick="openModal(this)"><img src="obrazky/7.png" alt="Sociální zařízení" onclick="openModal(this)">
                 </div>
+                <p class="editable-text" data-field="cs-kitchen-intro"></p>
+                <div class="gallery">
+                    <img src="obrazky/8.png" alt="Kuchyňka" onclick="openModal(this)"><img src="obrazky/9.png" alt="Kuchyňka interiér" onclick="openModal(this)"><img src="obrazky/10.png" alt="Kuchyňka interiér" onclick="openModal(this)"><img src="obrazky/11.png" alt="Okolí" onclick="openModal(this)">
+                </div>
+                <div class="text-center editable-text" data-field="cs-video-link"></div>
+                <div class="editable-text" data-field="cs-activities"></div>
+                <h3 class="text-center editable-text" data-field="cs-price-header"></h3>
+                <div class="editable-text" data-field="cs-price-table"></div>
+                <div class="socials editable-text" data-field="cs-facebook-link"></div>
             </div>
             <div id="lang-en" style="display:none;">
-                <div id="home-en" class="content">
-                    <div class="info-box editable-text" data-field="en-info-box"></div>
-                    <p class="editable-text" data-field="en-intro"></p>
-                    <div class="gallery">
-                        <img src="obrazky/1.png" alt="Cottage exterior" onclick="openModal(this)"><img src="obrazky/2.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/3.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/4.png" alt="Bed in cottage" onclick="openModal(this)">
-                    </div>
-                    <div class="map-container">
-                        <h3 class="editable-text" data-field="en-map-header"></h3>
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        <div class="editable-text" data-field="en-map-text"></div>
-                    </div>
-                    <p class="editable-text" data-field="en-socials-intro"></p>
-                    <div class="gallery">
-                        <img src="obrazky/5.png" alt="Exterior" onclick="openModal(this)"><img src="obrazky/6.png" alt="Sanitary facilities" onclick="openModal(this)"><img src="obrazky/7.png" alt="Sanitary facilities" onclick="openModal(this)">
-                    </div>
-                    <p class="editable-text" data-field="en-kitchen-intro"></p>
-                    <div class="gallery">
-                        <img src="obrazky/8.png" alt="Kitchen" onclick="openModal(this)"><img src="obrazky/9.png" alt="Kitchen interior" onclick="openModal(this)"><img src="obrazky/10.png" alt="Kitchen interior" onclick="openModal(this)"><img src="obrazky/11.png" alt="Surroundings" onclick="openModal(this)">
-                    </div>
-                    <div class="text-center editable-text" data-field="en-video-link"></div>
-                    <div class="editable-text" data-field="en-activities"></div>
-                    <h3 class="text-center editable-text" data-field="en-price-header"></h3>
-                    <div class="editable-text" data-field="en-price-table"></div>
-                    <div class="socials editable-text" data-field="en-facebook-link"></div>
+                <div class="info-box editable-text" data-field="en-info-box"></div>
+                <p class="editable-text" data-field="en-intro"></p>
+                <div class="gallery">
+                    <img src="obrazky/1.png" alt="Cottage exterior" onclick="openModal(this)"><img src="obrazky/2.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/3.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/4.png" alt="Bed in cottage" onclick="openModal(this)">
                 </div>
-                <div id="main-en" class="content">
-                    <div class="info-box editable-text" data-field="en-rules-info-box"></div>
-                    <div class="editable-text" data-field="en-rules-content"></div>
+                <div class="map-container">
+                    <h3 class="editable-text" data-field="en-map-header"></h3>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="editable-text" data-field="en-map-text"></div>
                 </div>
-                <div id="places-en" class="content">
-                     <div class="info-box editable-text" data-field="en-places-info-box"></div>
-                     <div class="editable-text" data-field="en-places-intro"></div>
-                     <h4 class="editable-text" data-field="en-places-header-1"></h4>
-                     <div class="gallery">
-                        <img src="obrazky/12.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/13.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/14.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/15.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/16.png" alt="Prachov Rocks" onclick="openModal(this)">
-                     </div>
-                     <h4 class="editable-text" data-field="en-places-header-2"></h4>
-                     <div class="gallery">
-                        <img src="obrazky/17.png" alt="Swimming" onclick="openModal(this)"><img src="obrazky/18.png" alt="Swimming" onclick="openModal(this)"><img src="obrazky/19.png" alt="Swimming" onclick="openModal(this)"><img src="obrazky/20.png" alt="Swimming" onclick="openModal(this)">
-                     </div>
-                     <h4 class="editable-text" data-field="en-places-header-3"></h4>
-                     <div class="gallery">
-                        <img src="obrazky/21.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/22.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/23.png" alt="Ruin" onclick="openModal(this)"><img src="obrazky/24.png" alt="Chateau" onclick="openModal(this)"><img src="obrazky/25.png" alt="Chateau" onclick="openModal(this)"><img src="obrazky/26.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/27.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/28.png" alt="Jičín" onclick="openModal(this)">
-                     </div>
-                     <h4 class="editable-text" data-field="en-places-header-4"></h4>
-                     <div class="gallery">
-                        <img src="obrazky/29.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/30.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/31.png" alt="Surroundings" onclick="openModal(this)"><img src="obrazky/32.png" alt="Surroundings" onclick="openModal(this)"><img src="obrazky/33.png" alt="Surroundings" onclick="openModal(this)">
-                     </div>
+                <p class="editable-text" data-field="en-socials-intro"></p>
+                <div class="gallery">
+                    <img src="obrazky/5.png" alt="Exterior" onclick="openModal(this)"><img src="obrazky/6.png" alt="Sanitary facilities" onclick="openModal(this)"><img src="obrazky/7.png" alt="Sanitary facilities" onclick="openModal(this)">
                 </div>
+                <p class="editable-text" data-field="en-kitchen-intro"></p>
+                <div class="gallery">
+                    <img src="obrazky/8.png" alt="Kitchen" onclick="openModal(this)"><img src="obrazky/9.png" alt="Kitchen interior" onclick="openModal(this)"><img src="obrazky/10.png" alt="Kitchen interior" onclick="openModal(this)"><img src="obrazky/11.png" alt="Surroundings" onclick="openModal(this)">
+                </div>
+                <div class="text-center editable-text" data-field="en-video-link"></div>
+                <div class="editable-text" data-field="en-activities"></div>
+                <h3 class="text-center editable-text" data-field="en-price-header"></h3>
+                <div class="editable-text" data-field="en-price-table"></div>
+                <div class="socials editable-text" data-field="en-facebook-link"></div>
             </div>
         </main>
         
@@ -356,13 +303,14 @@
 
     <script id="main-script">
         const firebaseConfig = {
-          apiKey: "PASTE_YOUR_API_KEY_HERE",
-          authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
-          projectId: "PASTE_YOUR_PROJECT_ID_HERE",
-          storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
-          messagingSenderId: "PASTE_YOUR_SENDER_ID_HERE",
-          appId: "PASTE_YOUR_APP_ID_HERE"
-        };
+  apiKey: "AIzaSyCuI9hhPtQMDkNqlQmmPfJRMWZWZFrT3hw",
+  authDomain: "eko-oaza-website.firebaseapp.com",
+  projectId: "eko-oaza-website",
+  storageBucket: "eko-oaza-website.firebasestorage.app",
+  messagingSenderId: "32000760259",
+  appId: "1:32000760259:web:b6b797ca91de9bd7688576",
+  measurementId: "G-0KLWHCEM16"
+};
 
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
@@ -371,8 +319,6 @@
         const modal = document.getElementById("myModal");
         const modalImg = document.getElementById("img01");
         const modalContentWrapper = document.querySelector(".modal-content-wrapper");
-        const footerCS = document.getElementById("footer-cs");
-        const footerEN = document.getElementById("footer-en");
         let currentImageIndex, currentGalleryImages, isAdmin = false;
         
         const loginModal = document.getElementById('login-modal');
@@ -387,21 +333,20 @@
             document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description);
         }
 
-        function showPage(pageId, lang) {
+        function setLanguage(lang) {
             document.documentElement.lang = lang;
             document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none';
             document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none';
             document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none';
             document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none';
-            footerCS.style.display = lang === 'cs' ? 'block' : 'none';
-            footerEN.style.display = lang === 'en' ? 'block' : 'none';
-            
+            document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none';
+            document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none';
             updateSEO(lang);
-            const langContainer = document.getElementById('lang-' + lang);
-            langContainer.querySelectorAll('.content').forEach(section => section.classList.remove('active'));
-            const activePage = document.getElementById(pageId);
-            if (activePage) activePage.classList.add('active');
-            else document.getElementById('home-' + lang).classList.add('active');
+        }
+
+        function switchLanguage(lang) {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            window.location.href = `${currentPage}?lang=${lang}`;
         }
         
         function openModal(element) {
@@ -502,8 +447,10 @@
                     const doc = await db.collection('content').doc(lang).get();
                     if (doc.exists) {
                         const data = doc.data();
-                        document.querySelectorAll(`#lang-${lang} [data-field]`).forEach(el => {
-                            if (data[el.dataset.field]) el.innerHTML = data[el.dataset.field];
+                        document.querySelectorAll(`[data-field]`).forEach(el => {
+                            if(el.dataset.field.startsWith(lang)) {
+                                if (data[el.dataset.field]) el.innerHTML = data[el.dataset.field];
+                            }
                         });
                     }
                 } catch (error) {
@@ -530,7 +477,9 @@
         });
 
         document.addEventListener('DOMContentLoaded', async () => {
-            showPage('home-cs', 'cs');
+            const urlParams = new URLSearchParams(window.location.search);
+            const lang = urlParams.get('lang') || 'cs';
+            setLanguage(lang);
             await loadContent();
         });
     </script>
