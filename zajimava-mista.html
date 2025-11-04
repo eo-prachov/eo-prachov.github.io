@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -7,176 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Tipy na výlety v okolí Eko-Oázy Prachov. Objevte krásy Prachovských skal a Českého ráje.">
     <link rel="canonical" href="https://www.example.com/zajimava-mista.html">
-    <!-- Note: CSS is identical to index.html and is included below -->
     <style>
-        :root {
-            --primary-blue: #007bff;
-            --text-color: #333;
-            --background-color: #fff;
-            --container-bg: #2570B8;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--container-bg);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            font-size: 18px;
-            line-height: 1.6;
-        }
-        .container {
-            background-color: var(--background-color);
-            width: 960px;
-            margin: 20px;
-            padding: 0 20px 20px 20px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-        }
-        header {
-            padding: 20px 0;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            background-color: var(--background-color);
-            z-index: 100;
-            border-bottom: 1px solid #eee;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
-        header h1 a {
-            text-decoration: none;
-            color: var(--text-color);
-        }
-        nav a {
-            margin-left: 15px;
-            text-decoration: none;
-            color: var(--primary-blue);
-            font-weight: bold;
-            cursor: pointer;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        .info-box {
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin-bottom: 20px;
-            background-color: #f9f9f9;
-        }
-        .info-box p { margin: 5px 0; }
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        .gallery img {
-            flex: 1 1 200px;
-            max-width: 23.5%;
-            height: auto;
-            object-fit: cover;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s;
-            display: block;
-        }
-        .gallery img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        .map-container { margin: 20px 0; }
-        .map-container h3 { margin-top: 0; }
-        .map-embed {
-            width: 100%;
-            height: 450px;
-            border: 0;
-        }
-        .price-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        .price-table th, .price-table td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-        }
-        .price-table th { background-color: #f2f2f2; }
-        .socials { text-align: center; margin: 20px 0; }
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 10px;
-            border-top: 1px solid #ccc;
-            font-size: 14px;
-            line-height: 1.8;
-        }
-        footer a { margin: 0 5px; }
-        .bold { font-weight: bold; }
-        .text-center { text-align: center; }
-        .text-right { text-align: right; }
-
-        .modal {
-            display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
-            overflow: hidden; background-color: rgba(0, 0, 0, 0.9);
-        }
-        .modal-content-wrapper {
-            position: relative; height: 100%; width: 100%; display: flex; align-items: center; justify-content: center;
-            overflow: auto;
-        }
-        .modal-content {
-            margin: auto; display: block; max-width: 90%; max-height: 90%;
-            transition: transform 0.3s ease-in-out; cursor: zoom-in;
-        }
-        .modal-content.zoom-1 { transform: scale(1.5); cursor: zoom-in; }
-        .modal-content.zoom-2 { transform: scale(2.5); cursor: zoom-out; }
-        .close {
-            position: absolute; top: 15px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold;
-            transition: 0.3s; cursor: pointer; z-index: 1001;
-        }
-        .close:hover, .close:focus { color: #bbb; }
-        .prev, .next {
-            cursor: pointer; position: absolute; top: 50%; width: auto; padding: 16px; margin-top: -50px;
-            color: white; font-weight: bold; font-size: 30px; transition: 0.6s ease; border-radius: 0 3px 3px 0;
-            user-select: none; -webkit-user-select: none; z-index: 1001;
-        }
-        .next { right: 0; border-radius: 3px 0 0 3px; }
-        .prev { left: 0; }
-        .prev:hover, .next:hover { background-color: rgba(0, 0, 0, 0.8); }
-
-        #admin-toolbar { display: none; position: fixed; top: 0; left: 0; width: 100%; background: #2c3e50; color: white; padding: 10px; z-index: 9999; box-shadow: 0 2px 5px rgba(0,0,0,0.3); text-align: center;}
-        #admin-toolbar button { background: #e74c3c; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 3px; margin: 0 10px; font-size: 16px; }
-        #admin-toolbar button:hover { background: #c0392b; }
-        .editable-text[contenteditable="true"] { outline: 2px dashed #3498db; }
-        
-        #login-modal { display: none; position: fixed; z-index: 10001; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); }
-        #login-modal form { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 400px; text-align: center; border-radius: 5px; }
-        #login-modal input { width: 90%; padding: 12px 20px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; box-sizing: border-box; }
-        #login-modal button { background-color: #4CAF50; color: white; padding: 14px 20px; margin: 8px 0; border: none; cursor: pointer; width: 90%; }
-
-        @media screen and (max-width: 768px) {
-            body { font-size: 16px; }
-            .container { width: 100%; margin: 0; padding: 0 10px 10px 10px; box-shadow: none; }
-            header { flex-direction: column; align-items: flex-start; position: static; box-shadow: none; padding: 15px 0; }
-            header h1 { margin-bottom: 10px; font-size: 24px;}
-            nav { display: flex; justify-content: space-around; width: 100%;}
-            nav a { margin: 5px 0; font-size: 14px;}
-            .gallery img { max-width: 48%; flex-basis: 48%; }
-            .price-table, .price-table thead, .price-table tbody, .price-table th, .price-table td, .price-table tr { display: block; }
-            .price-table thead tr { position: absolute; top: -9999px; left: -9999px; }
-            .price-table tr { border: 1px solid #ccc; margin-bottom: 10px; }
-            .price-table td { border: none; border-bottom: 1px solid #eee; position: relative; padding-left: 50%; text-align: right; min-height: 30px;}
-            .price-table td:before {
-                content: attr(data-label); position: absolute; left: 10px; width: 45%; padding-right: 10px;
-                white-space: nowrap; text-align: left; font-weight: bold;
-            }
-        }
+        /* CSS is identical to index.html */
+        :root{--primary-blue:#007bff;--text-color:#333;--background-color:#fff;--container-bg:#2570b8}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background-color:var(--container-bg);color:var(--text-color);margin:0;padding:0;display:flex;justify-content:center;font-size:18px;line-height:1.6}.container{background-color:var(--background-color);width:960px;margin:20px;padding:0 20px 20px;box-shadow:0 0 15px rgba(0,0,0,.2)}header{padding:20px 0;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background-color:var(--background-color);z-index:100;border-bottom:1px solid #eee;box-shadow:0 2px 5px rgba(0,0,0,.05)}header h1{margin:0;font-size:28px}header h1 a{text-decoration:none;color:var(--text-color)}nav a{margin-left:15px;text-decoration:none;color:var(--primary-blue);font-weight:700;cursor:pointer}nav a:hover{text-decoration:underline}.info-box{border:1px solid #ccc;padding:15px;margin-bottom:20px;background-color:#f9f9f9}.info-box p{margin:5px 0}.gallery{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.gallery img{flex:1 1 200px;max-width:23.5%;height:auto;object-fit:cover;cursor:pointer;transition:transform .2s ease-in-out,box-shadow .2s;display:block}.gallery img:hover{transform:scale(1.05);box-shadow:0 4px 8px rgba(0,0,0,.2)}.map-container{margin:20px 0}.map-container h3{margin-top:0}.map-embed{width:100%;height:450px;border:0}.price-table{width:100%;border-collapse:collapse;margin:20px 0}.price-table th,.price-table td{border:1px solid #ccc;padding:10px;text-align:left}.price-table th{background-color:#f2f2f2}.socials{text-align:center;margin:20px 0}footer{text-align:center;margin-top:20px;padding-top:10px;border-top:1px solid #ccc;font-size:14px;line-height:1.8}footer a{margin:0 5px}.bold{font-weight:700}.text-center{text-align:center}.text-right{text-align:right}.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:hidden;background-color:rgba(0,0,0,.9)}.modal-content-wrapper{position:relative;height:100%;width:100%;display:flex;align-items:center;justify-content:center;overflow:auto}.modal-content{margin:auto;display:block;max-width:90%;max-height:90%;transition:transform .3s ease-in-out;cursor:zoom-in}.modal-content.zoom-1{transform:scale(1.5);cursor:zoom-in}.modal-content.zoom-2{transform:scale(2.5);cursor:zoom-out}.close{position:absolute;top:15px;right:35px;color:#f1f1f1;font-size:40px;font-weight:700;transition:.3s;cursor:pointer;z-index:1001}.close:hover,.close:focus{color:#bbb}.prev,.next{cursor:pointer;position:absolute;top:50%;width:auto;padding:16px;margin-top:-50px;color:#fff;font-weight:700;font-size:30px;transition:.6s ease;border-radius:0 3px 3px 0;user-select:none;-webkit-user-select:none;z-index:1001}.next{right:0;border-radius:3px 0 0 3px}.prev{left:0}.prev:hover,.next:hover{background-color:rgba(0,0,0,.8)}#admin-toolbar{display:none;position:fixed;top:0;left:0;width:100%;background:#2c3e50;color:#fff;padding:10px;z-index:9999;box-shadow:0 2px 5px rgba(0,0,0,.3);text-align:center}#admin-toolbar button{background:#e74c3c;color:#fff;border:none;padding:8px 15px;cursor:pointer;border-radius:3px;margin:0 10px;font-size:16px}#admin-toolbar button:hover{background:#c0392b}.editable-text[contenteditable=true]{outline:2px dashed #3498db}#login-modal{display:none;position:fixed;z-index:10001;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.6)}#login-modal form{background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;max-width:400px;text-align:center;border-radius:5px}#login-modal input{width:90%;padding:12px 20px;margin:8px 0;display:inline-block;border:1px solid #ccc;box-sizing:border-box}#login-modal button{background-color:#4caf50;color:#fff;padding:14px 20px;margin:8px 0;border:none;cursor:pointer;width:90%}@media screen and (max-width:768px){body{font-size:16px}.container{width:100%;margin:0;padding:0 10px 10px;box-shadow:none}header{flex-direction:column;align-items:flex-start;position:static;box-shadow:none;padding:15px 0}header h1{margin-bottom:10px;font-size:24px}nav{display:flex;justify-content:space-around;width:100%}nav a{margin:5px 0;font-size:14px}.gallery img{max-width:48%;flex-basis:48%}.price-table,.price-table thead,.price-table tbody,.price-table th,.price-table td,.price-table tr{display:block}.price-table thead tr{position:absolute;top:-9999px;left:-9999px}.price-table tr{border:1px solid #ccc;margin-bottom:10px}.price-table td{border:none;border-bottom:1px solid #eee;position:relative;padding-left:50%;text-align:right;min-height:30px}.price-table td:before{content:attr(data-label);position:absolute;left:10px;width:45%;padding-right:10px;white-space:nowrap;text-align:left;font-weight:700}}
     </style>
 </head>
 <body>
@@ -211,41 +45,41 @@
 
         <main>
             <div id="lang-cs">
-                 <div class="info-box editable-text" data-field="cs-places-info-box"></div>
-                 <div class="editable-text" data-field="cs-places-intro"></div>
-                 <h4 class="editable-text" data-field="cs-places-header-1"></h4>
+                 <div class="info-box editable-text" data-field="cs-places-info-box"><p>Chatová osada v Českém ráji, Prachov 58, provozovatel: Ing.Petr Hejna</p><p>IČO: 66314364</p><p>Provozní doba: červenec-srpen (jen po dohodě s klientem)</p><p>č.ú. 19-6866210217/0100</p><p>tel.: <span class="bold">606 930 170 (nejlépe večer)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>staré stránky na: eo-prachov.cz</p></div>
+                 <div class="editable-text" data-field="cs-places-intro"><h3>Zajímavá místa</h3><p>Prachovské skály leží v srdci Českého ráje. Níže jsou uvedena jen některá turisticky zajímavá místa.</p></div>
+                 <h4 class="editable-text" data-field="cs-places-header-1">Prachovské skály</h4>
                  <div class="gallery">
                     <img src="obrazky/12.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/13.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/14.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/15.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/16.png" alt="Prachovské skály" onclick="openModal(this)">
                  </div>
-                 <h4 class="editable-text" data-field="cs-places-header-2"></h4>
+                 <h4 class="editable-text" data-field="cs-places-header-2">Koupání (přírodní-Jinolické rybníky (10min. pěšky), městské koupaliště (10min.autem), kryté aqua centrum (15min.autem))</h4>
                  <div class="gallery">
                     <img src="obrazky/17.png" alt="Koupání" onclick="openModal(this)"><img src="obrazky/18.png" alt="Koupání" onclick="openModal(this)"><img src="obrazky/19.png" alt="Koupání" onclick="openModal(this)"><img src="obrazky/20.png" alt="Koupání" onclick="openModal(this)">
                  </div>
-                 <h4 class="editable-text" data-field="cs-places-header-3"></h4>
+                 <h4 class="editable-text" data-field="cs-places-header-3">Hrady, zříceniny a zámky Českého ráje</h4>
                  <div class="gallery">
                     <img src="obrazky/21.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/22.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/23.png" alt="Zřícenina" onclick="openModal(this)"><img src="obrazky/24.png" alt="Zámek" onclick="openModal(this)"><img src="obrazky/25.png" alt="Zámek" onclick="openModal(this)"><img src="obrazky/26.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/27.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/28.png" alt="Jičín" onclick="openModal(this)">
                  </div>
-                 <h4 class="editable-text" data-field="cs-places-header-4"></h4>
+                 <h4 class="editable-text" data-field="cs-places-header-4">Zajímavá místa v Jičíně a bezprostředním okolí</h4>
                  <div class="gallery">
                     <img src="obrazky/29.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/30.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/31.png" alt="Okolí" onclick="openModal(this)"><img src="obrazky/32.png" alt="Okolí" onclick="openModal(this)"><img src="obrazky/33.png" alt="Okolí" onclick="openModal(this)">
                  </div>
             </div>
             <div id="lang-en" style="display:none;">
-                 <div class="info-box editable-text" data-field="en-places-info-box"></div>
-                 <div class="editable-text" data-field="en-places-intro"></div>
-                 <h4 class="editable-text" data-field="en-places-header-1"></h4>
+                 <div class="info-box editable-text" data-field="en-places-info-box"><p>Cottage settlement in Bohemian Paradise, Prachov 58, operator: Ing.Petr Hejna</p><p>ID: 66314364</p><p>Opening hours: July-August (by appointment only)</p><p>Bank account: 19-6866210217/0100</p><p>tel.: <span class="bold">+420 606 930 170 (preferably in the evening)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>old website: eo-prachov.cz</p></div>
+                 <div class="editable-text" data-field="en-places-intro"><h3>Interesting Places</h3><p>The Prachov Rocks are located in the heart of the Bohemian Paradise. Below are just some of the tourist attractions.</p></div>
+                 <h4 class="editable-text" data-field="en-places-header-1">Prachov Rocks</h4>
                  <div class="gallery">
                     <img src="obrazky/12.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/13.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/14.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/15.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/16.png" alt="Prachov Rocks" onclick="openModal(this)">
                  </div>
-                 <h4 class="editable-text" data-field="en-places-header-2"></h4>
+                 <h4 class="editable-text" data-field="en-places-header-2">Swimming (natural-Jinolice Ponds (10 min. walk), municipal swimming pool (10 min. by car), indoor aqua center (15 min. by car))</h4>
                  <div class="gallery">
                     <img src="obrazky/17.png" alt="Swimming" onclick="openModal(this)"><img src="obrazky/18.png" alt="Swimming" onclick="openModal(this)"><img src="obrazky/19.png" alt="Swimming" onclick="openModal(this)"><img src="obrazky/20.png" alt="Swimming" onclick="openModal(this)">
                  </div>
-                 <h4 class="editable-text" data-field="en-places-header-3"></h4>
+                 <h4 class="editable-text" data-field="en-places-header-3">Castles, ruins and chateaux of the Bohemian Paradise</h4>
                  <div class="gallery">
                     <img src="obrazky/21.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/22.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/23.png" alt="Ruin" onclick="openModal(this)"><img src="obrazky/24.png" alt="Chateau" onclick="openModal(this)"><img src="obrazky/25.png" alt="Chateau" onclick="openModal(this)"><img src="obrazky/26.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/27.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/28.png" alt="Jičín" onclick="openModal(this)">
                  </div>
-                 <h4 class="editable-text" data-field="en-places-header-4"></h4>
+                 <h4 class="editable-text" data-field="en-places-header-4">Interesting places in Jičín and the immediate surroundings</h4>
                  <div class="gallery">
                     <img src="obrazky/29.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/30.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/31.png" alt="Surroundings" onclick="openModal(this)"><img src="obrazky/32.png" alt="Surroundings" onclick="openModal(this)"><img src="obrazky/33.png" alt="Surroundings" onclick="openModal(this)">
                  </div>
@@ -253,21 +87,14 @@
         </main>
         
         <footer id="footer-cs">
-            Spolupráce: 
-            <a href="https://www.e-chalupy.cz/" target="_blank" rel="noopener noreferrer">e-chalupy.cz</a> 
-            <a href="https://www.levneubytovani.net/" target="_blank" rel="noopener noreferrer">LevneUbytovani.net</a> 
-            <a href="https://chalupy-ubytovani.cz/" target="_blank" rel="noopener noreferrer">chalupy-ubytovani.cz</a>
+             Spolupráce: <a href="https://www.e-chalupy.cz/" target="_blank" rel="noopener noreferrer">e-chalupy.cz</a> <a href="https://www.levneubytovani.net/" target="_blank" rel="noopener noreferrer">LevneUbytovani.net</a> <a href="https://chalupy-ubytovani.cz/" target="_blank" rel="noopener noreferrer">chalupy-ubytovani.cz</a>
         </footer>
         <footer id="footer-en" style="display:none;">
-            In cooperation with: 
-            <a href="https://www.e-chalupy.cz/" target="_blank" rel="noopener noreferrer">e-chalupy.cz</a> 
-            <a href="https://www.levneubytovani.net/" target="_blank" rel="noopener noreferrer">LevneUbytovani.net</a> 
-            <a href="https://chalupy-ubytovani.cz/" target="_blank" rel="noopener noreferrer">chalupy-ubytovani.cz</a>
+            In cooperation with: <a href="https://www.e-chalupy.cz/" target="_blank" rel="noopener noreferrer">e-chalupy.cz</a> <a href="https://www.levneubytovani.net/" target="_blank" rel="noopener noreferrer">LevneUbytovani.net</a> <a href="https://chalupy-ubytovani.cz/" target="_blank" rel="noopener noreferrer">chalupy-ubytovani.cz</a>
         </footer>
     </div>
 
     <div id="myModal" class="modal">
-        <!-- Modal HTML is the same -->
         <span class="close" onclick="closeModal()">&times;</span>
         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
         <a class="next" onclick="plusSlides(1)">&#10095;</a>
@@ -275,43 +102,39 @@
              <img class="modal-content" id="img01" onclick="handleImageClick(event)">
         </div>
     </div>
-
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-
+    
+    <!-- *** CORRECTED FIREBASE SCRIPTS *** -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    
     <script id="main-script">
+        // JavaScript is identical to index.html
         const firebaseConfig = {
-  apiKey: "AIzaSyCuI9hhPtQMDkNqlQmmPfJRMWZWZFrT3hw",
-  authDomain: "eko-oaza-website.firebaseapp.com",
-  projectId: "eko-oaza-website",
-  storageBucket: "eko-oaza-website.firebasestorage.app",
-  messagingSenderId: "32000760259",
-  appId: "1:32000760259:web:b6b797ca91de9bd7688576",
-  measurementId: "G-0KLWHCEM16"
-};
-
+          apiKey: "AIzaSyCuI9hhPtQMDkNqlQmmPfJRMWZWZFrT3hw",
+          authDomain: "eko-oaza-website.firebaseapp.com",
+          projectId: "eko-oaza-website",
+          storageBucket: "eko-oaza-website.firebasestorage.app",
+          messagingSenderId: "32000760259",
+          appId: "1:32000760259:web:b6b797ca91de9bd7688576",
+          measurementId: "G-0KLWHCEM16"
+        };
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-
         const modal = document.getElementById("myModal");
         const modalImg = document.getElementById("img01");
         const modalContentWrapper = document.querySelector(".modal-content-wrapper");
         let currentImageIndex, currentGalleryImages, isAdmin = false;
-        
         const loginModal = document.getElementById('login-modal');
-
         const seoData = {
             cs: { title: "Zajímavá místa v okolí | Eko-Oáza Prachov", description: "Tipy na výlety v okolí Eko-Oázy Prachov. Objevte krásy Prachovských skal a Českého ráje." },
             en: { title: "Places of Interest | Eko-Oáza Prachov", description: "Trip ideas around Eko-Oáza Prachov. Discover the beauty of Prachov Rocks and the Bohemian Paradise." }
         };
-
         function updateSEO(lang) {
             document.title = seoData[lang].title;
             document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description);
         }
-
         function setLanguage(lang) {
             document.documentElement.lang = lang;
             document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none';
@@ -322,12 +145,10 @@
             document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none';
             updateSEO(lang);
         }
-
         function switchLanguage(lang) {
             const currentPage = window.location.pathname.split('/').pop() || 'index.html';
             window.location.href = `${currentPage}?lang=${lang}`;
         }
-        
         function openModal(element) {
             if (isAdmin) return;
             const parentGallery = element.closest('.gallery');
@@ -337,7 +158,6 @@
             document.body.style.overflow = 'hidden';
             showImage(currentImageIndex);
         }
-
         function showImage(index) {
             modalImg.src = currentGalleryImages[index].src;
             modalImg.alt = currentGalleryImages[index].alt;
@@ -345,17 +165,14 @@
             modalContentWrapper.scrollTop = 0;
             modalContentWrapper.scrollLeft = 0;
         }
-
         function closeModal() {
             modal.style.display = "none";
             document.body.style.overflow = 'auto';
         }
-
         function plusSlides(n) {
             currentImageIndex = (currentImageIndex + n + currentGalleryImages.length) % currentGalleryImages.length;
             showImage(currentImageIndex);
         }
-
         function handleImageClick(event) {
             event.stopPropagation();
             const img = event.target;
@@ -367,17 +184,18 @@
                 img.classList.add('zoom-1');
             }
         }
-
         function handleModalClick(event) {
             if (event.target === modalContentWrapper) closeModal();
         }
-
         auth.onAuthStateChanged(user => {
             isAdmin = !!user;
-            if (isAdmin) enableAdminMode();
-            else disableAdminMode();
+            if (isAdmin) {
+                enableAdminMode();
+                runInitialSetup(); 
+            } else {
+                disableAdminMode();
+            }
         });
-
         async function handleLogin(event) {
             event.preventDefault();
             const email = document.getElementById('email').value;
@@ -389,12 +207,10 @@
                 alert('Login failed: ' + error.message);
             }
         }
-
         async function logout() {
             await auth.signOut();
             location.reload();
         }
-
         function enableAdminMode() {
             document.getElementById('admin-toolbar').style.display = 'block';
             document.querySelectorAll('.editable-text').forEach(el => {
@@ -402,12 +218,10 @@
                 el.addEventListener('blur', (e) => saveText(e.target));
             });
         }
-
         function disableAdminMode() {
             document.getElementById('admin-toolbar').style.display = 'none';
             document.querySelectorAll('.editable-text').forEach(el => el.contentEditable = false);
         }
-        
         async function saveText(element) {
             const fieldId = element.dataset.field;
             const content = element.innerHTML;
@@ -419,7 +233,6 @@
                 alert("Could not save changes. Please check your connection and try again.");
             }
         }
-
         async function loadContent() {
             const loadDataForLang = async (lang) => {
                 try {
@@ -438,7 +251,30 @@
             };
             await Promise.all([loadDataForLang('cs'), loadDataForLang('en')]);
         }
-
+        async function runInitialSetup() {
+            const setupFlagRef = db.collection('internal').doc('setup');
+            const setupDoc = await setupFlagRef.get();
+            if (setupDoc.exists && setupDoc.data().completed) {
+                return;
+            }
+            const allContent = {};
+            document.querySelectorAll('.editable-text').forEach(el => {
+                const fieldId = el.dataset.field;
+                const content = el.innerHTML;
+                const lang = fieldId.startsWith('cs-') ? 'cs' : 'en';
+                if (!allContent[lang]) allContent[lang] = {};
+                allContent[lang][fieldId] = content;
+            });
+            try {
+                if(allContent['cs']) await db.collection('content').doc('cs').set(allContent['cs'], {merge: true});
+                if(allContent['en']) await db.collection('content').doc('en').set(allContent['en'], {merge: true});
+                await setupFlagRef.set({ completed: true });
+                alert("Initial content saved to database successfully!");
+            } catch(error) {
+                console.error("Initial setup failed:", error);
+                alert("The initial setup failed. Please check the console for errors.");
+            }
+        }
         document.addEventListener('keydown', (event) => {
             if (event.ctrlKey && event.key === 'l') {
                 event.preventDefault();
@@ -454,7 +290,6 @@
                 else if (event.key === "ArrowRight") plusSlides(1);
             }
         });
-
         document.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
             const lang = urlParams.get('lang') || 'cs';
