@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
+    <title>Ubytování Chaty Eko-Oáza Prachov | Dovolená v Českém ráji</title>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eko-Oáza Prachov</title>
+    <meta name="description" content="Nabízíme levné ubytování v chatkách pro rodiny s dětmi v srdci Českého ráje. Eko-Oáza Prachov je ideální místo pro vaši dovolenou u Prachovských skal.">
+    <meta name="keywords" content="ubytování, chaty, Český ráj, Prachovské skály, dovolená, Jičín, levné ubytování, rodiny s dětmi, Eko-Oáza Prachov">
+    <link rel="canonical" href="https://www.example.com/">
+
+    <meta property="og:title" content="Ubytování Chaty Eko-Oáza Prachov | Český ráj">
+    <meta property="og:description" content="Dovolená v chatkách pro rodiny s dětmi v srdci Českého ráje, u Prachovských skal.">
+    <meta property="og:image" content="https://www.example.com/obrazky/1.png">
+    <meta property="og:url" content="https://www.example.com/">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ubytování Chaty Eko-Oáza Prachov | Český ráj">
+    <meta name="twitter:description" content="Dovolená v chatkách pro rodiny s dětmi v srdci Českého ráje, u Prachovských skal.">
+    <meta name="twitter:image" content="https://www.example.com/obrazky/1.png">
+    
     <style>
+        :root {
+            --primary-blue: #007bff;
+            --text-color: #333;
+            --background-color: #fff;
+            --container-bg: #2570B8;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #2570B8;
-            color: #333;
+            background-color: var(--container-bg);
+            color: var(--text-color);
             margin: 0;
             padding: 0;
             display: flex;
@@ -17,7 +39,7 @@
             line-height: 1.6;
         }
         .container {
-            background-color: #fff;
+            background-color: var(--background-color);
             width: 960px;
             margin: 20px;
             padding: 0 20px 20px 20px;
@@ -31,9 +53,10 @@
             align-items: center;
             position: sticky;
             top: 0;
-            background-color: #fff;
+            background-color: var(--background-color);
             z-index: 100;
             border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         header h1 {
             margin: 0;
@@ -41,14 +64,13 @@
         }
         header h1 a {
             text-decoration: none;
-            color: #333;
+            color: var(--text-color);
         }
         nav a {
             margin-left: 15px;
             text-decoration: none;
-            color: #007bff;
+            color: var(--primary-blue);
             font-weight: bold;
-            cursor: pointer;
         }
         nav a:hover {
             text-decoration: underline;
@@ -61,6 +83,7 @@
             margin-bottom: 20px;
             background-color: #f9f9f9;
         }
+        .info-box p { margin: 5px 0; }
         .gallery {
             display: flex;
             flex-wrap: wrap;
@@ -73,7 +96,15 @@
             height: auto;
             object-fit: cover;
             cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+            display: block;
         }
+        .gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .map-container { margin: 20px 0; }
+        .map-container h3 { margin-top: 0; }
         .map-embed {
             width: 100%;
             height: 450px;
@@ -90,106 +121,417 @@
             text-align: left;
         }
         .price-table th { background-color: #f2f2f2; }
+        .socials { text-align: center; margin: 20px 0; }
         footer {
             text-align: center;
             margin-top: 20px;
             padding-top: 10px;
             border-top: 1px solid #ccc;
             font-size: 14px;
+            line-height: 1.8;
         }
+        footer a { margin: 0 5px; }
         .bold { font-weight: bold; }
         .text-center { text-align: center; }
         .text-right { text-align: right; }
 
+        .modal {
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
+            overflow: hidden; background-color: rgba(0, 0, 0, 0.9);
+        }
+        .modal-content-wrapper {
+            position: relative; height: 100%; width: 100%; display: flex; align-items: center; justify-content: center;
+            overflow: auto;
+        }
+        .modal-content {
+            margin: auto; display: block; max-width: 90%; max-height: 90%;
+            transition: transform 0.3s ease-in-out; cursor: zoom-in;
+        }
+        .modal-content.zoom-1 { transform: scale(1.5); cursor: zoom-in; }
+        .modal-content.zoom-2 { transform: scale(2.5); cursor: zoom-out; }
+        .close {
+            position: absolute; top: 15px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold;
+            transition: 0.3s; cursor: pointer; z-index: 1001;
+        }
+        .close:hover, .close:focus { color: #bbb; }
+        .prev, .next {
+            cursor: pointer; position: absolute; top: 50%; width: auto; padding: 16px; margin-top: -50px;
+            color: white; font-weight: bold; font-size: 30px; transition: 0.6s ease; border-radius: 0 3px 3px 0;
+            user-select: none; -webkit-user-select: none; z-index: 1001;
+        }
+        .next { right: 0; border-radius: 3px 0 0 3px; }
+        .prev { left: 0; }
+        .prev:hover, .next:hover { background-color: rgba(0, 0, 0, 0.8); }
+
+        #admin-toolbar { display: none; position: fixed; top: 0; left: 0; width: 100%; background: #2c3e50; color: white; padding: 10px; z-index: 9999; box-shadow: 0 2px 5px rgba(0,0,0,0.3); text-align: center;}
+        #admin-toolbar button { background: #e74c3c; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 3px; margin: 0 10px; font-size: 16px; }
+        #admin-toolbar button:hover { background: #c0392b; }
+        .editable-text[contenteditable="true"] { outline: 2px dashed #3498db; }
+        
+        #login-modal { display: none; position: fixed; z-index: 10001; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); }
+        #login-modal form { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 400px; text-align: center; border-radius: 5px; }
+        #login-modal input { width: 90%; padding: 12px 20px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; box-sizing: border-box; }
+        #login-modal button { background-color: #4CAF50; color: white; padding: 14px 20px; margin: 8px 0; border: none; cursor: pointer; width: 90%; }
+
         @media screen and (max-width: 768px) {
+            body { font-size: 16px; }
             .container { width: 100%; margin: 0; padding: 0 10px 10px 10px; box-shadow: none; }
-            header { flex-direction: column; align-items: flex-start; position: static; }
-            nav { margin-top: 15px; }
-            .gallery img { max-width: 48%; }
+            header { flex-direction: column; align-items: flex-start; position: static; box-shadow: none; padding: 15px 0; }
+            header h1 { margin-bottom: 10px; font-size: 24px;}
+            nav { display: flex; justify-content: space-around; width: 100%;}
+            nav a { margin: 5px 0; font-size: 14px;}
+            .gallery img { max-width: 48%; flex-basis: 48%; }
             .price-table, .price-table thead, .price-table tbody, .price-table th, .price-table td, .price-table tr { display: block; }
             .price-table thead tr { position: absolute; top: -9999px; left: -9999px; }
             .price-table tr { border: 1px solid #ccc; margin-bottom: 10px; }
-            .price-table td { border: none; position: relative; padding-left: 50%; text-align: right; }
-            .price-table td:before { content: attr(data-label); position: absolute; left: 10px; width: 45%; font-weight: bold; text-align: left; }
+            .price-table td { border: none; border-bottom: 1px solid #eee; position: relative; padding-left: 50%; text-align: right; min-height: 30px;}
+            .price-table td:before {
+                content: attr(data-label); position: absolute; left: 10px; width: 45%; padding-right: 10px;
+                white-space: nowrap; text-align: left; font-weight: bold;
+            }
         }
     </style>
 </head>
 <body>
+    <div id="admin-toolbar">
+        <span>🔑 Admin Mode is Active</span>
+        <button onclick="logout()">Logout</button>
+    </div>
+    <div id="login-modal">
+        <form onsubmit="handleLogin(event)">
+            <h2>Admin Login</h2>
+            <input type="email" id="email" value="admin@e-o-p.cz" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+            <p style="font-size: 12px; color: #777;">Press Esc to close</p>
+        </form>
+    </div>
+
     <div class="container">
         <header>
-            <h1><a href="#" onclick="showPage('home', 'cs'); return false;">Eko-Oáza Prachov</a></h1>
+            <h1><a href="#" onclick="showPage('home-cs', 'cs'); return false;">Eko-Oáza Prachov</a></h1>
             <nav id="nav-cs">
-                <a onclick="showPage('rules', 'cs')">Provozní řád</a>
-                <a onclick="showPage('places', 'cs')">Zajímavá místa</a>
-                <a onclick="showPage('home', 'en')">English version</a>
+                <a href="#" onclick="showPage('main-cs', 'cs')">Provozní řád</a>
+                <a href="#" onclick="showPage('places-cs', 'cs')">Zajímavá místa</a>
+                <a href="#" onclick="showPage('home-en', 'en')">English version</a>
             </nav>
             <nav id="nav-en" style="display:none;">
-                <a onclick="showPage('rules', 'en')">Operating rules</a>
-                <a onclick="showPage('places', 'en')">Places of interest</a>
-                <a onclick="showPage('home', 'cs')">Česká verze</a>
+                <a href="#" onclick="showPage('main-en', 'en')">Operating rules</a>
+                <a href="#" onclick="showPage('places-en', 'en')">Places of interest</a>
+                <a href="#" onclick="showPage('home-cs', 'cs')">Česká verze</a>
             </nav>
         </header>
 
         <main>
             <div id="lang-cs">
-                <div id="home-cs" class="content">
-                    <div class="info-box"><p>Chatová osada v Českém ráji, Prachov 58, provozovatel: Ing. Petr Hejna</p><p>IČO: 66314364</p><p>Provozní doba: červenec-srpen (jen po dohodě s klientem)</p><p>č.ú.: 19-6866210217/0100</p><p>tel.: <span class="bold">606 930 170 (nejlépe večer)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>staré stránky na: eo-prachov.cz</p></div>
-                    <p>Jedná se o sedm 3-lůžkových chatek vhodných pro rodiče s dětmi. Přistýlka pro čtvrtou osobu (dítě) ve formě propojení dvou lůžek je možná.</p>
-                    <div class="gallery"><img src="obrazky/1.png" alt="Chatka zvenku"><img src="obrazky/2.png" alt="Interiér chatky"><img src="obrazky/3.png" alt="Interiér chatky"><img src="obrazky/4.png" alt="Postel v chatce"></div>
-                    <h3>Kde nás najdete?</h3>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed"></iframe>
-                    <p>Chatová osada se nachází na slunné stráni 6km severozápadně od Jičína, v samém centru Prachovských skal.</p><p>GPS souřadnice: Loc: 50°27'52.835"N, 15°18'23.299"E</p><p>Z hlavní silnice sjet do do cesty označené zákazem vjezdu, který pro ubytováné neplatí. Po 50m je vjezd.</p>
-                    <p>Chatová dědinka je vybavena novým sociálním zařízením se sprchami.</p>
-                    <div class="gallery"><img src="obrazky/5.png" alt="Exteriér"><img src="obrazky/6.png" alt="Sociální zařízení"><img src="obrazky/7.png" alt="Sociální zařízení"></div>
-                    <p>V chatové dědince je společná kuchyňka (lednice, dvouplotnový vařič, varná konvice, nádobí, teplá/studená voda).</p>
-                    <div class="gallery"><img src="obrazky/8.png" alt="Kuchyňka"><img src="obrazky/9.png" alt="Kuchyňka interiér"><img src="obrazky/10.png" alt="Kuchyňka interiér"><img src="obrazky/11.png" alt="Okolí"></div>
-                    <p class="text-center"><a href="https://www.youtube.com/watch?v=XWXlBmBIE80" target="_blank">Letecký pohled do EOP</a></p>
-                    <h3>Co poskytuje dovolená v Chatové dědince v Českém ráji?</h3><ul><li><span class="bold">pěší turistiku</span> Prachovskými skalami v Českém ráji s krásnými vyhlídkami</li><li>... a tak dále ...</li></ul>
-                    <h3 class="text-center">Ceník</h3>
-                    <table class="price-table">...</table>
+                <div id="home-cs" class="content active">
+                    <div class="info-box editable-text" data-field="cs-info-box"></div>
+                    <p class="editable-text" data-field="cs-intro"></p>
+                    <div class="gallery">
+                        <img src="obrazky/1.png" alt="Chatka zvenku" onclick="openModal(this)"><img src="obrazky/2.png" alt="Interiér chatky" onclick="openModal(this)"><img src="obrazky/3.png" alt="Interiér chatky" onclick="openModal(this)"><img src="obrazky/4.png" alt="Postel v chatce" onclick="openModal(this)">
+                    </div>
+                    <div class="map-container">
+                        <h3 class="editable-text" data-field="cs-map-header"></h3>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <div class="editable-text" data-field="cs-map-text"></div>
+                    </div>
+                    <p class="editable-text" data-field="cs-socials-intro"></p>
+                    <div class="gallery">
+                        <img src="obrazky/5.png" alt="Exteriér" onclick="openModal(this)"><img src="obrazky/6.png" alt="Sociální zařízení" onclick="openModal(this)"><img src="obrazky/7.png" alt="Sociální zařízení" onclick="openModal(this)">
+                    </div>
+                    <p class="editable-text" data-field="cs-kitchen-intro"></p>
+                    <div class="gallery">
+                        <img src="obrazky/8.png" alt="Kuchyňka" onclick="openModal(this)"><img src="obrazky/9.png" alt="Kuchyňka interiér" onclick="openModal(this)"><img src="obrazky/10.png" alt="Kuchyňka interiér" onclick="openModal(this)"><img src="obrazky/11.png" alt="Okolí" onclick="openModal(this)">
+                    </div>
+                    <div class="text-center editable-text" data-field="cs-video-link"></div>
+                    <div class="editable-text" data-field="cs-activities"></div>
+                    <h3 class="text-center editable-text" data-field="cs-price-header"></h3>
+                    <div class="editable-text" data-field="cs-price-table"></div>
+                    <div class="socials editable-text" data-field="cs-facebook-link"></div>
                 </div>
-                <div id="rules-cs" class="content">...</div>
-                <div id="places-cs" class="content">...</div>
+                <div id="main-cs" class="content">
+                     <div class="info-box editable-text" data-field="cs-rules-info-box"></div>
+                     <div class="editable-text" data-field="cs-rules-content"></div>
+                </div>
+                <div id="places-cs" class="content">
+                     <div class="info-box editable-text" data-field="cs-places-info-box"></div>
+                     <div class="editable-text" data-field="cs-places-intro"></div>
+                     <h4 class="editable-text" data-field="cs-places-header-1"></h4>
+                     <div class="gallery">
+                        <img src="obrazky/12.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/13.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/14.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/15.png" alt="Prachovské skály" onclick="openModal(this)"><img src="obrazky/16.png" alt="Prachovské skály" onclick="openModal(this)">
+                     </div>
+                     <h4 class="editable-text" data-field="cs-places-header-2"></h4>
+                     <div class="gallery">
+                        <img src="obrazky/17.png" alt="Koupání" onclick="openModal(this)"><img src="obrazky/18.png" alt="Koupání" onclick="openModal(this)"><img src="obrazky/19.png" alt="Koupání" onclick="openModal(this)"><img src="obrazky/20.png" alt="Koupání" onclick="openModal(this)">
+                     </div>
+                     <h4 class="editable-text" data-field="cs-places-header-3"></h4>
+                     <div class="gallery">
+                        <img src="obrazky/21.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/22.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/23.png" alt="Zřícenina" onclick="openModal(this)"><img src="obrazky/24.png" alt="Zámek" onclick="openModal(this)"><img src="obrazky/25.png" alt="Zámek" onclick="openModal(this)"><img src="obrazky/26.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/27.png" alt="Hrad" onclick="openModal(this)"><img src="obrazky/28.png" alt="Jičín" onclick="openModal(this)">
+                     </div>
+                     <h4 class="editable-text" data-field="cs-places-header-4"></h4>
+                     <div class="gallery">
+                        <img src="obrazky/29.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/30.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/31.png" alt="Okolí" onclick="openModal(this)"><img src="obrazky/32.png" alt="Okolí" onclick="openModal(this)"><img src="obrazky/33.png" alt="Okolí" onclick="openModal(this)">
+                     </div>
+                </div>
             </div>
             <div id="lang-en" style="display:none;">
-                <div id="home-en" class="content">...</div>
-                <div id="rules-en" class="content">...</div>
-                <div id="places-en" class="content">...</div>
+                <div id="home-en" class="content">
+                    <div class="info-box editable-text" data-field="en-info-box"></div>
+                    <p class="editable-text" data-field="en-intro"></p>
+                    <div class="gallery">
+                        <img src="obrazky/1.png" alt="Cottage exterior" onclick="openModal(this)"><img src="obrazky/2.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/3.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/4.png" alt="Bed in cottage" onclick="openModal(this)">
+                    </div>
+                    <div class="map-container">
+                        <h3 class="editable-text" data-field="en-map-header"></h3>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <div class="editable-text" data-field="en-map-text"></div>
+                    </div>
+                    <p class="editable-text" data-field="en-socials-intro"></p>
+                    <div class="gallery">
+                        <img src="obrazky/5.png" alt="Exterior" onclick="openModal(this)"><img src="obrazky/6.png" alt="Sanitary facilities" onclick="openModal(this)"><img src="obrazky/7.png" alt="Sanitary facilities" onclick="openModal(this)">
+                    </div>
+                    <p class="editable-text" data-field="en-kitchen-intro"></p>
+                    <div class="gallery">
+                        <img src="obrazky/8.png" alt="Kitchen" onclick="openModal(this)"><img src="obrazky/9.png" alt="Kitchen interior" onclick="openModal(this)"><img src="obrazky/10.png" alt="Kitchen interior" onclick="openModal(this)"><img src="obrazky/11.png" alt="Surroundings" onclick="openModal(this)">
+                    </div>
+                    <div class="text-center editable-text" data-field="en-video-link"></div>
+                    <div class="editable-text" data-field="en-activities"></div>
+                    <h3 class="text-center editable-text" data-field="en-price-header"></h3>
+                    <div class="editable-text" data-field="en-price-table"></div>
+                    <div class="socials editable-text" data-field="en-facebook-link"></div>
+                </div>
+                <div id="main-en" class="content">
+                    <div class="info-box editable-text" data-field="en-rules-info-box"></div>
+                    <div class="editable-text" data-field="en-rules-content"></div>
+                </div>
+                <div id="places-en" class="content">
+                     <div class="info-box editable-text" data-field="en-places-info-box"></div>
+                     <div class="editable-text" data-field="en-places-intro"></div>
+                     <h4 class="editable-text" data-field="en-places-header-1"></h4>
+                     <div class="gallery">
+                        <img src="obrazky/12.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/13.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/14.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/15.png" alt="Prachov Rocks" onclick="openModal(this)"><img src="obrazky/16.png" alt="Prachov Rocks" onclick="openModal(this)">
+                     </div>
+                     <h4 class="editable-text" data-field="en-places-header-2"></h4>
+                     <div class="gallery">
+                        <img src="obrazky/17.png" alt="Swimming" onclick="openModal(this)"><img src="obrazky/18.png" alt="Swimming" onclick="openModal(this)"><img src="obrazky/19.png" alt="Swimming" onclick="openModal(this)"><img src="obrazky/20.png" alt="Swimming" onclick="openModal(this)">
+                     </div>
+                     <h4 class="editable-text" data-field="en-places-header-3"></h4>
+                     <div class="gallery">
+                        <img src="obrazky/21.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/22.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/23.png" alt="Ruin" onclick="openModal(this)"><img src="obrazky/24.png" alt="Chateau" onclick="openModal(this)"><img src="obrazky/25.png" alt="Chateau" onclick="openModal(this)"><img src="obrazky/26.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/27.png" alt="Castle" onclick="openModal(this)"><img src="obrazky/28.png" alt="Jičín" onclick="openModal(this)">
+                     </div>
+                     <h4 class="editable-text" data-field="en-places-header-4"></h4>
+                     <div class="gallery">
+                        <img src="obrazky/29.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/30.png" alt="Jičín" onclick="openModal(this)"><img src="obrazky/31.png" alt="Surroundings" onclick="openModal(this)"><img src="obrazky/32.png" alt="Surroundings" onclick="openModal(this)"><img src="obrazky/33.png" alt="Surroundings" onclick="openModal(this)">
+                     </div>
+                </div>
             </div>
         </main>
         
-        <footer>
+        <footer id="footer-cs">
             Spolupráce: 
+            <a href="https://www.e-chalupy.cz/" target="_blank" rel="noopener noreferrer">e-chalupy.cz</a> 
+            <a href="https://www.levneubytovani.net/" target="_blank" rel="noopener noreferrer">LevneUbytovani.net</a> 
+            <a href="https://chalupy-ubytovani.cz/" target="_blank" rel="noopener noreferrer">chalupy-ubytovani.cz</a>
+        </footer>
+        <footer id="footer-en" style="display:none;">
+            In cooperation with: 
             <a href="https://www.e-chalupy.cz/" target="_blank" rel="noopener noreferrer">e-chalupy.cz</a> 
             <a href="https://www.levneubytovani.net/" target="_blank" rel="noopener noreferrer">LevneUbytovani.net</a> 
             <a href="https://chalupy-ubytovani.cz/" target="_blank" rel="noopener noreferrer">chalupy-ubytovani.cz</a>
         </footer>
     </div>
 
-    <script>
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        <div class="modal-content-wrapper" onclick="handleModalClick(event)">
+             <img class="modal-content" id="img01" onclick="handleImageClick(event)">
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+
+    <script id="main-script">
+        const firebaseConfig = {
+          apiKey: "PASTE_YOUR_API_KEY_HERE",
+          authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
+          projectId: "PASTE_YOUR_PROJECT_ID_HERE",
+          storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
+          messagingSenderId: "PASTE_YOUR_SENDER_ID_HERE",
+          appId: "PASTE_YOUR_APP_ID_HERE"
+        };
+
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        const modal = document.getElementById("myModal");
+        const modalImg = document.getElementById("img01");
+        const modalContentWrapper = document.querySelector(".modal-content-wrapper");
+        const footerCS = document.getElementById("footer-cs");
+        const footerEN = document.getElementById("footer-en");
+        let currentImageIndex, currentGalleryImages, isAdmin = false;
+        
+        const loginModal = document.getElementById('login-modal');
+
+        const seoData = {
+            cs: { title: "Ubytování Chaty Eko-Oáza Prachov | Dovolená v Českém ráji", description: "Nabízíme levné ubytování v chatkách pro rodiny s dětmi v srdci Českého ráje. Eko-Oáza Prachov je ideální místo pro vaši dovolenou u Prachovských skal." },
+            en: { title: "Eko-Oáza Prachov Cottages & Accommodation | Holiday in Bohemian Paradise", description: "Affordable cottage accommodation for families with children in the heart of Bohemian Paradise, Czech Republic. Eko-Oáza Prachov is the perfect place for your holiday near the Prachov Rocks." }
+        };
+
+        function updateSEO(lang) {
+            document.title = seoData[lang].title;
+            document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description);
+        }
+
         function showPage(pageId, lang) {
             document.documentElement.lang = lang;
             document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none';
             document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none';
-            document.getElementById('nav-cs').style.display = lang === 'cs' ? 'block' : 'none';
-            document.getElementById('nav-en').style.display = lang === 'en' ? 'block' : 'none';
-
-            document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
+            document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none';
+            document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none';
+            footerCS.style.display = lang === 'cs' ? 'block' : 'none';
+            footerEN.style.display = lang === 'en' ? 'block' : 'none';
             
-            const targetId = pageId + '-' + lang;
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                targetElement.classList.add('active');
+            updateSEO(lang);
+            const langContainer = document.getElementById('lang-' + lang);
+            langContainer.querySelectorAll('.content').forEach(section => section.classList.remove('active'));
+            const activePage = document.getElementById(pageId);
+            if (activePage) activePage.classList.add('active');
+            else document.getElementById('home-' + lang).classList.add('active');
+        }
+        
+        function openModal(element) {
+            if (isAdmin) return;
+            const parentGallery = element.closest('.gallery');
+            currentGalleryImages = Array.from(parentGallery.querySelectorAll('img'));
+            currentImageIndex = currentGalleryImages.indexOf(element);
+            modal.style.display = "block";
+            document.body.style.overflow = 'hidden';
+            showImage(currentImageIndex);
+        }
+
+        function showImage(index) {
+            modalImg.src = currentGalleryImages[index].src;
+            modalImg.alt = currentGalleryImages[index].alt;
+            modalImg.className = 'modal-content';
+            modalContentWrapper.scrollTop = 0;
+            modalContentWrapper.scrollLeft = 0;
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+            document.body.style.overflow = 'auto';
+        }
+
+        function plusSlides(n) {
+            currentImageIndex = (currentImageIndex + n + currentGalleryImages.length) % currentGalleryImages.length;
+            showImage(currentImageIndex);
+        }
+
+        function handleImageClick(event) {
+            event.stopPropagation();
+            const img = event.target;
+            if (img.classList.contains('zoom-2')) {
+                img.classList.remove('zoom-2', 'zoom-1');
+            } else if (img.classList.contains('zoom-1')) {
+                img.classList.add('zoom-2');
             } else {
-                // Fallback to home page if target doesn't exist
-                document.getElementById('home-' + lang).classList.add('active');
+                img.classList.add('zoom-1');
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const lang = urlParams.get('lang') || 'cs';
-            showPage('home', lang);
+        function handleModalClick(event) {
+            if (event.target === modalContentWrapper) closeModal();
+        }
+
+        auth.onAuthStateChanged(user => {
+            isAdmin = !!user;
+            if (isAdmin) enableAdminMode();
+            else disableAdminMode();
+        });
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                loginModal.style.display = 'none';
+            } catch (error) {
+                alert('Login failed: ' + error.message);
+            }
+        }
+
+        async function logout() {
+            await auth.signOut();
+            location.reload();
+        }
+
+        function enableAdminMode() {
+            document.getElementById('admin-toolbar').style.display = 'block';
+            document.querySelectorAll('.editable-text').forEach(el => {
+                el.contentEditable = true;
+                el.addEventListener('blur', (e) => saveText(e.target));
+            });
+        }
+
+        function disableAdminMode() {
+            document.getElementById('admin-toolbar').style.display = 'none';
+            document.querySelectorAll('.editable-text').forEach(el => el.contentEditable = false);
+        }
+        
+        async function saveText(element) {
+            const fieldId = element.dataset.field;
+            const content = element.innerHTML;
+            const docId = fieldId.startsWith('cs-') ? 'cs' : 'en';
+            try {
+                await db.collection('content').doc(docId).set({ [fieldId]: content }, { merge: true });
+            } catch (error) {
+                console.error("Error saving text:", error);
+                alert("Could not save changes. Please check your connection and try again.");
+            }
+        }
+
+        async function loadContent() {
+            const loadDataForLang = async (lang) => {
+                try {
+                    const doc = await db.collection('content').doc(lang).get();
+                    if (doc.exists) {
+                        const data = doc.data();
+                        document.querySelectorAll(`#lang-${lang} [data-field]`).forEach(el => {
+                            if (data[el.dataset.field]) el.innerHTML = data[el.dataset.field];
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error loading content for " + lang + ":", error);
+                }
+            };
+            await Promise.all([loadDataForLang('cs'), loadDataForLang('en')]);
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.ctrlKey && event.key === 'l') {
+                event.preventDefault();
+                loginModal.style.display = 'block';
+                document.getElementById('password').focus();
+            }
+            if (event.key === "Escape") {
+                if (modal.style.display === "block") closeModal();
+                if (loginModal.style.display === 'block') loginModal.style.display = 'none';
+            }
+            if (modal.style.display === "block") {
+                if (event.key === "ArrowLeft") plusSlides(-1);
+                else if (event.key === "ArrowRight") plusSlides(1);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            showPage('home-cs', 'cs');
+            await loadContent();
         });
     </script>
 </body>
