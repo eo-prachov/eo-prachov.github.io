@@ -6,203 +6,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Nabízíme levné ubytování v chatkách pro rodiny s dětmi v srdci Českého ráje. Eko-Oáza Prachov je ideální místo pro vaši dovolenou u Prachovských skal.">
-    <meta name="keywords" content="ubytování, chaty, Český ráj, Prachovské skály, dovolená, Jičín, levné ubytování, rodiny s dětmi, Eko-Oáza Prachov">
     <link rel="canonical" href="https://www.example.com/">
-
-    <meta property="og:title" content="Ubytování Chaty Eko-Oáza Prachov | Český ráj">
-    <meta property="og:description" content="Dovolená v chatkách pro rodiny s dětmi v srdci Českého ráje, u Prachovských skal.">
-    <meta property="og:image" content="https://www.example.com/obrazky/1.png">
-    <meta property="og:url" content="https://www.example.com/">
-    <meta property="og:type" content="website">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Ubytování Chaty Eko-Oáza Prachov | Český ráj">
-    <meta name="twitter:description" content="Dovolená v chatkách pro rodiny s dětmi v srdci Českého ráje, u Prachovských skal.">
-    <meta name="twitter:image" content="https://www.example.com/obrazky/1.png">
     
     <style>
-        :root {
-            --primary-blue: #007bff;
-            --text-color: #333;
-            --background-color: #fff;
-            --container-bg: #2570B8;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--container-bg);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            font-size: 18px;
-            line-height: 1.6;
-        }
-        .container {
-            background-color: var(--background-color);
-            width: 960px;
-            margin: 20px;
-            padding: 0 20px 20px 20px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-        }
-        header {
-            padding: 20px 0;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            background-color: var(--background-color);
-            z-index: 100;
-            border-bottom: 1px solid #eee;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
-        header h1 a {
-            text-decoration: none;
-            color: var(--text-color);
-        }
-        nav a {
-            margin-left: 15px;
-            text-decoration: none;
-            color: var(--primary-blue);
-            font-weight: bold;
-            cursor: pointer;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        .info-box {
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin-bottom: 20px;
-            background-color: #f9f9f9;
-        }
-        .info-box p { margin: 5px 0; }
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        .gallery img {
-            flex: 1 1 200px;
-            max-width: 23.5%;
-            height: auto;
-            object-fit: cover;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s;
-            display: block;
-        }
-        .gallery img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        .map-container { margin: 20px 0; }
-        .map-container h3 { margin-top: 0; }
-        .map-embed {
-            width: 100%;
-            height: 450px;
-            border: 0;
-        }
-        .price-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        .price-table th, .price-table td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-        }
-        .price-table th { background-color: #f2f2f2; }
-        .socials { text-align: center; margin: 20px 0; }
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 10px;
-            border-top: 1px solid #ccc;
-            font-size: 14px;
-            line-height: 1.8;
-        }
-        footer a { margin: 0 5px; }
-        .bold { font-weight: bold; }
-        .text-center { text-align: center; }
-        .text-right { text-align: right; }
-
-        .modal {
-            display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
-            overflow: hidden; background-color: rgba(0, 0, 0, 0.9);
-        }
-        .modal-content-wrapper {
-            position: relative; height: 100%; width: 100%; display: flex; align-items: center; justify-content: center;
-            overflow: auto;
-        }
-        .modal-content {
-            margin: auto; display: block; max-width: 90%; max-height: 90%;
-            transition: transform 0.3s ease-in-out; cursor: zoom-in;
-        }
-        .modal-content.zoom-1 { transform: scale(1.5); cursor: zoom-in; }
-        .modal-content.zoom-2 { transform: scale(2.5); cursor: zoom-out; }
-        .close {
-            position: absolute; top: 15px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold;
-            transition: 0.3s; cursor: pointer; z-index: 1001;
-        }
-        .close:hover, .close:focus { color: #bbb; }
-        .prev, .next {
-            cursor: pointer; position: absolute; top: 50%; width: auto; padding: 16px; margin-top: -50px;
-            color: white; font-weight: bold; font-size: 30px; transition: 0.6s ease; border-radius: 0 3px 3px 0;
-            user-select: none; -webkit-user-select: none; z-index: 1001;
-        }
-        .next { right: 0; border-radius: 3px 0 0 3px; }
-        .prev { left: 0; }
-        .prev:hover, .next:hover { background-color: rgba(0, 0, 0, 0.8); }
-
-        #admin-toolbar { display: none; position: fixed; top: 0; left: 0; width: 100%; background: #2c3e50; color: white; padding: 10px; z-index: 9999; box-shadow: 0 2px 5px rgba(0,0,0,0.3); text-align: center;}
-        #admin-toolbar button { background: #e74c3c; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 3px; margin: 0 10px; font-size: 16px; }
-        #admin-toolbar button:hover { background: #c0392b; }
-        .editable-text[contenteditable="true"] { outline: 2px dashed #3498db; }
-        
-        #login-modal { display: none; position: fixed; z-index: 10001; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); }
-        #login-modal form { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 400px; text-align: center; border-radius: 5px; }
-        #login-modal input { width: 90%; padding: 12px 20px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; box-sizing: border-box; }
-        #login-modal button { background-color: #4CAF50; color: white; padding: 14px 20px; margin: 8px 0; border: none; cursor: pointer; width: 90%; }
-
-        @media screen and (max-width: 768px) {
-            body { font-size: 16px; }
-            .container { width: 100%; margin: 0; padding: 0 10px 10px 10px; box-shadow: none; }
-            header { flex-direction: column; align-items: flex-start; position: static; box-shadow: none; padding: 15px 0; }
-            header h1 { margin-bottom: 10px; font-size: 24px;}
-            nav { display: flex; justify-content: space-around; width: 100%;}
-            nav a { margin: 5px 0; font-size: 14px;}
-            .gallery img { max-width: 48%; flex-basis: 48%; }
-            .price-table, .price-table thead, .price-table tbody, .price-table th, .price-table td, .price-table tr { display: block; }
-            .price-table thead tr { position: absolute; top: -9999px; left: -9999px; }
-            .price-table tr { border: 1px solid #ccc; margin-bottom: 10px; }
-            .price-table td { border: none; border-bottom: 1px solid #eee; position: relative; padding-left: 50%; text-align: right; min-height: 30px;}
-            .price-table td:before {
-                content: attr(data-label); position: absolute; left: 10px; width: 45%; padding-right: 10px;
-                white-space: nowrap; text-align: left; font-weight: bold;
-            }
-        }
+        :root{--primary-blue:#007bff;--text-color:#333;--background-color:#fff;--container-bg:#2570b8}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background-color:var(--container-bg);color:var(--text-color);margin:0;padding:0;display:flex;justify-content:center;font-size:18px;line-height:1.6}.container{background-color:var(--background-color);width:960px;margin:20px;padding:0 20px 20px;box-shadow:0 0 15px rgba(0,0,0,.2)}header{padding:20px 0;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background-color:var(--background-color);z-index:100;border-bottom:1px solid #eee;box-shadow:0 2px 5px rgba(0,0,0,.05)}header h1{margin:0;font-size:28px}header h1 a{text-decoration:none;color:var(--text-color)}nav a{margin-left:15px;text-decoration:none;color:var(--primary-blue);font-weight:700;cursor:pointer}nav a:hover{text-decoration:underline}.info-box{border:1px solid #ccc;padding:15px;margin-bottom:20px;background-color:#f9f9f9}.info-box p{margin:5px 0}.gallery{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}.gallery img{flex:1 1 200px;max-width:23.5%;height:auto;object-fit:cover;cursor:pointer;transition:transform .2s ease-in-out,box-shadow .2s;display:block}.gallery img:hover{transform:scale(1.05);box-shadow:0 4px 8px rgba(0,0,0,.2)}.map-container{margin:20px 0}.map-container h3{margin-top:0}.map-embed{width:100%;height:450px;border:0}.price-table{width:100%;border-collapse:collapse;margin:20px 0}.price-table th,.price-table td{border:1px solid #ccc;padding:10px;text-align:left}.price-table th{background-color:#f2f2f2}.socials{text-align:center;margin:20px 0}footer{text-align:center;margin-top:20px;padding-top:10px;border-top:1px solid #ccc;font-size:14px;line-height:1.8}footer a{margin:0 5px}.bold{font-weight:700}.text-center{text-align:center}.text-right{text-align:right}.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:hidden;background-color:rgba(0,0,0,.9)}.modal-content-wrapper{position:relative;height:100%;width:100%;display:flex;align-items:center;justify-content:center;overflow:auto}.modal-content{margin:auto;display:block;max-width:90%;max-height:90%;transition:transform .3s ease-in-out;cursor:zoom-in}.modal-content.zoom-1{transform:scale(1.5);cursor:zoom-in}.modal-content.zoom-2{transform:scale(2.5);cursor:zoom-out}.close{position:absolute;top:15px;right:35px;color:#f1f1f1;font-size:40px;font-weight:700;transition:.3s;cursor:pointer;z-index:1001}.close:hover,.close:focus{color:#bbb}.prev,.next{cursor:pointer;position:absolute;top:50%;width:auto;padding:16px;margin-top:-50px;color:#fff;font-weight:700;font-size:30px;transition:.6s ease;border-radius:0 3px 3px 0;user-select:none;-webkit-user-select:none;z-index:1001}.next{right:0;border-radius:3px 0 0 3px}.prev{left:0}.prev:hover,.next:hover{background-color:rgba(0,0,0,.8)}#admin-toolbar{display:none;position:fixed;top:0;left:0;width:100%;background:#2c3e50;color:#fff;padding:10px;z-index:9999;box-shadow:0 2px 5px rgba(0,0,0,.3);text-align:center}#admin-toolbar button{background:#3498db;color:#fff;border:none;padding:8px 15px;cursor:pointer;border-radius:3px;margin:0 10px;font-size:16px}#admin-toolbar button:hover{background:#2980b9}#admin-toolbar button#logout-btn{background:#e74c3c}#admin-toolbar button#logout-btn:hover{background:#c0392b}.editable-text[contenteditable=true]{outline:2px dashed #3498db}#login-modal{display:none;position:fixed;z-index:10001;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.6)}#login-modal form{background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;max-width:400px;text-align:center;border-radius:5px}#login-modal input{width:90%;padding:12px 20px;margin:8px 0;display:inline-block;border:1px solid #ccc;box-sizing:border-box}#login-modal button{background-color:#4caf50;color:#fff;padding:14px 20px;margin:8px 0;border:none;cursor:pointer;width:90%}
+        /* --- NOVÉ STYLY PRO ADMINA --- */
+        .delete-mode .editable-text{outline:2px dashed red;cursor:crosshair}.delete-mode .editable-text:hover{background-color:#ff000020}#price-editor-buttons{display:none;margin-bottom:10px;gap:10px}body.admin-mode #price-editor-buttons{display:flex}.delete-row-btn{display:none;background:red;color:white;border:none;cursor:pointer;border-radius:50%;width:25px;height:25px;margin-left:10px}body.admin-mode .delete-row-btn{display:inline-block}
+        /* --- Konec nových stylů --- */
+        @media screen and (max-width:768px){body{font-size:16px}.container{width:100%;margin:0;padding:0 10px 10px;box-shadow:none}header{flex-direction:column;align-items:flex-start;position:static;box-shadow:none;padding:15px 0}header h1{margin-bottom:10px;font-size:24px}nav{display:flex;justify-content:space-around;width:100%}nav a{margin:5px 0;font-size:14px}.gallery img{max-width:48%;flex-basis:48%}.price-table,.price-table thead,.price-table tbody,.price-table th,.price-table td,.price-table tr{display:block}.price-table thead tr{position:absolute;top:-9999px;left:-9999px}.price-table tr{border:1px solid #ccc;margin-bottom:10px}.price-table td{border:none;border-bottom:1px solid #eee;position:relative;padding-left:50%;text-align:right;min-height:30px}.price-table td:before{content:attr(data-label);position:absolute;left:10px;width:45%;padding-right:10px;white-space:nowrap;text-align:left;font-weight:700}}
     </style>
 </head>
 <body>
     <div id="admin-toolbar">
-        <span>🔑 Admin Mode is Active</span>
-        <button onclick="logout()">Logout</button>
+        <span>Režim úprav</span>
+        <!-- NOVÉ ADMIN TLAČÍTKA -->
+        <button onclick="addTextBox()">+ Přidat text</button>
+        <button id="delete-mode-btn" onclick="toggleDeleteMode()">Smazat text</button>
+        <button id="logout-btn" onclick="logout()">Odhlásit se</button>
     </div>
     <div id="login-modal">
         <form onsubmit="handleLogin(event)">
             <h2>Admin Login</h2>
             <input type="email" id="email" value="admin@e-o-p.cz" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-            <p style="font-size: 12px; color: #777;">Press Esc to close</p>
+            <input type="password" id="password" placeholder="Heslo" required>
+            <button type="submit">Přihlásit se</button>
+            <p style="font-size: 12px; color: #777;">Pro zavření stiskněte Esc</p>
         </form>
     </div>
 
@@ -221,70 +49,62 @@
             </nav>
         </header>
 
-        <main>
+        <main id="main-content">
             <div id="lang-cs">
-                <div class="info-box editable-text" data-field="cs-info-box"><p>Chatová osada v Českém ráji, Prachov 58, provozovatel: Ing. Petr Hejna</p><p>IČO: 66314364</p><p>Provozní doba: červenec-srpen (jen po dohodě s klientem)</p><p>č.ú.: 19-6866210217/0100</p><p>tel.: <span class="bold">606 930 170 (nejlépe večer)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>staré stránky na: eo-prachov.cz</p></div>
-                <p class="editable-text" data-field="cs-intro">Jedná se o sedm 3-lůžkových chatek vhodných pro rodiče s dětmi. Přistýlka pro čtvrtou osobu (dítě) ve formě propojení dvou lůžek je možná.</p>
+                <div class="info-box editable-text" data-field="cs-info-box"></div>
+                <p class="editable-text" data-field="cs-intro"></p>
                 <div class="gallery">
                     <img src="obrazky/1.png" alt="Chatka zvenku" onclick="openModal(this)"><img src="obrazky/2.png" alt="Interiér chatky" onclick="openModal(this)"><img src="obrazky/3.png" alt="Interiér chatky" onclick="openModal(this)"><img src="obrazky/4.png" alt="Postel v chatce" onclick="openModal(this)">
                 </div>
                 <div class="map-container">
-                    <h3 class="editable-text" data-field="cs-map-header">Kde nás najdete?</h3>
+                    <h3 class="editable-text" data-field="cs-map-header"></h3>
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    <div class="editable-text" data-field="cs-map-text"><p>Chatová osada se nachází na slunné stráni 6km severozápadně od Jičína, v samém centru Prachovských skal.</p><p>GPS souřadnice: Loc: 50°27'52.835"N, 15°18'23.299"E</p><p>Z hlavní silnice sjet do do cesty označené zákazem vjezdu, který pro ubytováné neplatí. Po 50m je vjezd.</p></div>
+                    <div class="editable-text" data-field="cs-map-text"></div>
                 </div>
-                <p class="editable-text" data-field="cs-socials-intro">Chatová dědinka je vybavena novým sociálním zařízením se sprchami.</p>
+                <p class="editable-text" data-field="cs-socials-intro"></p>
                 <div class="gallery">
                     <img src="obrazky/5.png" alt="Exteriér" onclick="openModal(this)"><img src="obrazky/6.png" alt="Sociální zařízení" onclick="openModal(this)"><img src="obrazky/7.png" alt="Sociální zařízení" onclick="openModal(this)">
                 </div>
-                <p class="editable-text" data-field="cs-kitchen-intro">V chatové dědince je společná kuchyňka (lednice, dvouplotnový vařič, varná konvice, nádobí, teplá/studená voda).</p>
+                <p class="editable-text" data-field="cs-kitchen-intro"></p>
                 <div class="gallery">
                     <img src="obrazky/8.png" alt="Kuchyňka" onclick="openModal(this)"><img src="obrazky/9.png" alt="Kuchyňka interiér" onclick="openModal(this)"><img src="obrazky/10.png" alt="Kuchyňka interiér" onclick="openModal(this)"><img src="obrazky/11.png" alt="Okolí" onclick="openModal(this)">
                 </div>
-                <div class="text-center editable-text" data-field="cs-video-link"><a href="https://www.youtube.com/watch?v=XWXlBmBIE80" target="_blank">Letecký pohled do EOP</a></div>
-                <div class="editable-text" data-field="cs-activities"><h3>Co poskytuje dovolená v Chatové dědince v Českém ráji?</h3><ul><li><span class="bold">pěší turistiku</span> Prachovskými skalami v Českém ráji s krásnými vyhlídkami</li><li><span class="bold">cyklistiku</span> po vyznačených cyklotrasách Českým rájem</li><li><span class="bold">horolezectví</span> v Prachovských skalách a dalších skalních městech, i na "indoor" umělých stěnách</li><li><span class="bold">plavání a koupání</span> v koupališti u Pelíška ve středu Prachovských skal, ve známých Jinolických rybníkách či Aqua-centru v Jičíně, a dalších lokalitách (rybníky v Podtroseckých údolích)</li><li><span class="bold">návštěvy a prohlídky</span> četných zámků (Humprecht, Malá skála, Hrubá skála, Valdštein, ...), hradů (Kost, Staré hrady, ...) a zřícenin (Trosky, Valečov....) v celém Českém ráji, míst bitvy u Jičína 1866</li><li><span class="bold">prohlídky pohádkového města Jičína</span> s krásnou vyhlídkou z Valdštejnské brány po celém kraji i prohlídku zámku Smiřických na náměstí v Jičíně, a také Valdštejnem založenou dvou-kilometrovou lipovou alejí zakončenou Valdštejnskou lodí, druhý týden v září každý rok akce "Jičín-město pohádky"</li><li><span class="bold">vyhlídkové lety</span> nad Českým rájem z nedalekého letiště</li><li><span class="bold">návštěvu festivalu</span> Šrámkova Sobotka (v červenci)</li><li><span class="bold">jízdu na koni</span> pro malé děti</li><li><span class="bold">klidný pobyt</span> doma v chatové dědince s ohřátím a úpravou svého jídla v kuchyňce.</li></ul></div>
-                <h3 class="text-center editable-text" data-field="cs-price-header">Ceník</h3>
-                <div class="editable-text" data-field="cs-price-table"><table class="price-table"><thead><tr><th>Služba</th><th>Cena</th></tr></thead><tbody><tr><td data-label="Služba">chata (3 osoby)/noc - 2-týdenní a více pobyt (bez lůžkovin, prostěradlo v ceně)</td><td data-label="Cena">450 Kč</td></tr><tr><td data-label="Služba">chata (3 osoby)/noc - 1-týdenní a více pobyt (bez lůžkovin, prostěradlo v ceně)</td><td data-label="Cena">600,-Kč</td></tr><tr><td data-label="Služba">chata (3 osoby)/noc - méně než týdenní pobyt (bez lůžkovin, prostěradlo v ceně)</td><td data-label="Cena">700,-Kč</td></tr><tr><td data-label="Služba">chata (3 osoby)/noc - 2 noci (bez lůžkovin, prostěradlo v ceně)</td><td data-label="Cena">900 Kč</td></tr><tr><td data-label="Služba">s lůžkovinama: lůžkoviny/lůžko/noc</td><td data-label="Cena">200,- Kč</td></tr><tr><td data-label="Služba">Čtvrtá osoba v chatce</td><td data-label="Cena">0-100 Kč/1x noc</td></tr><tr><td data-label="Služba">Sprcha</td><td data-label="Cena">50 Kč/1x použití</td></tr><tr><td data-label="Služba">Parkování</td><td data-label="Cena">zdarma</td></tr><tr><td data-label="Služba">Domácí zvíře</td><td data-label="Cena">zdarma</td></tr></tbody></table></div>
-                <div class="socials editable-text" data-field="cs-facebook-link"><a href="https://www.facebook.com/petr.hejna.3762" target="_blank" rel="noopener noreferrer">https://www.facebook.com/petr.hejna.3762</a></div>
+                <div class="text-center editable-text" data-field="cs-video-link"></div>
+                <div class="editable-text" data-field="cs-activities"></div>
+                <h3 class="text-center editable-text" data-field="cs-price-header"></h3>
+                <!-- NOVÁ TLAČÍTKA PRO SPRÁVU CENÍKU -->
+                <div id="price-editor-buttons">
+                    <button onclick="addPriceRow()">+ Přidat řádek do ceníku</button>
+                </div>
+                <div class="editable-text" data-field="cs-price-table"></div>
+                <div class="socials editable-text" data-field="cs-facebook-link"></div>
             </div>
             <div id="lang-en" style="display:none;">
-                <div class="info-box editable-text" data-field="en-info-box"><p>Cottage settlement in Bohemian Paradise, Prachov 58, operator: Ing. Petr Hejna</p><p>ID: 66314364</p><p>Opening hours: July-August (by appointment only)</p><p>Bank account: 19-6866210217/0100</p><p>tel.: <span class="bold">+420 606 930 170 (preferably in the evening)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>old website: eo-prachov.cz</p></div>
-                <p class="editable-text" data-field="en-intro">There are seven 3-bed cottages suitable for families with children. An extra bed for a fourth person (child) by connecting two beds is possible.</p>
-                <div class="gallery">
-                    <img src="obrazky/1.png" alt="Cottage exterior" onclick="openModal(this)"><img src="obrazky/2.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/3.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/4.png" alt="Bed in cottage" onclick="openModal(this)">
-                </div>
+                <div class="info-box editable-text" data-field="en-info-box"></div>
+                <p class="editable-text" data-field="en-intro"></p>
+                <div class="gallery"><img src="obrazky/1.png" alt="Cottage exterior" onclick="openModal(this)"><img src="obrazky/2.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/3.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/4.png" alt="Bed in cottage" onclick="openModal(this)"></div>
                 <div class="map-container">
-                    <h3 class="editable-text" data-field="en-map-header">Where to find us?</h3>
+                    <h3 class="editable-text" data-field="en-map-header"></h3>
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    <div class="editable-text" data-field="en-map-text"><p>The cottage settlement is located on a sunny slope 6km northwest of Jičín, in the very center of the Prachov Rocks.</p><p>GPS coordinates: Loc: 50°27'52.835"N, 15°18'23.299"E</p><p>From the main road, turn into the settlement, marked with a no-entry sign, which does not apply to guests. The entrance is 50m away.</p></div>
+                    <div class="editable-text" data-field="en-map-text"></div>
                 </div>
-                <p class="editable-text" data-field="en-socials-intro">The cottage village is equipped with new sanitary facilities with showers.</p>
-                <div class="gallery">
-                    <img src="obrazky/5.png" alt="Exterior" onclick="openModal(this)"><img src="obrazky/6.png" alt="Sanitary facilities" onclick="openModal(this)"><img src="obrazky/7.png" alt="Sanitary facilities" onclick="openModal(this)">
-                </div>
-                <p class="editable-text" data-field="en-kitchen-intro">In the cottage village, there is a shared kitchen (refrigerator, double hotplate, electric kettle, dishes, hot/cold water).</p>
-                <div class="gallery">
-                    <img src="obrazky/8.png" alt="Kitchen" onclick="openModal(this)"><img src="obrazky/9.png" alt="Kitchen interior" onclick="openModal(this)"><img src="obrazky/10.png" alt="Kitchen interior" onclick="openModal(this)"><img src="obrazky/11.png" alt="Surroundings" onclick="openModal(this)">
-                </div>
-                <div class="text-center editable-text" data-field="en-video-link"><a href="https://www.youtube.com/watch?v=XWXlBmBIE80" target="_blank" rel="noopener noreferrer">Aerial view of EOP</a></div>
-                <div class="editable-text" data-field="en-activities"><h3>What does a holiday in the Cottage Village in Bohemian Paradise offer?</h3><ul><li><span class="bold">hiking</span> through the Prachov Rocks in the Bohemian Paradise with beautiful views</li><li><span class="bold">cycling</span> on marked cycle paths in the Bohemian Paradise</li><li><span class="bold">rock climbing</span> in the Prachov Rocks and other rock towns, and on "indoor" artificial walls</li><li><span class="bold">swimming</span> at the Pelíšek swimming pool in the middle of the Prachov Rocks, in the famous Jinolice Ponds or the Aqua-center in Jičín, and other locations (ponds in the Podtrosecká valleys)</li><li><span class="bold">visits and tours</span> of numerous castles (Humprecht, Malá skála, Hrubá skála, Valdštejn, ...), forts (Kost, Staré hrady, ...) and ruins (Trosky, Valečov....) throughout the Bohemian Paradise, sites of the Battle of Jičín 1866</li><li><span class="bold">tours of the fairy-tale town of Jičín</span> with a beautiful view from the Wallenstein Gate over the entire region and a tour of the Smiřický Chateau on the square in Jičín, as well as the two-kilometer linden alley founded by Wallenstein ending with the Wallenstein Loggia, every year in the second week of September the "Jičín - the city of fairy tales" event</li><li><span class="bold">sightseeing flights</span> over the Bohemian Paradise from a nearby airport</li><li><span class="bold">visiting the Šrámkova Sobotka festival</span> (in July)</li><li><span class="bold">horse riding</span> for young children</li><li><span class="bold">a quiet stay</span> at home in the cottage village with heating and preparing your own food in the kitchen.</li></ul></div>
-                <h3 class="text-center editable-text" data-field="en-price-header">Price List</h3>
-                <div class="editable-text" data-field="en-price-table"><table class="price-table"><thead><tr><th>Service</th><th>Price</th></tr></thead><tbody><tr><td data-label="Service">cottage (3 persons)/night - 2-week stay or longer (without bed linen, sheet included)</td><td data-label="Price">450 CZK</td></tr><tr><td data-label="Service">cottage (3 persons)/night - 1-week stay or longer (without bed linen, sheet included)</td><td data-label="Price">600 CZK</td></tr><tr><td data-label="Service">cottage (3 persons)/night - less than a week stay (without bed linen, sheet included)</td><td data-label="Price">700 CZK</td></tr><tr><td data-label="Service">cottage (3 persons)/night - 2 nights (without bed linen, sheet included)</td><td data-label="Price">900 CZK</td></tr><tr><td data-label="Service">with bed linen: bed linen/bed/night</td><td data-label="Price">200 CZK</td></tr><tr><td data-label="Service">Fourth person in the cottage</td><td data-label="Price">0-100 CZK/1x night</td></tr><tr><td data-label="Service">Shower</td><td data-label="Price">50 CZK/1x use</td></tr><tr><td data-label="Service">Parking</td><td data-label="Price">free</td></tr><tr><td data-label="Service">Pet</td><td data-label="Price">free</td></tr></tbody></table></div>
-                <div class="socials editable-text" data-field="en-facebook-link"><a href="https://www.facebook.com/petr.hejna.3762" target="_blank" rel="noopener noreferrer">https://www.facebook.com/petr.hejna.3762</a></div>
+                <p class="editable-text" data-field="en-socials-intro"></p>
+                <div class="gallery"><img src="obrazky/5.png" alt="Exterior" onclick="openModal(this)"><img src="obrazky/6.png" alt="Sanitary facilities" onclick="openModal(this)"><img src="obrazky/7.png" alt="Sanitary facilities" onclick="openModal(this)"></div>
+                <p class="editable-text" data-field="en-kitchen-intro"></p>
+                <div class="gallery"><img src="obrazky/8.png" alt="Kitchen" onclick="openModal(this)"><img src="obrazky/9.png" alt="Kitchen interior" onclick="openModal(this)"><img src="obrazky/10.png" alt="Kitchen interior" onclick="openModal(this)"><img src="obrazky/11.png" alt="Surroundings" onclick="openModal(this)"></div>
+                <div class="text-center editable-text" data-field="en-video-link"></div>
+                <div class="editable-text" data-field="en-activities"></div>
+                <h3 class="text-center editable-text" data-field="en-price-header"></h3>
+                <div class="editable-text" data-field="en-price-table"></div>
+                <div class="socials editable-text" data-field="en-facebook-link"></div>
             </div>
         </main>
         
         <footer id="footer-cs">
-            Spolupráce: 
-            <a href="https://www.e-chalupy.cz/" target="_blank" rel="noopener noreferrer">e-chalupy.cz</a> 
-            <a href="https://www.levneubytovani.net/" target="_blank" rel="noopener noreferrer">LevneUbytovani.net</a> 
-            <a href="https://chalupy-ubytovani.cz/" target="_blank" rel="noopener noreferrer">chalupy-ubytovani.cz</a>
+            Spolupráce: <a href="https://www.e-chalupy.cz/" target="_blank" rel="noopener noreferrer">e-chalupy.cz</a> <a href="https://www.levneubytovani.net/" target="_blank" rel="noopener noreferrer">LevneUbytovani.net</a> <a href="https://chalupy-ubytovani.cz/" target="_blank" rel="noopener noreferrer">chalupy-ubytovani.cz</a>
         </footer>
         <footer id="footer-en" style="display:none;">
-            In cooperation with: 
-            <a href="https://www.e-chalupy.cz/" target="_blank" rel="noopener noreferrer">e-chalupy.cz</a> 
-            <a href="https://www.levneubytovani.net/" target="_blank" rel="noopener noreferrer">LevneUbytovani.net</a> 
-            <a href="https://chalupy-ubytovani.cz/" target="_blank" rel="noopener noreferrer">chalupy-ubytovani.cz</a>
+            In cooperation with: <a href="https://www.e-chalupy.cz/" target="_blank" rel="noopener noreferrer">e-chalupy.cz</a> <a href="https://www.levneubytovani.net/" target="_blank" rel="noopener noreferrer">LevneUbytovani.net</a> <a href="https://chalupy-ubytovani.cz/" target="_blank" rel="noopener noreferrer">chalupy-ubytovani.cz</a>
         </footer>
     </div>
 
@@ -297,7 +117,6 @@
         </div>
     </div>
 
-    <!-- *** CORRECTED FIREBASE SCRIPTS *** -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
@@ -398,7 +217,6 @@
             isAdmin = !!user;
             if (isAdmin) {
                 enableAdminMode();
-                runInitialSetup(); 
             } else {
                 disableAdminMode();
             }
@@ -412,7 +230,7 @@
                 await auth.signInWithEmailAndPassword(email, password);
                 loginModal.style.display = 'none';
             } catch (error) {
-                alert('Login failed: ' + error.message);
+                alert('Přihlášení selhalo: ' + error.message);
             }
         }
 
@@ -422,27 +240,38 @@
         }
 
         function enableAdminMode() {
+            document.body.classList.add('admin-mode');
             document.getElementById('admin-toolbar').style.display = 'block';
             document.querySelectorAll('.editable-text').forEach(el => {
                 el.contentEditable = true;
-                el.addEventListener('blur', (e) => saveText(e.target));
+                el.addEventListener('blur', () => saveText(el));
+            });
+            // Make delete buttons in price table visible and add click listeners
+            document.querySelectorAll('.delete-row-btn').forEach(btn => {
+                btn.onclick = () => deletePriceRow(btn);
             });
         }
 
         function disableAdminMode() {
+            document.body.classList.remove('admin-mode');
+            document.body.classList.remove('delete-mode');
             document.getElementById('admin-toolbar').style.display = 'none';
-            document.querySelectorAll('.editable-text').forEach(el => el.contentEditable = false);
+            document.querySelectorAll('.editable-text').forEach(el => {
+                el.contentEditable = false;
+                el.removeEventListener('blur', () => saveText(el));
+            });
         }
         
         async function saveText(element) {
             const fieldId = element.dataset.field;
+            if (!fieldId) return; // Don't save if there's no data-field
             const content = element.innerHTML;
             const docId = fieldId.startsWith('cs-') ? 'cs' : 'en';
             try {
                 await db.collection('content').doc(docId).set({ [fieldId]: content }, { merge: true });
             } catch (error) {
-                console.error("Error saving text:", error);
-                alert("Could not save changes. Please check your connection and try again.");
+                console.error("Chyba při ukládání:", error);
+                alert("Nepodařilo se uložit změny. Zkontrolujte připojení.");
             }
         }
 
@@ -452,44 +281,104 @@
                     const doc = await db.collection('content').doc(lang).get();
                     if (doc.exists) {
                         const data = doc.data();
-                        document.querySelectorAll(`[data-field]`).forEach(el => {
-                            if(el.dataset.field.startsWith(lang)) {
-                                if (data[el.dataset.field]) el.innerHTML = data[el.dataset.field];
+                        Object.keys(data).forEach(fieldId => {
+                            const element = document.querySelector(`[data-field="${fieldId}"]`);
+                            if (element) {
+                                element.innerHTML = data[fieldId];
                             }
                         });
                     }
                 } catch (error) {
-                    console.error("Error loading content for " + lang + ":", error);
+                    console.error("Chyba při načítání obsahu pro " + lang + ":", error);
                 }
             };
             await Promise.all([loadDataForLang('cs'), loadDataForLang('en')]);
         }
         
-        async function runInitialSetup() {
-            const setupFlagRef = db.collection('internal').doc('setup');
-            const setupDoc = await setupFlagRef.get();
-            if (setupDoc.exists && setupDoc.data().completed) {
-                return;
-            }
+        // --- NOVÉ FUNKCE PRO SPRÁVU OBSAHU ---
+
+        function addTextBox() {
+            const lang = document.documentElement.lang;
+            const newId = `${lang}-custom-${Date.now()}`;
+            const newTextBox = document.createElement('p');
+            newTextBox.classList.add('editable-text');
+            newTextBox.dataset.field = newId;
+            newTextBox.textContent = 'Nový textový blok. Klikněte pro úpravu.';
             
-            const allContent = {};
-            document.querySelectorAll('.editable-text').forEach(el => {
-                const fieldId = el.dataset.field;
-                const content = el.innerHTML;
-                const lang = fieldId.startsWith('cs-') ? 'cs' : 'en';
-                if (!allContent[lang]) allContent[lang] = {};
-                allContent[lang][fieldId] = content;
-            });
-            try {
-                if(allContent['cs']) await db.collection('content').doc('cs').set(allContent['cs'], {merge: true});
-                if(allContent['en']) await db.collection('content').doc('en').set(allContent['en'], {merge: true});
-                await setupFlagRef.set({ completed: true });
-                alert("Initial content saved to database successfully!");
-            } catch(error) {
-                console.error("Initial setup failed:", error);
-                alert("The initial setup failed. Please check the console for errors.");
+            const mainContent = document.getElementById(`lang-${lang}`);
+            mainContent.appendChild(newTextBox);
+
+            // Immediately enable editing for the new box
+            if(isAdmin) {
+                newTextBox.contentEditable = true;
+                newTextBox.addEventListener('blur', () => saveText(newTextBox));
+                newTextBox.focus();
             }
         }
+
+        function toggleDeleteMode() {
+            const body = document.body;
+            body.classList.toggle('delete-mode');
+            const btn = document.getElementById('delete-mode-btn');
+            if (body.classList.contains('delete-mode')) {
+                btn.textContent = 'Ukončit mazání';
+                btn.style.background = 'orange';
+            } else {
+                btn.textContent = 'Smazat text';
+                btn.style.background = '#3498db';
+            }
+        }
+        
+        document.getElementById('main-content').addEventListener('click', async function(event) {
+            if (!document.body.classList.contains('delete-mode')) return;
+            
+            const element = event.target.closest('.editable-text');
+            if (element) {
+                event.preventDefault(); // Prevent editing
+                event.stopPropagation(); // Stop bubbling
+                
+                if (confirm('Opravdu chcete smazat tento blok?')) {
+                    const fieldId = element.dataset.field;
+                    const docId = fieldId.startsWith('cs-') ? 'cs' : 'en';
+
+                    // Delete from Firestore
+                    try {
+                        const fieldToDelete = {};
+                        fieldToDelete[fieldId] = firebase.firestore.FieldValue.delete();
+                        await db.collection('content').doc(docId).update(fieldToDelete);
+                        
+                        // Delete from page
+                        element.remove();
+                    } catch (error) {
+                        console.error("Chyba při mazání:", error);
+                        alert("Blok se nepodařilo smazat z databáze.");
+                    }
+                }
+            }
+        });
+
+        function addPriceRow() {
+            const tableBody = document.querySelector('.price-table tbody');
+            if (!tableBody) return;
+            const newRow = tableBody.insertRow();
+            newRow.innerHTML = `
+                <td data-label="Služba">Nová služba</td>
+                <td data-label="Cena">0 Kč<button class="delete-row-btn" onclick="deletePriceRow(this)">X</button></td>
+            `;
+             // The whole table will be saved on blur of the parent div
+        }
+
+        function deletePriceRow(button) {
+            if (confirm('Opravdu chcete smazat tento řádek?')) {
+                const row = button.closest('tr');
+                const tableContainer = row.closest('[data-field]');
+                row.remove();
+                // Trigger save for the whole table
+                saveText(tableContainer);
+            }
+        }
+        
+        // --- Konec nových funkcí ---
 
         document.addEventListener('keydown', (event) => {
             if (event.ctrlKey && event.key === 'l') {
@@ -511,8 +400,6 @@
             const urlParams = new URLSearchParams(window.location.search);
             const lang = urlParams.get('lang') || 'cs';
             setLanguage(lang);
-            // We now load content after the initial HTML is shown.
-            // If the database is empty, the hardcoded text remains visible.
             await loadContent();
         });
     </script>
