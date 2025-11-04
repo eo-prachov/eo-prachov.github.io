@@ -59,7 +59,7 @@
             In cooperation with: <a href="https://www.e-chalupy.cz/" target="_blank" rel="noopener noreferrer">e-chalupy.cz</a> <a href="https://www.levneubytovani.net/" target="_blank" rel="noopener noreferrer">LevneUbytovani.net</a> <a href="https://chalupy-ubytovani.cz/" target="_blank" rel="noopener noreferrer">chalupy-ubytovani.cz</a>
         </footer>
     </div>
-
+    
     <div id="myModal" class="modal">
         <span class="close" onclick="closeModal()">&times;</span>
         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -104,10 +104,7 @@
             const cachedData = localStorage.getItem(`cachedContent-${lang}`);
             const cacheTimestamp = localStorage.getItem(`cacheTimestamp-${lang}`);
             const isCacheFresh = cacheTimestamp && (new Date() - new Date(cacheTimestamp)) < 10 * 60 * 1000;
-            if (isCacheFresh && cachedData) {
-                const data = JSON.parse(cachedData);
-                Object.keys(data).forEach(fieldId => { const element = document.querySelector(`[data-field="${fieldId}"]`); if (element) element.innerHTML = data[fieldId]; });
-            }
+            if (isCacheFresh && cachedData) { const data = JSON.parse(cachedData); Object.keys(data).forEach(fieldId => { const element = document.querySelector(`[data-field="${fieldId}"]`); if (element) element.innerHTML = data[fieldId]; }); return; }
             try { const doc = await db.collection('content').doc(lang).get(); if (doc.exists) { const data = doc.data(); localStorage.setItem(`cachedContent-${lang}`, JSON.stringify(data)); localStorage.setItem(`cacheTimestamp-${lang}`, new Date().toISOString()); Object.keys(data).forEach(fieldId => { const element = document.querySelector(`[data-field="${fieldId}"]`); if (element) element.innerHTML = data[fieldId]; }); } } catch (error) { console.error("Chyba při načítání obsahu: " + error); }
         }
         function addTextBox() { const lang = document.documentElement.lang; const newId = `${lang}-custom-${Date.now()}`; const newTextBox = document.createElement('p'); newTextBox.classList.add('editable-text'); newTextBox.dataset.field = newId; newTextBox.textContent = 'Nový textový blok. Klikněte pro úpravu.'; const mainContent = document.getElementById(`lang-${lang}`); mainContent.appendChild(newTextBox); if(isAdmin) { newTextBox.contentEditable = true; newTextBox.focus(); } }
