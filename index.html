@@ -138,14 +138,60 @@
         function enableAdminMode() { document.body.classList.add('admin-mode'); document.getElementById('admin-toolbar').style.display = 'block'; document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = true; }); document.querySelectorAll('.delete-row-btn').forEach(btn => { btn.onclick = () => deletePriceRow(btn); }); }
         function disableAdminMode() { document.body.classList.remove('admin-mode'); document.body.classList.remove('delete-mode'); document.getElementById('admin-toolbar').style.display = 'none'; document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = false; }); }
         async function saveAllChanges() { const promises = []; document.querySelectorAll('.editable-text').forEach(element => { const fieldId = element.dataset.field; if (!fieldId) return; const content = element.innerHTML; const docId = fieldId.startsWith('cs-') ? 'cs' : 'en'; const promise = db.collection('content').doc(docId).set({ [fieldId]: content }, { merge: true }); promises.push(promise); }); try { await Promise.all(promises); localStorage.removeItem('cachedContent-cs'); localStorage.removeItem('cacheTimestamp-cs'); localStorage.removeItem('cachedContent-en'); localStorage.removeItem('cacheTimestamp-en'); alert('Všechny změny byly úspěšně uloženy! ♡'); } catch (error) { console.error("Chyba při ukládání:", error); alert("Během ukládání nastala chyba."); } }
+        
+        // --- ZDE JE OPRAVENÝ KÓD ---
         async function loadContent() {
             const lang = document.documentElement.lang;
+            const mainContentContainer = document.getElementById(`lang-${lang}`);
+
+            // Funkce pro zpracování a zobrazení dat
+            const processData = (data) => {
+                Object.keys(data).forEach(fieldId => {
+                    let element = document.querySelector(`[data-field="${fieldId}"]`);
+                    
+                    // Pokud element neexistuje a je to dynamicky přidaný blok
+                    if (!element && fieldId.includes('-custom-')) {
+                        element = document.createElement('p');
+                        element.classList.add('editable-text');
+                        element.dataset.field = fieldId;
+                        mainContentContainer.appendChild(element); // Přidáme ho na konec hlavního obsahu
+                        
+                        // Pokud je uživatel přihlášen jako admin, zapneme editaci
+                        if (isAdmin) {
+                            element.contentEditable = true;
+                        }
+                    }
+                    
+                    // Pokud element existuje (ať už původní, nebo nově vytvořený), naplníme ho obsahem
+                    if (element) {
+                        element.innerHTML = data[fieldId];
+                    }
+                });
+            };
+
             const cachedData = localStorage.getItem(`cachedContent-${lang}`);
             const cacheTimestamp = localStorage.getItem(`cacheTimestamp-${lang}`);
             const isCacheFresh = cacheTimestamp && (new Date() - new Date(cacheTimestamp)) < 10 * 60 * 1000;
-            if (isCacheFresh && cachedData) { const data = JSON.parse(cachedData); Object.keys(data).forEach(fieldId => { const element = document.querySelector(`[data-field="${fieldId}"]`); if (element) element.innerHTML = data[fieldId]; }); return; }
-            try { const doc = await db.collection('content').doc(lang).get(); if (doc.exists) { const data = doc.data(); localStorage.setItem(`cachedContent-${lang}`, JSON.stringify(data)); localStorage.setItem(`cacheTimestamp-${lang}`, new Date().toISOString()); Object.keys(data).forEach(fieldId => { const element = document.querySelector(`[data-field="${fieldId}"]`); if (element) element.innerHTML = data[fieldId]; }); } } catch (error) { console.error("Chyba při načítání obsahu: " + error); }
+
+            if (isCacheFresh && cachedData) {
+                const data = JSON.parse(cachedData);
+                processData(data);
+                return;
+            }
+
+            try {
+                const doc = await db.collection('content').doc(lang).get();
+                if (doc.exists) {
+                    const data = doc.data();
+                    localStorage.setItem(`cachedContent-${lang}`, JSON.stringify(data));
+                    localStorage.setItem(`cacheTimestamp-${lang}`, new Date().toISOString());
+                    processData(data);
+                }
+            } catch (error) {
+                console.error("Chyba při načítání obsahu: " + error);
+            }
         }
+
         function addTextBox() { const lang = document.documentElement.lang; const newId = `${lang}-custom-${Date.now()}`; const newTextBox = document.createElement('p'); newTextBox.classList.add('editable-text'); newTextBox.dataset.field = newId; newTextBox.textContent = 'Nový textový blok. Klikněte pro úpravu.'; const mainContent = document.getElementById(`lang-${lang}`); mainContent.appendChild(newTextBox); if(isAdmin) { newTextBox.contentEditable = true; newTextBox.focus(); } }
         function toggleDeleteMode() { const body = document.body; body.classList.toggle('delete-mode'); const btn = document.getElementById('delete-mode-btn'); if (body.classList.contains('delete-mode')) { btn.textContent = 'Ukončit mazání'; btn.style.background = 'orange'; } else { btn.textContent = 'Smazat text'; btn.style.background = '#3498db'; } }
         document.getElementById('main-content').addEventListener('click', async function(event) { if (!document.body.classList.contains('delete-mode')) return; const element = event.target.closest('.editable-text'); if (element) { event.preventDefault(); event.stopPropagation(); if (confirm('Opravdu chcete smazat tento blok?')) { const fieldId = element.dataset.field; const docId = fieldId.startsWith('cs-') ? 'cs' : 'en'; try { const fieldToDelete = {}; fieldToDelete[fieldId] = firebase.firestore.FieldValue.delete(); await db.collection('content').doc(docId).update(fieldToDelete); element.remove(); } catch (error) { console.error("Chyba při mazání:", error); alert("Blok se nepodařilo smazat z databáze."); } } } });
