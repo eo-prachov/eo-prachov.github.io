@@ -123,6 +123,7 @@
         let currentImageIndex, currentGalleryImages, isAdmin = false;
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Ubytování Chaty Eko-Oáza Prachov | Dovolená v Českém ráji", description: "Nabízíme levné ubytování v chatkách pro rodiny s dětmi v srdci Českého ráje. Eko-Oáza Prachov je ideální místo pro vaši dovolenou u Prachovských skal." }, en: { title: "Eko-Oáza Prachov Cottages & Accommodation | Holiday in Bohemian Paradise", description: "Affordable cottage accommodation for families with children in the heart of Bohemian Paradise, Czech Republic. Eko-Oáza Prachov is the perfect place for your holiday near the Prachov Rocks." } };
+        
         function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
         function setLanguage(lang) { document.documentElement.lang = lang; document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none'; document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none'; document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none'; document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; updateSEO(lang); }
         function switchLanguage(lang) { const currentPage = window.location.pathname.split('/').pop() || 'index.html'; window.location.href = `${currentPage}?lang=${lang}`; }
@@ -137,54 +138,55 @@
         async function logout() { await auth.signOut(); location.reload(); }
         function enableAdminMode() { document.body.classList.add('admin-mode'); document.getElementById('admin-toolbar').style.display = 'block'; document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = true; }); document.querySelectorAll('.delete-row-btn').forEach(btn => { btn.onclick = () => deletePriceRow(btn); }); }
         function disableAdminMode() { document.body.classList.remove('admin-mode'); document.body.classList.remove('delete-mode'); document.getElementById('admin-toolbar').style.display = 'none'; document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = false; }); }
-        async function saveAllChanges() { const promises = []; document.querySelectorAll('.editable-text').forEach(element => { const fieldId = element.dataset.field; if (!fieldId) return; const content = element.innerHTML; const docId = fieldId.startsWith('cs-') ? 'cs' : 'en'; const promise = db.collection('content').doc(docId).set({ [fieldId]: content }, { merge: true }); promises.push(promise); }); try { await Promise.all(promises); localStorage.removeItem('cachedContent-cs'); localStorage.removeItem('cacheTimestamp-cs'); localStorage.removeItem('cachedContent-en'); localStorage.removeItem('cacheTimestamp-en'); alert('Všechny změny byly úspěšně uloženy! ♡'); } catch (error) { console.error("Chyba při ukládání:", error); alert("Během ukládání nastala chyba."); } }
-        
-        // --- ZDE JE OPRAVENÝ KÓD ---
+
+        async function saveAllChanges() {
+            const promises = [];
+            document.querySelectorAll('.editable-text').forEach(element => {
+                const fieldId = element.dataset.field;
+                if (!fieldId) return;
+                const content = element.innerHTML;
+                const docId = fieldId.startsWith('cs-') ? 'cs' : 'en';
+                const promise = db.collection('content').doc(docId).set({ [fieldId]: content }, { merge: true });
+                promises.push(promise);
+            });
+            try {
+                await Promise.all(promises);
+                alert('Všechny změny byly úspěšně uloženy! ♡');
+            } catch (error) {
+                console.error("Chyba při ukládání:", error);
+                alert("Během ukládání nastala chyba.");
+            }
+        }
+
         async function loadContent() {
             const lang = document.documentElement.lang;
             const mainContentContainer = document.getElementById(`lang-${lang}`);
 
-            // Funkce pro zpracování a zobrazení dat
             const processData = (data) => {
                 Object.keys(data).forEach(fieldId => {
                     let element = document.querySelector(`[data-field="${fieldId}"]`);
                     
-                    // Pokud element neexistuje a je to dynamicky přidaný blok
                     if (!element && fieldId.includes('-custom-')) {
                         element = document.createElement('p');
                         element.classList.add('editable-text');
                         element.dataset.field = fieldId;
-                        mainContentContainer.appendChild(element); // Přidáme ho na konec hlavního obsahu
+                        mainContentContainer.appendChild(element);
                         
-                        // Pokud je uživatel přihlášen jako admin, zapneme editaci
                         if (isAdmin) {
                             element.contentEditable = true;
                         }
                     }
                     
-                    // Pokud element existuje (ať už původní, nebo nově vytvořený), naplníme ho obsahem
                     if (element) {
                         element.innerHTML = data[fieldId];
                     }
                 });
             };
 
-            const cachedData = localStorage.getItem(`cachedContent-${lang}`);
-            const cacheTimestamp = localStorage.getItem(`cacheTimestamp-${lang}`);
-            const isCacheFresh = cacheTimestamp && (new Date() - new Date(cacheTimestamp)) < 10 * 60 * 1000;
-
-            if (isCacheFresh && cachedData) {
-                const data = JSON.parse(cachedData);
-                processData(data);
-                return;
-            }
-
             try {
                 const doc = await db.collection('content').doc(lang).get();
                 if (doc.exists) {
                     const data = doc.data();
-                    localStorage.setItem(`cachedContent-${lang}`, JSON.stringify(data));
-                    localStorage.setItem(`cacheTimestamp-${lang}`, new Date().toISOString());
                     processData(data);
                 }
             } catch (error) {
