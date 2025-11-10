@@ -151,6 +151,10 @@
             });
             try {
                 await Promise.all(promises);
+                localStorage.removeItem('cachedContent-cs');
+                localStorage.removeItem('cacheTimestamp-cs');
+                localStorage.removeItem('cachedContent-en');
+                localStorage.removeItem('cacheTimestamp-en');
                 alert('Všechny změny byly úspěšně uloženy! ♡');
             } catch (error) {
                 console.error("Chyba při ukládání:", error);
@@ -165,28 +169,37 @@
             const processData = (data) => {
                 Object.keys(data).forEach(fieldId => {
                     let element = document.querySelector(`[data-field="${fieldId}"]`);
-                    
                     if (!element && fieldId.includes('-custom-')) {
                         element = document.createElement('p');
                         element.classList.add('editable-text');
                         element.dataset.field = fieldId;
                         mainContentContainer.appendChild(element);
-                        
                         if (isAdmin) {
                             element.contentEditable = true;
                         }
                     }
-                    
                     if (element) {
                         element.innerHTML = data[fieldId];
                     }
                 });
             };
+            
+            const cachedData = localStorage.getItem(`cachedContent-${lang}`);
+            const cacheTimestamp = localStorage.getItem(`cacheTimestamp-${lang}`);
+            const isCacheFresh = cacheTimestamp && (new Date() - new Date(cacheTimestamp)) < 1 * 60 * 1000;
+
+            if (isCacheFresh && cachedData) {
+                const data = JSON.parse(cachedData);
+                processData(data);
+                return;
+            }
 
             try {
                 const doc = await db.collection('content').doc(lang).get();
                 if (doc.exists) {
                     const data = doc.data();
+                    localStorage.setItem(`cachedContent-${lang}`, JSON.stringify(data));
+                    localStorage.setItem(`cacheTimestamp-${lang}`, new Date().toISOString());
                     processData(data);
                 }
             } catch (error) {
