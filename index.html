@@ -58,7 +58,7 @@
                 </div>
                 <div class="map-container">
                     <h3 class="editable-text" data-field="cs-map-header">Kde nás najdete?</h3>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     <div class="editable-text" data-field="cs-map-text">
                         <p>Chatová osada se nachází na slunné stráni 6km severozápadně od Jičína, v samém centru Prachovských skal.</p>
                         <p><b>GPS souřadnice:</b> Loc: 50°27'52.835"N, 15°18'23.299"E</p>
@@ -185,7 +185,7 @@
             Spolupráce: <a href="https://www.e-chalupy.cz/" target="_blank" rel="noopener noreferrer">e-chalupy.cz</a> <a href="https://www.levneubytovani.net/" target="_blank" rel="noopener noreferrer">LevneUbytovani.net</a> <a href="https://chalupy-ubytovani.cz/" target="_blank" rel="noopener noreferrer">chalupy-ubytovani.cz</a>
         </footer>
         <footer id="footer-en" style="display:none;">
-            In cooperation with: <a href="https://www.e-chalupy.cz/" target="_blank" rel="noopener noreferrer">e-chalupy.cz</a> <a href="https://www.levneubytovani.net/" target="_blank" rel="noopener noreferrer">LevneUbytovani.net</a> <a href="https://chalupy-ubytovani.cz/" target="_blank" rel="noopener noreferrer">chalupy-ubytovani.cz</a>
+            Cooperation with: <a href="https://www.e-chalupy.cz/" target="_blank" rel="noopener noreferrer">e-chalupy.cz</a> <a href="https://www.levneubytovani.net/" target="_blank" rel="noopener noreferrer">LevneUbytovani.net</a> <a href="https://chalupy-ubytovani.cz/" target="_blank" rel="noopener noreferrer">chalupy-ubytovani.cz</a>
         </footer>
     </div>
 
@@ -214,6 +214,12 @@
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Ubytování Chaty Eko-Oáza Prachov | Dovolená v Českém ráji", description: "Nabízíme levné ubytování v chatkách pro rodiny s dětmi v srdci Českého ráje. Eko-Oáza Prachov je ideální místo pro vaši dovolenou u Prachovských skal." }, en: { title: "Eko-Oáza Prachov Cottages & Accommodation | Holiday in Bohemian Paradise", description: "Affordable cottage accommodation for families with children in the heart of Bohemian Paradise, Czech Republic. Eko-Oáza Prachov is the perfect place for your holiday near the Prachov Rocks." } };
         
+        function getPageDocId(lang) {
+            const path = window.location.pathname;
+            const page = path.split("/").pop().replace(".html", "") || "index";
+            return `${page}_${lang}`;
+        }
+
         function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
         function setLanguage(lang) { document.documentElement.lang = lang; document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none'; document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none'; document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none'; document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; updateSEO(lang); }
         function switchLanguage(lang) { const currentPage = window.location.pathname.split('/').pop() || 'index.html'; window.location.href = `${currentPage}?lang=${lang}`; }
@@ -235,16 +241,19 @@
                 const fieldId = element.dataset.field;
                 if (!fieldId) return;
                 const content = element.innerHTML;
-                const docId = fieldId.startsWith('cs-') ? 'cs' : 'en';
+                const lang = fieldId.startsWith('cs-') ? 'cs' : 'en';
+                const docId = getPageDocId(lang);
                 const promise = db.collection('content').doc(docId).set({ [fieldId]: content }, { merge: true });
                 promises.push(promise);
             });
             try {
                 await Promise.all(promises);
-                localStorage.removeItem('cachedContent-cs');
-                localStorage.removeItem('cacheTimestamp-cs');
-                localStorage.removeItem('cachedContent-en');
-                localStorage.removeItem('cacheTimestamp-en');
+                const csDocId = getPageDocId('cs');
+                const enDocId = getPageDocId('en');
+                localStorage.removeItem(`cachedContent-${csDocId}`);
+                localStorage.removeItem(`cacheTimestamp-${csDocId}`);
+                localStorage.removeItem(`cachedContent-${enDocId}`);
+                localStorage.removeItem(`cacheTimestamp-${enDocId}`);
                 alert('Všechny změny byly úspěšně uloženy! ♡');
             } catch (error) {
                 console.error("Chyba při ukládání:", error);
@@ -254,6 +263,7 @@
 
         async function loadContent() {
             const lang = document.documentElement.lang;
+            const docId = getPageDocId(lang);
             const mainContentContainer = document.getElementById(`lang-${lang}`);
             const processData = (data) => {
                 Object.keys(data).forEach(fieldId => {
@@ -272,8 +282,8 @@
                     }
                 });
             };
-            const cachedData = localStorage.getItem(`cachedContent-${lang}`);
-            const cacheTimestamp = localStorage.getItem(`cacheTimestamp-${lang}`);
+            const cachedData = localStorage.getItem(`cachedContent-${docId}`);
+            const cacheTimestamp = localStorage.getItem(`cacheTimestamp-${docId}`);
             const isCacheFresh = cacheTimestamp && (new Date() - new Date(cacheTimestamp)) < 1 * 60 * 1000;
             if (isCacheFresh && cachedData) {
                 const data = JSON.parse(cachedData);
@@ -281,11 +291,11 @@
                 return;
             }
             try {
-                const doc = await db.collection('content').doc(lang).get();
+                const doc = await db.collection('content').doc(docId).get();
                 if (doc.exists) {
                     const data = doc.data();
-                    localStorage.setItem(`cachedContent-${lang}`, JSON.stringify(data));
-                    localStorage.setItem(`cacheTimestamp-${lang}`, new Date().toISOString());
+                    localStorage.setItem(`cachedContent-${docId}`, JSON.stringify(data));
+                    localStorage.setItem(`cacheTimestamp-${docId}`, new Date().toISOString());
                     processData(data);
                 }
             } catch (error) {
@@ -295,7 +305,7 @@
 
         function addTextBox() { const lang = document.documentElement.lang; const newId = `${lang}-custom-${Date.now()}`; const newTextBox = document.createElement('p'); newTextBox.classList.add('editable-text'); newTextBox.dataset.field = newId; newTextBox.textContent = 'Nový textový blok. Klikněte pro úpravu.'; const mainContent = document.getElementById(`lang-${lang}`); mainContent.appendChild(newTextBox); if(isAdmin) { newTextBox.contentEditable = true; newTextBox.focus(); } }
         function toggleDeleteMode() { const body = document.body; body.classList.toggle('delete-mode'); const btn = document.getElementById('delete-mode-btn'); if (body.classList.contains('delete-mode')) { btn.textContent = 'Ukončit mazání'; btn.style.background = 'orange'; } else { btn.textContent = 'Smazat text'; btn.style.background = '#3498db'; } }
-        document.getElementById('main-content').addEventListener('click', async function(event) { if (!document.body.classList.contains('delete-mode')) return; const element = event.target.closest('.editable-text'); if (element) { event.preventDefault(); event.stopPropagation(); if (confirm('Opravdu chcete smazat tento blok?')) { const fieldId = element.dataset.field; const docId = fieldId.startsWith('cs-') ? 'cs' : 'en'; try { const fieldToDelete = {}; fieldToDelete[fieldId] = firebase.firestore.FieldValue.delete(); await db.collection('content').doc(docId).update(fieldToDelete); element.remove(); } catch (error) { console.error("Chyba při mazání:", error); alert("Blok se nepodařilo smazat z databáze."); } } } });
+        document.getElementById('main-content').addEventListener('click', async function(event) { if (!document.body.classList.contains('delete-mode')) return; const element = event.target.closest('.editable-text'); if (element) { event.preventDefault(); event.stopPropagation(); if (confirm('Opravdu chcete smazat tento blok?')) { const fieldId = element.dataset.field; const lang = fieldId.startsWith('cs-') ? 'cs' : 'en'; const docId = getPageDocId(lang); try { const fieldToDelete = {}; fieldToDelete[fieldId] = firebase.firestore.FieldValue.delete(); await db.collection('content').doc(docId).update(fieldToDelete); element.remove(); } catch (error) { console.error("Chyba při mazání:", error); alert("Blok se nepodařilo smazat z databáze."); } } } });
         function addPriceRow() { const tableBody = document.querySelector('.price-table tbody'); if (!tableBody) return; const newRow = tableBody.insertRow(); newRow.innerHTML = `<td data-label="Služba">Nová služba</td><td data-label="Cena">0 Kč<button class="delete-row-btn" onclick="deletePriceRow(this)">X</button></td>`; }
         function deletePriceRow(button) { if (confirm('Opravdu chcete smazat tento řádek?')) { const row = button.closest('tr'); row.remove(); } }
         document.addEventListener('keydown', (event) => { if (event.ctrlKey && event.key === 'l') { event.preventDefault(); loginModal.style.display = 'block'; document.getElementById('password').focus(); } if (event.key === "Escape") { if (modal.style.display === "block") closeModal(); if (loginModal.style.display === 'block') loginModal.style.display = 'none'; } if (modal.style.display === "block") { if (event.key === "ArrowLeft") plusSlides(-1); else if (event.key === "ArrowRight") plusSlides(1); } });
