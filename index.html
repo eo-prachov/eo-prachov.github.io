@@ -58,7 +58,7 @@
                 </div>
                 <div class="map-container">
                     <h3 class="editable-text" data-field="cs-map-header">Kde nás najdete?</h3>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!i1024!i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     <div class="editable-text" data-field="cs-map-text">
                         <p>Chatová osada se nachází na slunné stráni 6km severozápadně od Jičína, v samém centru Prachovských skal.</p>
                         <p><b>GPS souřadnice:</b> Loc: 50°27'52.835"N, 15°18'23.299"E</p>
@@ -129,7 +129,7 @@
                 <div class="gallery"><img src="obrazky/1.png" alt="Cottage exterior" onclick="openModal(this)"><img src="obrazky/2.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/3.png" alt="Cottage interior" onclick="openModal(this)"><img src="obrazky/4.png" alt="Bed in cottage" onclick="openModal(this)"></div>
                 <div class="map-container">
                     <h3 class="editable-text" data-field="en-map-header">Location</h3>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2547.453303681468!2d15.30429707702816!3d50.46468007159755!2m3!1f0!2f0!3f0!3m2!i1024!i768!4f13.1!3m3!1m2!1s0x470e9b3d0a623725%3A0x6b44c6888c3f4a31!2sPrachov%2058%2C%20506%2001%20Hol%C3%ADn!5e0!3m2!1sen!2scz!4v1670000000000!5m2!1sen!2scz" class="map-embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     <div class="editable-text" data-field="en-map-text">
                         <p>This cottae area is located in a sunny hillside 6km northwet of Jicin, in the very heart of the Prachov Rocks.</p>
                         <p><b>GPS coordinates:</b> Loc: 50°27'52.835"N, 15°18'23.299"E</p>
@@ -303,7 +303,16 @@
         function addPriceRow() { const tableBody = document.querySelector('.price-table tbody'); if (!tableBody) return; const newRow = tableBody.insertRow(); newRow.innerHTML = `<td data-label="Služba">Nová služba</td><td data-label="Cena">0 Kč<button class="delete-row-btn" onclick="deletePriceRow(this)">X</button></td>`; }
         function deletePriceRow(button) { if (confirm('Opravdu chcete smazat tento řádek?')) { const row = button.closest('tr'); row.remove(); } }
         document.addEventListener('keydown', (event) => { if (event.ctrlKey && event.key === 'l') { event.preventDefault(); loginModal.style.display = 'block'; document.getElementById('password').focus(); } if (event.key === "Escape") { if (modal.style.display === "block") closeModal(); if (loginModal.style.display === 'block') loginModal.style.display = 'none'; } if (modal.style.display === "block") { if (event.key === "ArrowLeft") plusSlides(-1); else if (event.key === "ArrowRight") plusSlides(1); } });
-        document.addEventListener('DOMContentLoaded', async () => { const urlParams = new URLSearchParams(window.location.search); const lang = urlParams.get('lang') || 'cs'; setLanguage(lang); await loadContent(); });
+        
+        // --- CORRECTED LOGIC ---
+        // On page load, just set the language. DO NOT load content from the database.
+        // This ensures the hard-coded HTML is always visible initially.
+        // The admin can then log in and click "Save All" to populate the database.
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const lang = urlParams.get('lang') || 'cs';
+            setLanguage(lang);
+        });
     </script>
 </body>
 </html>

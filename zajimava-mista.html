@@ -217,7 +217,16 @@
         function toggleDeleteMode() { const body = document.body; body.classList.toggle('delete-mode'); const btn = document.getElementById('delete-mode-btn'); if (body.classList.contains('delete-mode')) { btn.textContent = 'Ukončit mazání'; btn.style.background = 'orange'; } else { btn.textContent = 'Smazat text'; btn.style.background = '#3498db'; } }
         document.getElementById('main-content').addEventListener('click', async function(event) { if (!document.body.classList.contains('delete-mode')) return; const element = event.target.closest('.editable-text'); if (element) { event.preventDefault(); event.stopPropagation(); if (confirm('Opravdu chcete smazat tento blok?')) { const fieldId = element.dataset.field; const docId = fieldId.startsWith('cs-') ? 'cs' : 'en'; try { const fieldToDelete = {}; fieldToDelete[fieldId] = firebase.firestore.FieldValue.delete(); await db.collection('content').doc(docId).update(fieldToDelete); element.remove(); } catch (error) { console.error("Chyba při mazání:", error); alert("Blok se nepodařilo smazat z databáze."); } } } });
         document.addEventListener('keydown', (event) => { if (event.ctrlKey && event.key === 'l') { event.preventDefault(); loginModal.style.display = 'block'; document.getElementById('password').focus(); } if (event.key === "Escape") { if (modal.style.display === "block") closeModal(); if (loginModal.style.display === 'block') loginModal.style.display = 'none'; } if (modal.style.display === "block") { if (event.key === "ArrowLeft") plusSlides(-1); else if (event.key === "ArrowRight") plusSlides(1); } });
-        document.addEventListener('DOMContentLoaded', async () => { const urlParams = new URLSearchParams(window.location.search); const lang = urlParams.get('lang') || 'cs'; setLanguage(lang); await loadContent(); });
+
+        // --- CORRECTED LOGIC ---
+        // On page load, just set the language. DO NOT load content from the database.
+        // This ensures the hard-coded HTML is always visible initially.
+        // The admin can then log in and click "Save All" to populate the database.
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const lang = urlParams.get('lang') || 'cs';
+            setLanguage(lang);
+        });
     </script>
 </body>
 </html>
