@@ -126,7 +126,6 @@
         async function loadContent() {
             const lang = document.documentElement.lang;
             const mainContentContainer = document.getElementById(`lang-${lang}`);
-
             const processData = (data) => {
                 Object.keys(data).forEach(fieldId => {
                     let element = document.querySelector(`[data-field="${fieldId}"]`);
@@ -144,17 +143,14 @@
                     }
                 });
             };
-
             const cachedData = localStorage.getItem(`cachedContent-${lang}`);
             const cacheTimestamp = localStorage.getItem(`cacheTimestamp-${lang}`);
             const isCacheFresh = cacheTimestamp && (new Date() - new Date(cacheTimestamp)) < 1 * 60 * 1000;
-
             if (isCacheFresh && cachedData) {
                 const data = JSON.parse(cachedData);
                 processData(data);
                 return;
             }
-
             try {
                 const doc = await db.collection('content').doc(lang).get();
                 if (doc.exists) {
