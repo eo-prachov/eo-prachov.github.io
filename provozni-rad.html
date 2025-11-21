@@ -42,10 +42,27 @@
         </header>
 
         <main id="main-content">
+            <!-- CZECH CONTENT -->
             <div id="lang-cs">
-                 <div class="info-box editable-text" data-field="cs-rules-info-box"></div>
-                 <div class="editable-text" data-field="cs-rules-content"></div>
+                 <div class="info-box editable-text" data-field="cs-rules-info-box">
+                    <h3>Eko-Oáza Prachov</h3>
+                    <p>Chatová osada v Českém ráji, Prachov 58</p>
+                    <p><strong>IČO:</strong> 66314364</p>
+                    <p><strong>č.ú.:</strong> 19-6866210217/0100</p>
+                    <p><strong>tel.:</strong> 606 930 170</p>
+                    <p><strong>e-mail:</strong> e-o-p@seznam.cz</p>
+                 </div>
+                 <div class="editable-text" data-field="cs-rules-content">
+                     <h3>Provozní řád</h3>
+                     <p>Návštěvníci jsou povinni dodržovat zásady lidské slušnosti, ohleduplnosti a tento Provozní řád, který je vyvěšen v kuchyňce.</p>
+                     <ul>
+                         <li>Zákaz kouření v chatkách. Nábytek nepřemísťujte.</li>
+                         <li>Do WC vhazujte <strong>pouze</strong> toaletní papír. Čistička odpadních vod neumí zpracovat jiné materiály (papírové kapesníky, vložky atd.).</li>
+                         <li>Teplou vodu v kuchyňce nenechávejte téct zbytečně. Po uzavření kohoutku voda ještě chvíli vytéká (beztlakový systém), to je v pořádku.</li>
+                     </ul>
+                 </div>
             </div>
+            <!-- ENGLISH CONTENT -->
             <div id="lang-en" style="display:none;">
                 <div class="info-box editable-text" data-field="en-rules-info-box">
                     <h3>Eko-Oáza Prachov</h3>
@@ -94,7 +111,6 @@
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-        
         const modal = document.getElementById("myModal");
         const modalImg = document.getElementById("img01");
         const modalContentWrapper = document.querySelector(".modal-content-wrapper");
@@ -106,8 +122,6 @@
         function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
         function setLanguage(lang) { document.documentElement.lang = lang; document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none'; document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none'; document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none'; document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; updateSEO(lang); }
         function switchLanguage(lang) { const currentPage = window.location.pathname.split('/').pop() || 'index.html'; window.location.href = `${currentPage}?lang=${lang}`; }
-
-        // UI & Auth
         function openModal(element) { if (isAdmin) return; const parentGallery = element.closest('.gallery'); currentGalleryImages = Array.from(parentGallery.querySelectorAll('img')); currentImageIndex = currentGalleryImages.indexOf(element); modal.style.display = "block"; document.body.style.overflow = 'hidden'; showImage(currentImageIndex); }
         function showImage(index) { modalImg.src = currentGalleryImages[index].src; modalImg.alt = currentGalleryImages[index].alt; modalImg.className = 'modal-content'; modalContentWrapper.scrollTop = 0; modalContentWrapper.scrollLeft = 0; }
         function closeModal() { modal.style.display = "none"; document.body.style.overflow = 'auto'; }
@@ -136,16 +150,14 @@
                 const baseDoc = getPageDocId('cs').split('_')[0];
                 localStorage.removeItem(`cachedContent-${baseDoc}_cs`);
                 localStorage.removeItem(`cachedContent-${baseDoc}_en`);
-                alert('Data successfully saved to Database! ♡');
+                alert('Vše uloženo do databáze! / Saved to DB! ♡');
             } catch (error) { console.error("Error saving:", error); alert("Error saving."); }
         }
 
-        // --- FIXED LOAD LOGIC: DOES NOT OVERWRITE IF DB IS EMPTY ---
         async function loadContent() {
             const lang = document.documentElement.lang;
             const docId = getPageDocId(lang);
             const mainContentContainer = document.getElementById(`lang-${lang}`);
-            
             const processData = (data) => {
                 Object.keys(data).forEach(fieldId => {
                     let element = document.querySelector(`[data-field="${fieldId}"]`);
@@ -156,16 +168,14 @@
                         mainContentContainer.appendChild(element);
                         if (isAdmin) element.contentEditable = true;
                     }
-                    // CRITICAL FIX: Only overwrite existing HTML if the DB actually has data for this field
+                    // SAFE MODE: Only overwrite if data exists in DB
                     if (element && data[fieldId] && data[fieldId].trim() !== "") {
                         element.innerHTML = data[fieldId];
                     }
                 });
             };
-
             const cachedData = localStorage.getItem(`cachedContent-${docId}`);
             if (cachedData) { processData(JSON.parse(cachedData)); return; }
-
             try {
                 const doc = await db.collection('content').doc(docId).get();
                 if (doc.exists) {
@@ -173,7 +183,7 @@
                     localStorage.setItem(`cachedContent-${docId}`, JSON.stringify(data));
                     processData(data);
                 } else {
-                    console.log("Database empty for " + docId + ". Keeping hardcoded HTML.");
+                    console.log("DB empty for " + docId + ". Using hardcoded text.");
                 }
             } catch (error) { console.error("Error loading: " + error); }
         }
