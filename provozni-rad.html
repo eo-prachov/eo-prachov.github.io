@@ -47,8 +47,25 @@
                  <div class="editable-text" data-field="cs-rules-content"></div>
             </div>
             <div id="lang-en" style="display:none;">
-                <div class="info-box editable-text" data-field="en-rules-info-box"></div>
-                <div class="editable-text" data-field="en-rules-content"></div>
+                <div class="info-box editable-text" data-field="en-rules-info-box">
+                    <h3>Eko-Oáza Prachov</h3>
+                    <p>The cottage area in The Bohemian Paradise, Prachov 58</p>
+                    <p><strong>IČO:</strong> 66314364</p>
+                    <p><strong>Account #:</strong> 19-6866210217/0100</p>
+                    <p><strong>tel.:</strong> 606 930 170</p>
+                    <p><strong>e-mail:</strong> e-o-p@seznam.cz</p>
+                    <p>old web:</p>
+                </div>
+                <div class="editable-text" data-field="en-rules-content">
+                    <h3>Operating rules</h3>
+                    <p>In principle, one simple rule is to be followed. The accommodated in this small camp are to follow principles of human politeness and common decency and the Rules of Accommodation that are on display in the kitchenette.</p>
+                    <ul>
+                       <li>Smoking in cottages is not allowed. Furniture should stay in place.</li>
+                       <li>Only <strong>toilet</strong> paper should be thrown into the toilets bowls. The purification plant cannot decompose any other material (such as "paper" handkerchiefs, sanitary towels, etc.).</li>
+                       <li>The hot water tap in the kitchenette should not be turned off excessively. After turning off the tap, there must still be some water leakage which will disappear after several seconds. (pressureless system is used).</li>
+                    </ul>
+                    <p>Cooperation with: e-chalupy.cz LevneUbytovani.net chalupy-ubytovani.cz</p>
+                </div>
             </div>
         </main>
         
@@ -139,14 +156,14 @@
                     if (element) element.innerHTML = data[fieldId];
                 });
             };
-            const cachedData = localStorage.getItem(`cachedContent-${docId}`);
-            if (cachedData) { processData(JSON.parse(cachedData)); return; }
             try {
                 const doc = await db.collection('content').doc(docId).get();
                 if (doc.exists) {
                     const data = doc.data();
                     localStorage.setItem(`cachedContent-${docId}`, JSON.stringify(data));
                     processData(data);
+                } else {
+                    console.log("Database empty for " + docId + ". Using hardcoded HTML.");
                 }
             } catch (error) { console.error("Error loading: " + error); }
         }
