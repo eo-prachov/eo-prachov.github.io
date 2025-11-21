@@ -36,7 +36,7 @@
             </nav>
             <nav id="nav-en" style="display:none;">
                 <a href="index.html?lang=en">Home</a>
-                <a href="provozni-rad.html?lang=en">Operating rules</a>
+                <a href="zajimava-mista.html?lang=en">Places of interest</a>
                 <a onclick="switchLanguage('cs')">Česká verze</a>
             </nav>
         </header>
@@ -70,7 +70,6 @@
                     <p><strong>Account #:</strong> 19-6866210217/0100</p>
                     <p><strong>tel.:</strong> 606 930 170</p>
                     <p><strong>e-mail:</strong> e-o-p@seznam.cz</p>
-                    <p>old web:</p>
                  </div>
                  <div class="editable-text" data-field="en-places-intro">
                     <h3>Places of interest</h3>
@@ -157,14 +156,16 @@
                 const baseDoc = getPageDocId('cs').split('_')[0];
                 localStorage.removeItem(`cachedContent-${baseDoc}_cs`);
                 localStorage.removeItem(`cachedContent-${baseDoc}_en`);
-                alert('Uloženo / Saved! ♡');
+                alert('Data successfully saved to Database! ♡');
             } catch (error) { console.error("Error saving:", error); alert("Error saving."); }
         }
 
+        // --- FIXED LOAD LOGIC: DOES NOT OVERWRITE IF DB IS EMPTY ---
         async function loadContent() {
             const lang = document.documentElement.lang;
             const docId = getPageDocId(lang);
             const mainContentContainer = document.getElementById(`lang-${lang}`);
+            
             const processData = (data) => {
                 Object.keys(data).forEach(fieldId => {
                     let element = document.querySelector(`[data-field="${fieldId}"]`);
@@ -175,9 +176,16 @@
                         mainContentContainer.appendChild(element);
                         if (isAdmin) element.contentEditable = true;
                     }
-                    if (element) element.innerHTML = data[fieldId];
+                    // CRITICAL FIX: Only overwrite existing HTML if the DB actually has data for this field
+                    if (element && data[fieldId] && data[fieldId].trim() !== "") {
+                        element.innerHTML = data[fieldId];
+                    }
                 });
             };
+
+            const cachedData = localStorage.getItem(`cachedContent-${docId}`);
+            if (cachedData) { processData(JSON.parse(cachedData)); return; }
+
             try {
                 const doc = await db.collection('content').doc(docId).get();
                 if (doc.exists) {
@@ -185,14 +193,14 @@
                     localStorage.setItem(`cachedContent-${docId}`, JSON.stringify(data));
                     processData(data);
                 } else {
-                    console.log("Database empty for " + docId + ". Using hardcoded HTML.");
+                    console.log("Database empty for " + docId + ". Keeping hardcoded HTML.");
                 }
             } catch (error) { console.error("Error loading: " + error); }
         }
 
         function addTextBox() { const lang = document.documentElement.lang; const newId = `${lang}-custom-${Date.now()}`; const newTextBox = document.createElement('p'); newTextBox.classList.add('editable-text'); newTextBox.dataset.field = newId; newTextBox.textContent = '...'; const mainContent = document.getElementById(`lang-${lang}`); mainContent.appendChild(newTextBox); if(isAdmin) { newTextBox.contentEditable = true; newTextBox.focus(); } }
         function toggleDeleteMode() { const body = document.body; body.classList.toggle('delete-mode'); const btn = document.getElementById('delete-mode-btn'); if (body.classList.contains('delete-mode')) { btn.textContent = 'Ukončit mazání'; btn.style.background = 'orange'; } else { btn.textContent = 'Smazat text'; btn.style.background = '#3498db'; } }
-        document.getElementById('main-content').addEventListener('click', async function(event) { if (!document.body.classList.contains('delete-mode')) return; const element = event.target.closest('.editable-text'); if (element) { event.preventDefault(); event.stopPropagation(); if (confirm('Delete this?')) { const fieldId = element.dataset.field; const lang = fieldId.startsWith('cs-') ? 'cs' : 'en'; const docId = getPageDocId(lang); try { const fieldToDelete = {}; fieldToDelete[fieldId] = firebase.firestore.FieldValue.delete(); await db.collection('content').doc(docId).update(fieldToDelete); element.remove(); } catch (error) { console.error("Error:", error); } } } });
+        document.getElementById('main-content').addEventListener('click', async function(event) { if (!document.body.classList.contains('delete-mode')) return; const element = event.target.closest('.editable-text'); if (element) { event.preventDefault(); event.stopPropagation(); if (confirm('Delete this?')) { const fieldId = element.dataset.field; const lang = fieldId.startsWith('cs-') ? 'cs' : 'en'; const docId = getPageDocId(lang); try { const fieldToDelete = {}; fieldToDelete[fieldId] = firebase.firestore.FieldValue.delete(); await db.collection('content').doc(docId).update(fieldToDelete); element.remove(); } catch (error) { console.error("Error deleting:", error); } } } });
         document.addEventListener('keydown', (event) => { if (event.ctrlKey && event.key === 'l') { event.preventDefault(); loginModal.style.display = 'block'; document.getElementById('password').focus(); } if (event.key === "Escape") { if (modal.style.display === "block") closeModal(); if (loginModal.style.display === 'block') loginModal.style.display = 'none'; } });
         document.addEventListener('DOMContentLoaded', async () => { const urlParams = new URLSearchParams(window.location.search); const lang = urlParams.get('lang') || 'cs'; setLanguage(lang); await loadContent(); });
     </script>
