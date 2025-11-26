@@ -168,7 +168,6 @@
                         mainContentContainer.appendChild(element);
                         if (isAdmin) element.contentEditable = true;
                     }
-                    // SAFE MODE: Only overwrite if data exists in DB
                     if (element && data[fieldId] && data[fieldId].trim() !== "") {
                         element.innerHTML = data[fieldId];
                     }
@@ -183,7 +182,21 @@
                     localStorage.setItem(`cachedContent-${docId}`, JSON.stringify(data));
                     processData(data);
                 } else {
-                    console.log("DB empty for " + docId + ". Using hardcoded text.");
+                    // *** THIS IS THE FIX: AUTO-SAVE HARDCODED CONTENT ***
+                    console.log("DB empty for " + docId + ". Uploading hardcoded content to DB...");
+                    const dataToSave = {};
+                    const prefix = lang + '-';
+                    document.querySelectorAll('.editable-text').forEach(el => {
+                        if (el.dataset.field && el.dataset.field.startsWith(prefix)) {
+                            dataToSave[el.dataset.field] = el.innerHTML;
+                        }
+                    });
+                    
+                    if (Object.keys(dataToSave).length > 0) {
+                        db.collection('content').doc(docId).set(dataToSave)
+                          .then(() => console.log("Success: Hardcoded text saved to Database."))
+                          .catch(err => console.warn("Auto-save failed (Login needed?):", err));
+                    }
                 }
             } catch (error) { console.error("Error loading: " + error); }
         }
