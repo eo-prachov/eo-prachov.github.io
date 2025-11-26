@@ -6,7 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Provozní a ubytovací řád.">
     <link rel="canonical" href="https://www.example.com/provozni-rad.html">
-    <style>:root{--primary-blue:#007bff;--text-color:#333;--background-color:#fff;--container-bg:#2570b8}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background-color:var(--container-bg);color:var(--text-color);margin:0;padding:0;display:flex;justify-content:center;font-size:18px;line-height:1.6}.container{background-color:var(--background-color);width:960px;margin:20px;padding:0 20px 20px;box-shadow:0 0 15px rgba(0,0,0,.2)}header{padding:20px 0;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background-color:var(--background-color);z-index:100;border-bottom:1px solid #eee;box-shadow:0 2px 5px rgba(0,0,0,.05)}header h1{margin:0;font-size:28px}header h1 a{text-decoration:none;color:var(--text-color)}nav a{margin-left:15px;text-decoration:none;color:var(--primary-blue);font-weight:700;cursor:pointer}nav a:hover{text-decoration:underline}.info-box{border:1px solid #ccc;padding:15px;margin-bottom:20px;background-color:#f9f9f9}.info-box p{margin:5px 0}.bold{font-weight:700}.text-center{text-align:center}.text-right{text-align:right}.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:hidden;background-color:rgba(0,0,0,.9)}.modal-content-wrapper{position:relative;height:100%;width:100%;display:flex;align-items:center;justify-content:center;overflow:auto}.modal-content{margin:auto;display:block;max-width:90%;max-height:90%;transition:transform .3s ease-in-out;cursor:zoom-in}.modal-content.zoom-1{transform:scale(1.5);cursor:zoom-in}.modal-content.zoom-2{transform:scale(2.5);cursor:zoom-out}.close{position:absolute;top:15px;right:35px;color:#f1f1f1;font-size:40px;font-weight:700;transition:.3s;cursor:pointer;z-index:1001}.close:hover,.close:focus{color:#bbb}.prev,.next{cursor:pointer;position:absolute;top:50%;width:auto;padding:16px;margin-top:-50px;color:#fff;font-weight:700;font-size:30px;transition:.6s ease;border-radius:0 3px 3px 0;user-select:none;-webkit-user-select:none;z-index:1001}.next{right:0;border-radius:3px 0 0 3px}.prev{left:0}.prev:hover,.next:hover{background-color:rgba(0,0,0,.8)}footer{text-align:center;margin-top:20px;padding-top:10px;border-top:1px solid #ccc;font-size:14px;line-height:1.8}footer a{margin:0 5px}#admin-toolbar{display:none;position:fixed;top:0;left:0;width:100%;background:#2c3e50;color:#fff;padding:10px;z-index:9999;box-shadow:0 2px 5px rgba(0,0,0,.3);text-align:center}#admin-toolbar button{background:#3498db;color:#fff;border:none;padding:8px 15px;cursor:pointer;border-radius:3px;margin:0 5px;font-size:16px}#admin-toolbar button:hover{background:#2980b9}#admin-toolbar button#save-btn{background:#27ae60}#admin-toolbar button#save-btn:hover{background:#229954}#admin-toolbar button#logout-btn{background:#e74c3c}#admin-toolbar button#logout-btn:hover{background:#c0392b}.editable-text[contenteditable=true]{outline:2px dashed #3498db}#login-modal{display:none;position:fixed;z-index:10001;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.6)}#login-modal form{background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;max-width:400px;text-align:center;border-radius:5px}#login-modal input{width:90%;padding:12px 20px;margin:8px 0;display:inline-block;border:1px solid #ccc;box-sizing:border-box}#login-modal button{background-color:#4caf50;color:#fff;padding:14px 20px;margin:8px 0;border:none;cursor:pointer;width:90%}.delete-mode .editable-text{outline:2px dashed red;cursor:crosshair}.delete-mode .editable-text:hover{background-color:#ff000020}@media screen and (max-width:768px){body{font-size:16px}.container{width:100%;margin:0;padding:0 10px 10px;box-shadow:none}header{flex-direction:column;align-items:flex-start;position:static;box-shadow:none;padding:15px 0}header h1{margin-bottom:10px;font-size:24px}nav{display:flex;justify-content:space-around;width:100%}nav a{margin:5px 0;font-size:14px}}</style>
+    <style>
+        :root{--primary-blue:#007bff;--text-color:#333;--background-color:#fff;--container-bg:#2570b8}
+        *, *:before, *:after { box-sizing: border-box; }
+        body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background-color:var(--container-bg);color:var(--text-color);margin:0;padding:0;display:flex;justify-content:center;font-size:18px;line-height:1.6}
+        /* RESPONSIVE FIX */
+        .container{background-color:var(--background-color);width:100%;max-width:960px;margin:20px;padding:0 20px 20px;box-shadow:0 0 15px rgba(0,0,0,.2)}
+        header{padding:20px 0;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background-color:var(--background-color);z-index:100;border-bottom:1px solid #eee;box-shadow:0 2px 5px rgba(0,0,0,.05)}
+        header h1{margin:0;font-size:28px}
+        header h1 a{text-decoration:none;color:var(--text-color)}
+        nav a{margin-left:15px;text-decoration:none;color:var(--primary-blue);font-weight:700;cursor:pointer}
+        nav a:hover{text-decoration:underline}
+        .info-box{border:1px solid #ccc;padding:15px;margin-bottom:20px;background-color:#f9f9f9}
+        .info-box p{margin:5px 0}
+        .bold{font-weight:700}.text-center{text-align:center}.text-right{text-align:right}
+        
+        /* RESPONSIVE TEXT FIXES */
+        .editable-text { 
+            overflow-wrap: break-word; 
+            word-wrap: break-word; 
+            word-break: break-word; 
+            max-width: 100%;
+        }
+
+        .modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:hidden;background-color:rgba(0,0,0,.9)}.modal-content-wrapper{position:relative;height:100%;width:100%;display:flex;align-items:center;justify-content:center;overflow:auto}.modal-content{margin:auto;display:block;max-width:90%;max-height:90%;transition:transform .3s ease-in-out;cursor:zoom-in}.modal-content.zoom-1{transform:scale(1.5);cursor:zoom-in}.modal-content.zoom-2{transform:scale(2.5);cursor:zoom-out}.close{position:absolute;top:15px;right:35px;color:#f1f1f1;font-size:40px;font-weight:700;transition:.3s;cursor:pointer;z-index:1001}.close:hover,.close:focus{color:#bbb}.prev,.next{cursor:pointer;position:absolute;top:50%;width:auto;padding:16px;margin-top:-50px;color:#fff;font-weight:700;font-size:30px;transition:.6s ease;border-radius:0 3px 3px 0;user-select:none;-webkit-user-select:none;z-index:1001}.next{right:0;border-radius:3px 0 0 3px}.prev{left:0}.prev:hover,.next:hover{background-color:rgba(0,0,0,.8)}
+        footer{text-align:center;margin-top:20px;padding-top:10px;border-top:1px solid #ccc;font-size:14px;line-height:1.8}footer a{margin:0 5px}
+        #admin-toolbar{display:none;position:fixed;top:0;left:0;width:100%;background:#2c3e50;color:#fff;padding:10px;z-index:9999;box-shadow:0 2px 5px rgba(0,0,0,.3);text-align:center}#admin-toolbar button{background:#3498db;color:#fff;border:none;padding:8px 15px;cursor:pointer;border-radius:3px;margin:0 5px;font-size:16px}#admin-toolbar button:hover{background:#2980b9}#admin-toolbar button#save-btn{background:#27ae60}#admin-toolbar button#save-btn:hover{background:#229954}#admin-toolbar button#logout-btn{background:#e74c3c}#admin-toolbar button#logout-btn:hover{background:#c0392b}.editable-text[contenteditable=true]{outline:2px dashed #3498db}#login-modal{display:none;position:fixed;z-index:10001;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.6)}#login-modal form{background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;max-width:400px;text-align:center;border-radius:5px}#login-modal input{width:90%;padding:12px 20px;margin:8px 0;display:inline-block;border:1px solid #ccc;box-sizing:border-box}#login-modal button{background-color:#4caf50;color:#fff;padding:14px 20px;margin:8px 0;border:none;cursor:pointer;width:90%}.delete-mode .editable-text{outline:2px dashed red;cursor:crosshair}.delete-mode .editable-text:hover{background-color:#ff000020}
+        
+        @media screen and (max-width:768px){
+            body{font-size:16px}
+            .container{margin:0;padding:0 10px 10px;box-shadow:none}
+            header{flex-direction:column;align-items:flex-start;position:static;box-shadow:none;padding:15px 0}
+            header h1{margin-bottom:10px;font-size:24px}
+            nav{display:flex;justify-content:space-around;width:100%}
+            nav a{margin:5px 0;font-size:14px}
+        }
+    </style>
 </head>
 <body>
     <div id="admin-toolbar">
@@ -84,13 +119,14 @@
         const modalImg = document.getElementById("img01");
         const modalContentWrapper = document.querySelector(".modal-content-wrapper");
         let currentImageIndex, currentGalleryImages, isAdmin = false;
-        let unsavedChanges = false; // Flag for safety
+        let unsavedChanges = false;
+        let contentRefreshInterval;
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Provozní řád | Eko-Oáza Prachov", description: "Provozní a ubytovací řád." }, en: { title: "Operating Rules | Eko-Oáza Prachov", description: "Operating and accommodation rules." } };
 
         function getPageDocId(lang) { const path = window.location.pathname; const page = path.split("/").pop().replace(".html", "") || "index"; return `${page}_${lang}`; }
         function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
-        function setLanguage(lang) { document.documentElement.lang = lang; document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none'; document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none'; document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none'; document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; updateSEO(lang); }
+        function setLanguage(lang) { document.documentElement.lang = lang; document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none'; document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none'; document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none'; document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; updateSEO(lang); refreshContent(true); }
         function switchLanguage(lang) { if(checkUnsavedChanges()) { const currentPage = window.location.pathname.split('/').pop() || 'index.html'; window.location.href = `${currentPage}?lang=${lang}`; } }
         function openModal(element) { if (isAdmin) return; const parentGallery = element.closest('.gallery'); currentGalleryImages = Array.from(parentGallery.querySelectorAll('img')); currentImageIndex = currentGalleryImages.indexOf(element); modal.style.display = "block"; document.body.style.overflow = 'hidden'; showImage(currentImageIndex); }
         function showImage(index) { modalImg.src = currentGalleryImages[index].src; modalImg.alt = currentGalleryImages[index].alt; modalImg.className = 'modal-content'; modalContentWrapper.scrollTop = 0; modalContentWrapper.scrollLeft = 0; }
@@ -98,23 +134,21 @@
         function plusSlides(n) { currentImageIndex = (currentImageIndex + n + currentGalleryImages.length) % currentGalleryImages.length; showImage(currentImageIndex); }
         function handleImageClick(event) { event.stopPropagation(); const img = event.target; if (img.classList.contains('zoom-2')) { img.classList.remove('zoom-2', 'zoom-1'); } else if (img.classList.contains('zoom-1')) { img.classList.add('zoom-2'); } else { img.classList.add('zoom-1'); } }
         function handleModalClick(event) { if (event.target === modalContentWrapper) closeModal(); }
-        auth.onAuthStateChanged(user => { isAdmin = !!user; if (isAdmin) { enableAdminMode(); } else { disableAdminMode(); } });
+        
+        auth.onAuthStateChanged(user => { 
+            isAdmin = !!user; 
+            if (isAdmin) { enableAdminMode(); } 
+            else { 
+                disableAdminMode();
+                setInterval(() => { fetchFromDB(); }, 30000); // 30s Polling
+            } 
+        });
+        
         async function handleLogin(event) { event.preventDefault(); const email = document.getElementById('email').value; const password = document.getElementById('password').value; try { await auth.signInWithEmailAndPassword(email, password); loginModal.style.display = 'none'; } catch (error) { alert('Login failed: ' + error.message); } }
         async function logout() { if(checkUnsavedChanges()) { await auth.signOut(); location.reload(); } }
         
-        // Prevent leaving with unsaved changes
-        window.addEventListener('beforeunload', function (e) {
-            if (unsavedChanges) {
-                e.preventDefault();
-                e.returnValue = '';
-            }
-        });
-        function checkUnsavedChanges() {
-            if (unsavedChanges) {
-                return confirm("Máte neuložené změny! Opravdu chcete odejít bez uložení? / Unsaved changes! Leave anyway?");
-            }
-            return true;
-        }
+        window.addEventListener('beforeunload', function (e) { if (unsavedChanges) { e.preventDefault(); e.returnValue = ''; } });
+        function checkUnsavedChanges() { if (unsavedChanges) { return confirm("Máte neuložené změny! Opravdu chcete odejít bez uložení? / Unsaved changes! Leave anyway?"); } return true; }
 
         function enableAdminMode() { 
             document.body.classList.add('admin-mode'); 
@@ -123,8 +157,15 @@
                 el.contentEditable = true; 
                 el.addEventListener('input', () => { unsavedChanges = true; });
             }); 
+            if (contentRefreshInterval) clearInterval(contentRefreshInterval);
         }
-        function disableAdminMode() { document.body.classList.remove('admin-mode'); document.body.classList.remove('delete-mode'); document.getElementById('admin-toolbar').style.display = 'none'; document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = false; }); }
+        function disableAdminMode() { 
+            document.body.classList.remove('admin-mode'); 
+            document.body.classList.remove('delete-mode'); 
+            document.getElementById('admin-toolbar').style.display = 'none'; 
+            document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = false; }); 
+            startAutoRefresh();
+        }
 
         async function saveAllChanges() {
             const promises = [];
@@ -150,35 +191,71 @@
         async function loadContent() {
             const lang = document.documentElement.lang;
             const docId = getPageDocId(lang);
-            const mainContentContainer = document.getElementById(`lang-${lang}`);
-            const processData = (data) => {
-                Object.keys(data).forEach(fieldId => {
-                    let element = document.querySelector(`[data-field="${fieldId}"]`);
-                    if (!element && fieldId.includes('-custom-')) {
-                        element = document.createElement('p');
-                        element.classList.add('editable-text');
-                        element.dataset.field = fieldId;
-                        mainContentContainer.appendChild(element);
-                        if (isAdmin) {
-                            element.contentEditable = true;
-                            element.addEventListener('input', () => { unsavedChanges = true; });
-                        }
-                    }
-                    if (element && data[fieldId]) {
-                        element.innerHTML = data[fieldId];
-                    }
-                });
-            };
+            // 1. CACHE
             const cachedData = localStorage.getItem(`cachedContent-${docId}`);
-            if (cachedData) { processData(JSON.parse(cachedData)); return; }
+            if (cachedData) { renderData(JSON.parse(cachedData)); }
+            // 2. DB
+            fetchFromDB();
+        }
+
+        async function fetchFromDB() {
+            const lang = document.documentElement.lang;
+            const docId = getPageDocId(lang);
             try {
                 const doc = await db.collection('content').doc(docId).get();
                 if (doc.exists) {
                     const data = doc.data();
-                    localStorage.setItem(`cachedContent-${docId}`, JSON.stringify(data));
-                    processData(data);
+                    const cached = localStorage.getItem(`cachedContent-${docId}`);
+                    if (JSON.stringify(data) !== cached) {
+                        localStorage.setItem(`cachedContent-${docId}`, JSON.stringify(data));
+                        renderData(data);
+                    }
                 }
-            } catch (error) { console.error("Error loading: " + error); }
+            } catch (error) { console.error("Error fetching DB: " + error); }
+        }
+
+        function renderData(data) {
+            const lang = document.documentElement.lang;
+            const mainContentContainer = document.getElementById(`lang-${lang}`);
+            Object.keys(data).forEach(fieldId => {
+                let element = document.querySelector(`[data-field="${fieldId}"]`);
+                if (!element && fieldId.includes('-custom-')) {
+                    element = document.createElement('p');
+                    element.classList.add('editable-text');
+                    element.dataset.field = fieldId;
+                    mainContentContainer.appendChild(element);
+                    if (isAdmin) {
+                        element.contentEditable = true;
+                        element.addEventListener('input', () => { unsavedChanges = true; });
+                    }
+                }
+                if (element && data[fieldId]) {
+                    if(element.innerHTML !== data[fieldId]) { element.innerHTML = data[fieldId]; }
+                }
+            });
+        }
+
+        function startAutoRefresh() {
+            if (contentRefreshInterval) clearInterval(contentRefreshInterval);
+            contentRefreshInterval = setInterval(() => refreshContent(true), 30000);
+        }
+
+        async function refreshContent(forceFetch = false) {
+             const lang = document.documentElement.lang;
+             const docId = getPageDocId(lang);
+             if (!forceFetch) {
+                 const cachedData = localStorage.getItem(`cachedContent-${docId}`);
+                 if (cachedData) renderData(JSON.parse(cachedData));
+             }
+             if (isAdmin && unsavedChanges) return; 
+             try {
+                 const doc = await db.collection('content').doc(docId).get();
+                 if (doc.exists) {
+                     const data = doc.data();
+                     localStorage.setItem(`cachedContent-${docId}`, JSON.stringify(data));
+                     renderData(data);
+                 }
+             } catch (error) { console.error("Error loading: " + error); }
         }
 
         function addTextBox() { const lang = document.documentElement.lang; const newId = `${lang}-custom-${Date.now()}`; const newTextBox = document.createElement('p'); newTextBox.classList.add('editable-text'); newTextBox.dataset.field = newId; newTextBox.textContent = '...'; const mainContent = document.getElementById(`lang-${lang}`); mainContent.appendChild(newTextBox); if(isAdmin) { newTextBox.contentEditable = true; newTextBox.focus(); unsavedChanges = true; newTextBox.addEventListener('input', () => { unsavedChanges = true; }); } }
@@ -195,7 +272,12 @@
             });
         });
 
-        document.addEventListener('DOMContentLoaded', async () => { const urlParams = new URLSearchParams(window.location.search); const lang = urlParams.get('lang') || 'cs'; setLanguage(lang); await loadContent(); });
+        document.addEventListener('DOMContentLoaded', async () => { 
+            const urlParams = new URLSearchParams(window.location.search); 
+            const lang = urlParams.get('lang') || 'cs'; 
+            setLanguage(lang); 
+            startAutoRefresh();
+        });
     </script>
 </body>
 </html>
