@@ -104,7 +104,9 @@
                 <div class="gallery">
                     <img src="obrazky/8.png" alt="Kuchyňka" onclick="openModal(this)"><img src="obrazky/9.png" alt="Kuchyňka interiér" onclick="openModal(this)"><img src="obrazky/10.png" alt="Kuchyňka interiér" onclick="openModal(this)"><img src="obrazky/11.png" alt="Okolí" onclick="openModal(this)">
                 </div>
+                
                 <div class="text-center editable-text" data-field="cs-video-link"></div>
+
                 <div class="editable-text" data-field="cs-activities"></div>
                 <h3 class="text-center editable-text" data-field="cs-price-header"></h3>
                 <div id="price-editor-buttons">
@@ -128,7 +130,9 @@
                 <div class="gallery"><img src="obrazky/5.png" alt="Exterior" onclick="openModal(this)"><img src="obrazky/6.png" alt="Facilities" onclick="openModal(this)"><img src="obrazky/7.png" alt="Facilities" onclick="openModal(this)"></div>
                 <p class="editable-text" data-field="en-kitchen-intro"></p>
                 <div class="gallery"><img src="obrazky/8.png" alt="Kitchen" onclick="openModal(this)"><img src="obrazky/9.png" alt="Kitchen" onclick="openModal(this)"><img src="obrazky/10.png" alt="Kitchen" onclick="openModal(this)"><img src="obrazky/11.png" alt="Surroundings" onclick="openModal(this)"></div>
+                
                 <div class="text-center editable-text" data-field="en-video-link"></div>
+
                 <div class="editable-text" data-field="en-activities"></div>
                 <h3 class="text-center editable-text" data-field="en-price-header"></h3>
                 <div class="editable-text" data-field="en-price-table"></div>
@@ -171,10 +175,10 @@
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Ubytování Chaty Eko-Oáza Prachov | Dovolená v Českém ráji", description: "Nabízíme levné ubytování v chatkách pro rodiny s dětmi." }, en: { title: "Eko-Oáza Prachov Cottages & Accommodation | Bohemian Paradise", description: "Affordable cottage accommodation for families." } };
         
-        // --- RESTORATION DATA (HARDCODED) ---
+        // --- RESTORATION DATA (HARDCODED FROM YOUR TEXT) ---
         const RESTORE_DATA = {
             'index_cs': {
-                'cs-activities': `<h3>Co poskytuje dovolená v Chatové dědince v Českém ráji?</h3> <ul> <li>pěší turistiku Prachovskými skalami v Českém ráji s krásnými vyhlídkami</li> <li>cyklistiku po vyznačených cyklotrasách Českým rájem</li> <li>horolezectví v Prachovských skalách a dalších skalních městech, i na "indoor" umělých stěnách</li> <li>plavání a koupání v koupališti u Pelíška ve středu Prachovských skal, ve známých Jinolických rybníkách či Aqua-centru v Jičíně, a dalších lokalitách (rybníky v Podtroseckých údolích)</li> <li>návštěvy a prohlídky četných zámků (Humprecht, Malá skála, Hrubá skála, Valdštein, ...), hradů (Kost, Staré hrady, ...) a zřícenin (Trosky, Valečov....) v celém Českém ráji, míst bitvy u Jičína 1866</li> <li>prohlídky pohádkového města Jičína s krásnou vyhlídkou z Valdštejnské brány po celém kraji i prohlídku zámku Smiřických na náměstí v Jičíně, a také Valdštejnem založenou dvou-kilometrovou lipovou alejí zakončenou Valdštejnskou lodí, druhý týden v září každý rok akce "Jičín-město pohádky"</li> <li>vyhlídkové lety nad Českým rájem z nedalekého letiště</li> <li>návštěvu festivalu Šrámkova Sobotka (v červenci)</li> <li>jízdu na koni pro malé děti</li> <li>klidný pobyt doma v chatové dědince s ohřátím a úpravou svého jídla v kuchyňce.</li> </ul>`,
+                'cs-activities': `<h3>Co poskytuje dovolená v Chatové dědince v Českém ráji?</h3> <ul> <li>pěší turistiku Prachovskými skalami v Českém ráji s krásnými vyhlídkami</li> <li>cyklistiku po vyznačených cyklotrasách Českým rájem</li> <li>horolezectví v Prachovských skalách a dalších skalních městech, i na "indoor" umělých stěnách</li> <li>plavání a koupání v koupališti u Pelíška ve středu Prachovských skal, ve známých Jinolických rybníkách či Aqua-centru v Jičíně, a dalších lokalitách (rybníky v Podtroseckých údolích)</li> <li>návštěvy a prohlídky četných zámků (Humprecht, Malá skála, Hrubá skála, Valdštein, ...), hradů (Kost, Staré hrady, ...) a zřícenin (Trosky, Valečov....) v celém Českém ráji, míst bitvy u Jičína 1866</li> <li>prohlídky pohádkového města Jičína s krásnou vyhlídkou z Valdštejnské brány po celém kraji i prohlídku zámku Smiřických na náměstí v Jičíně, a také Valdštejnem založenou dvou-kilometrovou lipovou alejí zakončenou Valdštejnskou lodí, druhý týden v září každý rok akce "Jičín-město pohádky"</li> <li>vyhlídkové lety nad Českým rájem z nedalekého letiště</li> <li>návštěvu festivalu Šrámkova Sobotka (v červenci)</li> <li>jízdu na koni pro malé děti</li> <li>klidný pobytdoma v chatové dědince s ohřátím a úpravou svého jídla v kuchyňce.</li> </ul>`,
                 'cs-facebook-link': `<a href="https://www.facebook.com/petr.hejna.3762" target="_blank" rel="noopener noreferrer">https://www.facebook.com/petr.hejna.3762</a>`,
                 'cs-info-box': `<p><b class="bold">Chatová osada v Českém ráji, Prachov 58, provozovatel:</b> Ing.Petr Hejna</p> <p><b class="bold">IČO:</b> 66314364</p> <p><b class="bold">Provozní doba:</b> červenec-srpen (jen po dohodě s klientem)</p> <p><b class="bold">č.ú.</b> 19-6866210217/0100</p> <p><b class="bold">tel.:</b> 606 930 170 (nejlépe večer)</p> <p><b class="bold">e-mail:</b> e-o-p@seznam.cz</p> <p><b class="bold">staré stránky na:</b> eo-prachov.cz</p>`,
                 'cs-intro': `Jedná se o sedm 3-lůžkových chatek vhodných pro rodiče s dětmi. Přistýlka pro čtvrtou osobu (dítě) ve formě propojení dvou lůžek je možná.`,
@@ -265,8 +269,11 @@
             const docId = getPageDocId(lang);
             // 1. FAST LOAD FROM CACHE
             const cachedData = localStorage.getItem(`cachedContent-${docId}`);
-            if (cachedData) { renderData(JSON.parse(cachedData)); }
-            // 2. ALWAYS FETCH FROM DB (with auto-seed fallback)
+            if (cachedData) { 
+                console.log("Loading from cache...");
+                renderData(JSON.parse(cachedData)); 
+            }
+            // 2. ALWAYS FETCH FROM DB (with auto-restore logic)
             fetchFromDB();
         }
 
@@ -277,10 +284,24 @@
                 const doc = await db.collection('content').doc(docId).get();
                 if (doc.exists) {
                     const data = doc.data();
-                    const cached = localStorage.getItem(`cachedContent-${docId}`);
-                    if (JSON.stringify(data) !== cached) {
-                        localStorage.setItem(`cachedContent-${docId}`, JSON.stringify(data));
-                        renderData(data);
+                    // CHECK IF EMPTY (Fix for your "missing text" issue)
+                    if (Object.keys(data).length === 0) {
+                        console.log(`Document ${docId} exists but is empty. Auto-seeding...`);
+                        const dataToSeed = RESTORE_DATA[docId];
+                        if (dataToSeed) {
+                             await db.collection('content').doc(docId).set(dataToSeed);
+                             renderData(dataToSeed);
+                        }
+                    } else {
+                        // Normal update
+                        const cached = localStorage.getItem(`cachedContent-${docId}`);
+                        if (JSON.stringify(data) !== cached) {
+                            console.log("New data found in DB. Updating...");
+                            localStorage.setItem(`cachedContent-${docId}`, JSON.stringify(data));
+                            renderData(data);
+                        } else {
+                            console.log("DB data is same as cache.");
+                        }
                     }
                 } else {
                     // *** AUTO-SEED IF MISSING ***
@@ -310,7 +331,10 @@
                     }
                 }
                 if (element && data[fieldId]) {
-                    if(element.innerHTML !== data[fieldId]) { element.innerHTML = data[fieldId]; }
+                    // Update content only if different to preserve cursor if weird edge case
+                    if(element.innerHTML !== data[fieldId]) {
+                        element.innerHTML = data[fieldId];
+                    }
                 }
             });
         }
