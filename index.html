@@ -10,21 +10,36 @@
         :root{--primary-blue:#007bff;--text-color:#333;--background-color:#fff;--container-bg:#2570b8}
         *, *:before, *:after { box-sizing: border-box; }
         body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background-color:var(--container-bg);color:var(--text-color);margin:0;padding:0;display:flex;justify-content:center;font-size:18px;line-height:1.6}
-        .container{background-color:var(--background-color);width:100%;max-width:960px;margin:20px;padding:0 20px 20px;box-shadow:0 0 15px rgba(0,0,0,.2); overflow: hidden;}
+        
+        /* FIXED: Removed overflow: hidden so text doesn't get cut off, added proper width handling */
+        .container{
+            background-color:var(--background-color);
+            width:100%;
+            max-width:960px;
+            margin:20px;
+            padding:20px;
+            box-shadow:0 0 15px rgba(0,0,0,.2); 
+            display: flex;
+            flex-direction: column;
+        }
+
         header{padding:20px 0;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background-color:var(--background-color);z-index:100;border-bottom:1px solid #eee;box-shadow:0 2px 5px rgba(0,0,0,.05)}
         header h1{margin:0;font-size:28px}
         header h1 a{text-decoration:none;color:var(--text-color)}
         nav a{margin-left:15px;text-decoration:none;color:var(--primary-blue);font-weight:700;cursor:pointer}
         nav a:hover{text-decoration:underline}
+        
         .info-box{border:1px solid #ccc;padding:15px;margin-bottom:20px;background-color:#f9f9f9}
         .info-box p{margin:5px 0}
+        
         .gallery{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
         .gallery img{flex:1 1 200px;max-width:23.5%;height:auto;object-fit:cover;cursor:pointer;transition:transform .2s ease-in-out,box-shadow .2s;display:block}
         .gallery img:hover{transform:scale(1.05);box-shadow:0 4px 8px rgba(0,0,0,.2)}
+        
         .map-container{margin:20px 0}.map-container h3{margin-top:0}.map-embed{width:100%;height:450px;border:0}
         
-        /* Table Fixes */
-        .table-wrapper { width: 100%; overflow-x: auto; }
+        /* Table Scroll Fix */
+        .table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .price-table{width:100%;border-collapse:collapse;margin:20px 0; min-width: 500px;}
         .price-table th,.price-table td{border:1px solid #ccc;padding:10px;text-align:left}.price-table th{background-color:#f2f2f2}
         
@@ -32,15 +47,17 @@
         footer{text-align:center;margin-top:20px;padding-top:10px;border-top:1px solid #ccc;font-size:14px;line-height:1.8}footer a{margin:0 5px}
         .bold{font-weight:700}.text-center{text-align:center}.text-right{text-align:right}
         
-        /* TEXT CROPPING FIX */
+        /* FIXED: Text Alignment and Wrapping */
         .editable-text { 
-            overflow-wrap: anywhere; 
+            width: 100%;
+            overflow-wrap: break-word; 
             word-wrap: break-word; 
             word-break: break-word; 
-            max-width: 100%; 
+            hyphens: auto;
         }
         img { max-width: 100%; height: auto; }
 
+        /* Modal Styles */
         .modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:hidden;background-color:rgba(0,0,0,.9)}.modal-content-wrapper{position:relative;height:100%;width:100%;display:flex;align-items:center;justify-content:center;overflow:auto}.modal-content{margin:auto;display:block;max-width:90%;max-height:90%;transition:transform .3s ease-in-out;cursor:zoom-in}.modal-content.zoom-1{transform:scale(1.5);cursor:zoom-in}.modal-content.zoom-2{transform:scale(2.5);cursor:zoom-out}.close{position:absolute;top:15px;right:35px;color:#f1f1f1;font-size:40px;font-weight:700;transition:.3s;cursor:pointer;z-index:1001}.close:hover,.close:focus{color:#bbb}.prev,.next{cursor:pointer;position:absolute;top:50%;width:auto;padding:16px;margin-top:-50px;color:#fff;font-weight:700;font-size:30px;transition:.6s ease;border-radius:0 3px 3px 0;user-select:none;-webkit-user-select:none;z-index:1001}.next{right:0;border-radius:3px 0 0 3px}.prev{left:0}.prev:hover,.next:hover{background-color:rgba(0,0,0,.8)}
         
         /* Admin Toolbar */
@@ -71,8 +88,6 @@
             nav{display:flex;justify-content:space-around;width:100%}
             nav a{margin:5px 0;font-size:14px}
             .gallery img{max-width:48%;flex-basis:48%}
-            /* On mobile, we let the table scroll horizontally instead of stacking, to preserve format */
-            .table-wrapper { display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         }
     </style>
 </head>
@@ -80,7 +95,8 @@
     <div id="admin-toolbar">
         <span>Režim úprav</span>
         <button id="save-btn" onclick="saveAllChanges()">Uložit změny (Edit)</button>
-        <button id="force-save-btn" onclick="resetToHardcodedData()">⚠ NAHRÁT KÓD DO DB (RESET)</button>
+        <!-- THIS BUTTON NOW ONLY UPLOADS ENGLISH! -->
+        <button id="force-save-btn" onclick="uploadEnglishOnly()">⚠ NAHRÁT KÓD ANGLIČTINY (EN ONLY)</button>
         <button onclick="addTextBox()">+ Přidat text</button>
         <button id="delete-mode-btn" onclick="toggleDeleteMode()">Smazat text</button>
         <button id="logout-btn" onclick="logout()">Odhlásit se</button>
@@ -202,11 +218,10 @@
         const modalContentWrapper = document.querySelector(".modal-content-wrapper");
         let currentImageIndex, currentGalleryImages, isAdmin = false;
         let unsavedChanges = false;
-        let contentRefreshInterval;
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Ubytování Chaty Eko-Oáza Prachov | Dovolená v Českém ráji", description: "Nabízíme levné ubytování v chatkách pro rodiny s dětmi." }, en: { title: "Eko-Oáza Prachov Cottages & Accommodation | Bohemian Paradise", description: "Affordable cottage accommodation for families." } };
         
-        // --- HARDCODED RESTORATION DATA ---
+        // --- HARDCODED DATA (Used only for English Reset) ---
         const RESTORE_DATA = {
             'index_cs': {
                 'cs-activities': `<h3>Co poskytuje dovolená v Chatové dědince v Českém ráji?</h3> <ul> <li>pěší turistiku Prachovskými skalami v Českém ráji s krásnými vyhlídkami</li> <li>cyklistiku po vyznačených cyklotrasách Českým rájem</li> <li>horolezectví v Prachovských skalách a dalších skalních městech, i na "indoor" umělých stěnách</li> <li>plavání a koupání v koupališti u Pelíška ve středu Prachovských skal, ve známých Jinolických rybníkách či Aqua-centru v Jičíně, a dalších lokalitách (rybníky v Podtroseckých údolích)</li> <li>návštěvy a prohlídky četných zámků (Humprecht, Malá skála, Hrubá skála, Valdštein, ...), hradů (Kost, Staré hrady, ...) a zřícenin (Trosky, Valečov....) v celém Českém ráji, míst bitvy u Jičína 1866</li> <li>prohlídky pohádkového města Jičína s krásnou vyhlídkou z Valdštejnské brány po celém kraji i prohlídku zámku Smiřických na náměstí v Jičíně, a také Valdštejnem založenou dvou-kilometrovou lipovou alejí zakončenou Valdštejnskou lodí, druhý týden v září každý rok akce "Jičín-město pohádky"</li> <li>vyhlídkové lety nad Českým rájem z nedalekého letiště</li> <li>návštěvu festivalu Šrámkova Sobotka (v červenci)</li> <li>jízdu na koni pro malé děti</li> <li>klidný pobytdoma v chatové dědince s ohřátím a úpravou svého jídla v kuchyňce.</li> </ul>`,
@@ -238,7 +253,20 @@
 
         function getPageDocId(lang) { const path = window.location.pathname; const page = path.split("/").pop().replace(".html", "") || "index"; return `${page}_${lang}`; }
         function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
-        function setLanguage(lang) { document.documentElement.lang = lang; document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none'; document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none'; document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none'; document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; updateSEO(lang); refreshContent(true); }
+        
+        // FIXED: Replaced undefined refreshContent with fetchFromDB
+        function setLanguage(lang) { 
+            document.documentElement.lang = lang; 
+            document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none'; 
+            document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none'; 
+            document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none'; 
+            document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none'; 
+            document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; 
+            document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; 
+            updateSEO(lang); 
+            fetchFromDB(); // <--- FIXED HERE
+        }
+
         function switchLanguage(lang) { if(checkUnsavedChanges()) { const currentPage = window.location.pathname.split('/').pop() || 'index.html'; window.location.href = `${currentPage}?lang=${lang}`; } }
         function openModal(element) { if (isAdmin) return; const parentGallery = element.closest('.gallery'); currentGalleryImages = Array.from(parentGallery.querySelectorAll('img')); currentImageIndex = currentGalleryImages.indexOf(element); modal.style.display = "block"; document.body.style.overflow = 'hidden'; showImage(currentImageIndex); }
         function showImage(index) { modalImg.src = currentGalleryImages[index].src; modalImg.alt = currentGalleryImages[index].alt; modalImg.className = 'modal-content'; modalContentWrapper.scrollTop = 0; modalContentWrapper.scrollLeft = 0; }
@@ -246,11 +274,16 @@
         function plusSlides(n) { currentImageIndex = (currentImageIndex + n + currentGalleryImages.length) % currentGalleryImages.length; showImage(currentImageIndex); }
         function handleImageClick(event) { event.stopPropagation(); const img = event.target; if (img.classList.contains('zoom-2')) { img.classList.remove('zoom-2', 'zoom-1'); } else if (img.classList.contains('zoom-1')) { img.classList.add('zoom-2'); } else { img.classList.add('zoom-1'); } }
         function handleModalClick(event) { if (event.target === modalContentWrapper) closeModal(); }
+        
         auth.onAuthStateChanged(user => { 
             isAdmin = !!user; 
             if (isAdmin) { enableAdminMode(); } 
             else { 
                 disableAdminMode();
+                // Frequent polling during load (0.5s), then slower
+                fetchFromDB();
+                setTimeout(fetchFromDB, 500);
+                setTimeout(fetchFromDB, 1000);
                 setInterval(() => {
                     console.log("Checking for database updates...");
                     fetchFromDB();
@@ -292,22 +325,24 @@
             } catch (error) { console.error("Error saving:", error); alert("Error saving."); }
         }
 
-        // NEW FUNCTION: Forces the hardcoded RESTORE_DATA into the DB
-        async function resetToHardcodedData() {
-            if(!confirm("OPRAVDU? Tímto přepíšete databázi původním kódem! / REALLY? This will overwrite the DB with hardcoded code!")) return;
+        // NEW FUNCTION: Forces ENGLISH ONLY to the DB
+        async function uploadEnglishOnly() {
+            if(!confirm("NAHRÁT JEN ANGLIČTINU? Čeština zůstane nezměněna. / UPLOAD ENGLISH ONLY? Czech will remain untouched.")) return;
             
-            const csDoc = getPageDocId('cs');
+            // We only look for the EN document
             const enDoc = getPageDocId('en');
             
             try {
-                if(RESTORE_DATA[csDoc]) await db.collection('content').doc(csDoc).set(RESTORE_DATA[csDoc]);
-                if(RESTORE_DATA[enDoc]) await db.collection('content').doc(enDoc).set(RESTORE_DATA[enDoc]);
-                
-                alert("Databáze resetována na původní hodnoty! Stránka se obnoví.");
-                location.reload();
+                if(RESTORE_DATA[enDoc]) {
+                    await db.collection('content').doc(enDoc).set(RESTORE_DATA[enDoc]);
+                    alert("Angličtina nahrána do DB! Stránka se obnoví. / English uploaded!");
+                    location.reload();
+                } else {
+                    alert("Chyba: Data pro angličtinu nebyla nalezena.");
+                }
             } catch(e) {
                 console.error(e);
-                alert("Chyba při resetu: " + e.message);
+                alert("Chyba při nahrávání: " + e.message);
             }
         }
 
