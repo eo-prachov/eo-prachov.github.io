@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Provozní a ubytovací řád.">
+    <link rel="canonical" href="https://www.example.com/provozni-rad.html">
     <style>
         :root{--primary-blue:#007bff;--text-color:#333;--background-color:#fff;--container-bg:#2570b8}
         *, *:before, *:after { box-sizing: border-box; }
         body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background-color:var(--container-bg);color:var(--text-color);margin:0;padding:0;display:flex;justify-content:center;font-size:18px;line-height:1.6}
-        .container{background-color:var(--background-color);width:100%;max-width:960px;margin:20px;padding:0 20px 20px;box-shadow:0 0 15px rgba(0,0,0,.2)}
+        /* RESPONSIVE FIX */
+        .container{background-color:var(--background-color);width:100%;max-width:960px;margin:20px;padding:0 20px 20px;box-shadow:0 0 15px rgba(0,0,0,.2); overflow: hidden;}
         header{padding:20px 0;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background-color:var(--background-color);z-index:100;border-bottom:1px solid #eee;box-shadow:0 2px 5px rgba(0,0,0,.05)}
         header h1{margin:0;font-size:28px}
         header h1 a{text-decoration:none;color:var(--text-color)}
@@ -18,9 +20,34 @@
         .info-box{border:1px solid #ccc;padding:15px;margin-bottom:20px;background-color:#f9f9f9}
         .info-box p{margin:5px 0}
         .bold{font-weight:700}.text-center{text-align:center}.text-right{text-align:right}
-        .editable-text { overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; max-width: 100%; }
+        
+        /* RESPONSIVE TEXT FIXES */
+        .editable-text { 
+            overflow-wrap: anywhere; 
+            word-wrap: break-word; 
+            word-break: break-word; 
+            max-width: 100%;
+        }
+
+        .modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:hidden;background-color:rgba(0,0,0,.9)}.modal-content-wrapper{position:relative;height:100%;width:100%;display:flex;align-items:center;justify-content:center;overflow:auto}.modal-content{margin:auto;display:block;max-width:90%;max-height:90%;transition:transform .3s ease-in-out;cursor:zoom-in}.modal-content.zoom-1{transform:scale(1.5);cursor:zoom-in}.modal-content.zoom-2{transform:scale(2.5);cursor:zoom-out}.close{position:absolute;top:15px;right:35px;color:#f1f1f1;font-size:40px;font-weight:700;transition:.3s;cursor:pointer;z-index:1001}.close:hover,.close:focus{color:#bbb}.prev,.next{cursor:pointer;position:absolute;top:50%;width:auto;padding:16px;margin-top:-50px;color:#fff;font-weight:700;font-size:30px;transition:.6s ease;border-radius:0 3px 3px 0;user-select:none;-webkit-user-select:none;z-index:1001}.next{right:0;border-radius:3px 0 0 3px}.prev{left:0}.prev:hover,.next:hover{background-color:rgba(0,0,0,.8)}
         footer{text-align:center;margin-top:20px;padding-top:10px;border-top:1px solid #ccc;font-size:14px;line-height:1.8}footer a{margin:0 5px}
-        #admin-toolbar{display:none;position:fixed;top:0;left:0;width:100%;background:#2c3e50;color:#fff;padding:10px;z-index:9999;box-shadow:0 2px 5px rgba(0,0,0,.3);text-align:center}#admin-toolbar button{background:#3498db;color:#fff;border:none;padding:8px 15px;cursor:pointer;border-radius:3px;margin:0 5px;font-size:16px}#admin-toolbar button:hover{background:#2980b9}#admin-toolbar button#save-btn{background:#27ae60}#admin-toolbar button#save-btn:hover{background:#229954}#admin-toolbar button#logout-btn{background:#e74c3c}#admin-toolbar button#logout-btn:hover{background:#c0392b}.editable-text[contenteditable=true]{outline:2px dashed #3498db}#login-modal{display:none;position:fixed;z-index:10001;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.6)}#login-modal form{background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;max-width:400px;text-align:center;border-radius:5px}#login-modal input{width:90%;padding:12px 20px;margin:8px 0;display:inline-block;border:1px solid #ccc;box-sizing:border-box}#login-modal button{background-color:#4caf50;color:#fff;padding:14px 20px;margin:8px 0;border:none;cursor:pointer;width:90%}.delete-mode .editable-text{outline:2px dashed red;cursor:crosshair}.delete-mode .editable-text:hover{background-color:#ff000020}
+        
+        /* Admin Toolbar */
+        #admin-toolbar{display:none;position:fixed;top:0;left:0;width:100%;background:#2c3e50;color:#fff;padding:10px;z-index:9999;box-shadow:0 2px 5px rgba(0,0,0,.3);text-align:center; flex-wrap: wrap; justify-content: center;}
+        #admin-toolbar button{background:#3498db;color:#fff;border:none;padding:8px 15px;cursor:pointer;border-radius:3px;margin:5px;font-size:14px}
+        #admin-toolbar button:hover{background:#2980b9}
+        #admin-toolbar button#save-btn{background:#27ae60}
+        #admin-toolbar button#save-btn:hover{background:#229954}
+        #admin-toolbar button#logout-btn{background:#e74c3c}
+        #admin-toolbar button#logout-btn:hover{background:#c0392b}
+        #admin-toolbar button#force-save-btn{background:#d35400; font-weight: bold; border: 1px solid #fff;} 
+        #admin-toolbar button#force-save-btn:hover{background:#e67e22;}
+
+        .editable-text[contenteditable=true]{outline:2px dashed #3498db}
+        #login-modal{display:none;position:fixed;z-index:10001;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.6)}
+        #login-modal form{background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;max-width:400px;text-align:center;border-radius:5px}
+        #login-modal input{width:90%;padding:12px 20px;margin:8px 0;display:inline-block;border:1px solid #ccc;box-sizing:border-box}
+        #login-modal button{background-color:#4caf50;color:#fff;padding:14px 20px;margin:8px 0;border:none;cursor:pointer;width:90%}.delete-mode .editable-text{outline:2px dashed red;cursor:crosshair}.delete-mode .editable-text:hover{background-color:#ff000020}
         
         @media screen and (max-width:768px){
             body{font-size:16px}
@@ -35,9 +62,11 @@
 <body>
     <div id="admin-toolbar">
         <span>Režim úprav</span>
-        <button id="save-btn" onclick="saveAllChanges()">Uložit</button>
-        <button onclick="addTextBox()">+ Text</button>
-        <button id="logout-btn" onclick="logout()">Odhlásit</button>
+        <button id="save-btn" onclick="saveAllChanges()">Uložit změny (Edit)</button>
+        <button id="force-save-btn" onclick="resetToHardcodedData()">⚠ NAHRÁT KÓD DO DB (RESET)</button>
+        <button onclick="addTextBox()">+ Přidat text</button>
+        <button id="delete-mode-btn" onclick="toggleDeleteMode()">Smazat text</button>
+        <button id="logout-btn" onclick="logout()">Odhlásit se</button>
     </div>
     <div id="login-modal">
         <form onsubmit="handleLogin(event)">
@@ -81,8 +110,17 @@
              Spolupráce: <a href="https://www.e-chalupy.cz/" target="_blank">e-chalupy.cz</a> <a href="https://www.levneubytovani.net/" target="_blank">LevneUbytovani.net</a> <a href="https://chalupy-ubytovani.cz/" target="_blank">chalupy-ubytovani.cz</a>
         </footer>
         <footer id="footer-en" style="display:none;">
-            In cooperation with: <a href="https://www.e-chalupy.cz/" target="_blank">e-chalupy.cz</a> <a href="https://www.levneubytovani.net/" target="_blank">LevneUbytovani.net</a> <a href="https://chalupy-ubytovani.cz/" target="_blank">chalupy-ubytovani.cz</a>
+            Cooperation with: <a href="https://www.e-chalupy.cz/" target="_blank">e-chalupy.cz</a> <a href="https://www.levneubytovani.net/" target="_blank">LevneUbytovani.net</a> <a href="https://chalupy-ubytovani.cz/" target="_blank">chalupy-ubytovani.cz</a>
         </footer>
+    </div>
+    
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        <div class="modal-content-wrapper" onclick="handleModalClick(event)">
+             <img class="modal-content" id="img01" onclick="handleImageClick(event)">
+        </div>
     </div>
     
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
@@ -90,36 +128,48 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     
     <script id="main-script">
-        const firebaseConfig = { apiKey: "AIzaSyCuI9hhPtQMDkNqlQmmPfJRMWZWZFrT3hw", authDomain: "eko-oaza-website.firebaseapp.com", projectId: "eko-oaza-website", storageBucket: "eko-oaza-website.firebasestorage.app", messagingSenderId: "32000760259", appId: "1:32000760259:web:b6b797ca91de9bd7688576" };
+        const firebaseConfig = { apiKey: "AIzaSyCuI9hhPtQMDkNqlQmmPfJRMWZWZFrT3hw", authDomain: "eko-oaza-website.firebaseapp.com", projectId: "eko-oaza-website", storageBucket: "eko-oaza-website.firebasestorage.app", messagingSenderId: "32000760259", appId: "1:32000760259:web:b6b797ca91de9bd7688576", measurementId: "G-0KLWHCEM16" };
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
-        let isAdmin = false;
+        const modal = document.getElementById("myModal");
+        const modalImg = document.getElementById("img01");
+        const modalContentWrapper = document.querySelector(".modal-content-wrapper");
+        let currentImageIndex, currentGalleryImages, isAdmin = false;
         let unsavedChanges = false;
+        let contentRefreshInterval;
         const loginModal = document.getElementById('login-modal');
+        const seoData = { cs: { title: "Provozní řád | Eko-Oáza Prachov", description: "Provozní a ubytovací řád." }, en: { title: "Operating Rules | Eko-Oáza Prachov", description: "Operating and accommodation rules." } };
 
-        // --- HARDCODED DATA FOR AUTO-SAVING ---
+        // --- HARDCODED RESTORATION DATA ---
         const RESTORE_DATA = {
             'provozni-rad_cs': {
-                'cs-rules-info-box': `<p><b class="bold">Chatová osada v Českém ráji, Prachov 58, provozovatel:</b> Ing.Petr Hejna</p> <p><b class="bold">IČO:</b> 66314364</p> <p><b class="bold">Provozní doba:</b> červenec-srpen (jen po dohodě s klientem)</p> <p><b class="bold">č.ú.</b> 19-6866210217/0100</p> <p><b class="bold">tel.:</b> 606 930 170 (nejlépe večer)</p> <p><b class="bold">e-mail:</b> e-o-p@seznam.cz</p>`,
-                'cs-rules-content': `<h3>Provozní řád</h3><p>V zásadě platí jednoduché pravidlo. Pobyt v této malé chatové osadě se řídí <span class="bold">zásadami lidské slušnosti a ohleduplnosti, rozumem</span> a <span class="bold">Ubytovacím řádem</span>, který je k dispozici v kuchyňce.</p><ul><li>V chatkách se nesmí kouřit a přestavovat nábytek.</li><li>Na WC se do záchodových mís má vhazovat pouze toaletní papír. Čistička nedokáže rozložit jiný materiál (např. "papírové" kapesníčky, hygienické vložky, apod.).</li><li>V kuchyňce nedotahovat přílišnou silou kohoutek teplé vody. Po dotažení musí teplá voda ještě trochu odtékat, po několika vteřinách sama přestane téct. (Jedná se o beztlakový systém).</li></ul><h3 class="text-center">UBYTOVACÍ ŘÁD</h3><p class="bold text-center">Ubytování v této malé chatové osadě se řídí zejména zásadami lidské slušnosti a ohleduplnosti, ale i následujícími pravidly.</p><p>Provozovatelem a vlastníkem rekreačního střediska Eko-Oáza-Prachov (dále jen „EOP“), které se nachází na adrese Prachov 58, 50601 Jičín, je fyzická osoba Ing.Petr Hejna, se sídlem Komenského 59, 50601 Jičín, IČO:66314364, zapsaná v živnostenském rejstříku vedeném Městským úřadem v Jičíně, (dále jen „ubytovatel“).</p><p>Každý host je povinen seznámit se s tímto ubytovacím řádem před zahájením ubytování a je povinen jej dodržovat po celou dobu ubytování. V případě, že hostem je nezletilé dítě nebo mladiství, je povinností zákonného zástupce, příp. odpovědné osoby seznámit je, vzhledem k jeho rozumové a volní vyspělosti, s ubytovacím řádem a s právy a povinnostmi z ubytovacího řádu vyplývajícími, a z bezpečnostních důvodů nenechávat nezletilé dítě do 10ti let bez dozoru v areálu EOP.</p><p>V prostoru EOP se může ubytovat pouze host, která se řádně zaevidoval u ubytovatele, prokázal svou totožnost průkazem totožnosti a má zaplacenu sjednanou částku převodem z účtu na účet. Ubytování je povoleno pouze hostům, kteří nejsou postiženi infekčními nebo parazitními nemocemi, ani jim nebyl nařízen zvýšený zdravotní dozor nebo karanténa.</p><p>Nebylo-li sjednáno jinak, nástup na ubytováni je po 14:00hod., opuštěni nejpozději do 10:00hod.</p><p>V době od 22:00hod do 07:00hod je nutno dodržovat noční klid. Po dohodě s ubytovatelem je možné večerku posunout na pozdější hodinu. Host osobně převezme a předá zpět chatku ubytovateli s vrácením klíčů.</p><p>Psi nebo jiná zvířata mohou být přítomna za předpokladu, že host prokáže jejich způsobilý stav (očkovací průkaz). Po celou dobu pobytu za zvíře odpovídá majitel. Zvíře nesmí zůstat bez dozoru. Majitelé zvířat jsou povinni zabezpečit, aby zvířata nepobíhala po areálu volně, bez náhubku, a jsou povinni po svém zvířeti uklízet. <span class="bold">Zvířata nesmí spát v posteli určené pro spaní hostů.</span></p><p>Ubytování, pohyb a pobyt osob po areálu EOP je <span class="bold">výhradně na vlastní nebezpečí.</span> Při pobytu dětí a mladistvích je nutné dbát zvýšené opatrnosti. <span class="bold">Ubytovatel nenese zodpovědnost za újmu na zdraví.</span></p><p>Parkování je možné na plochách u chatek. <span class="bold">Je třeba zvýšené opatrnosti při jízdě mezi chatkami.</span></p><p>V ubytovacích prostorách nesmí být bez souhlasu ubytovatele přemísťován nábytek. V areálu EOP je zakázáno kácení a ořezávání jakékoliv vegetace.</p><p>Platí přísný zákaz kouření v chatkách a celém areálu mimo k tomu účelu vyhrazený prostor, nošení zbraní, přechovávání omamných a psychotropních látek, jedů či jiných nebezpečných chemikálií s výjimkou léčivých přípravků pro osobní potřebu hosta.</p><p>Oheň je povoleno rozdělávat pouze na vyhrazeném místě, při vhodných klimatických podmínkách, po předchozím souhlasu ubytovatele, a u ohně musí být osoba starší 18 let. Musí byt dodrženy protipožární předpisy.</p><p>Hosté jsou povinni třídit komunální odpad, odkládat jej do určených nádob jen na vyhrazém místě.</p><p>Do WC mísy patří <span class="bold">pouze toaletní papír</span> (rozložitelné. čističkou). Ostatní použité hygienické pomůcky patří do k tomu určených odpadkových košů.</p><p>V kuchyňce <span class="bold">nedotahovat kohoutky silou</span> (přetlakový systém). Voda se zastaví po chvilce sama.</p><p><span class="bold">Ubytovatel neodpovídá nikomu za ztrátu a škodu majetku.</span> Z cennosti odpovídá zásadně host, vyjma těch, které se hosté u ubytovatele uschovají proti podpisu o převzetí do úschovy.</p><p>Host je povinen dodržovat ustanovení tohoto ubytovacího řádu. V případě, že ubytovací řád poruší, má ubytovatel právo bez předchozího upozornění ukončit ubytování před uplynutím dohodnuté doby bez poskytnutí jakékoliv náhrady pro hosta.</p><p>Eko-Oáza-Prachov přeje příjemný pobyt.</p><p class="text-right">Toto znění ubytovacího řádu platí od 1.1.2019</p><p class="text-right">Ing.Petr Hejna, majitel EOP</p><p><span class="bold">Tísňová volání 112, První pomoc 155, Hasiči 150, Policie 158</span></p>`
+                'cs-rules-info-box': `<h3>Eko-Oáza Prachov</h3><p><b class="bold">Chatová osada v Českém ráji, Prachov 58, provozovatel:</b> Ing.Petr Hejna</p> <p><b class="bold">IČO:</b> 66314364</p> <p><b class="bold">Provozní doba:</b> červenec-srpen (jen po dohodě s klientem)</p> <p><b class="bold">č.ú.</b> 19-6866210217/0100</p> <p><b class="bold">tel.:</b> 606 930 170 (nejlépe večer)</p> <p><b class="bold">e-mail:</b> e-o-p@seznam.cz</p><p>old web:</p>`,
+                'cs-rules-content': `<h3 class="editable-text">Provozní řád</h3><p>V zásadě platí jednoduché pravidlo. Pobyt v této malé chatové osadě se řídí <span class="bold">zásadami lidské slušnosti a ohleduplnosti, rozumem</span> a <span class="bold">Ubytovacím řádem</span>, který je k dispozici v kuchyňce.</p><ul><li>V chatkách se nesmí kouřit a přestavovat nábytek.</li><li>Na WC se do záchodových mís má vhazovat pouze toaletní papír. Čistička nedokáže rozložit jiný materiál (např. "papírové" kapesníčky, hygienické vložky, apod.).</li><li>V kuchyňce nedotahovat přílišnou silou kohoutek teplé vody. Po dotažení musí teplá voda ještě trochu odtékat, po několika vteřinách sama přestane téct. (Jedná se o beztlakový systém).</li></ul><h3 class="text-center">UBYTOVACÍ ŘÁD</h3><p class="bold text-center">Ubytování v této malé chatové osadě se řídí zejména zásadami lidské slušnosti a ohleduplnosti, ale i následujícími pravidly.</p><p>Provozovatelem a vlastníkem rekreačního střediska Eko-Oáza-Prachov (dále jen „EOP“), které se nachází na adrese Prachov 58, 50601 Jičín, je fyzická osoba Ing.Petr Hejna, se sídlem Komenského 59, 50601 Jičín, IČO:66314364, zapsaná v živnostenském rejstříku vedeném Městským úřadem v Jičíně, (dále jen „ubytovatel“).</p><p>Každý host je povinen seznámit se s tímto ubytovacím řádem před zahájením ubytování a je povinen jej dodržovat po celou dobu ubytování. V případě, že hostem je nezletilé dítě nebo mladiství, je povinností zákonného zástupce, příp. odpovědné osoby seznámit je, vzhledem k jeho rozumové a volní vyspělosti, s ubytovacím řádem a s právy a povinnostmi z ubytovacího řádu vyplývajícími, a z bezpečnostních důvodů nenechávat nezletilé dítě do 10ti let bez dozoru v areálu EOP.</p><p>V prostoru EOP se může ubytovat pouze host, která se řádně zaevidoval u ubytovatele, prokázal svou totožnost průkazem totožnosti a má zaplacenu sjednanou částku převodem z účtu na účet. Ubytování je povoleno pouze hostům, kteří nejsou postiženi infekčními nebo parazitními nemocemi, ani jim nebyl nařízen zvýšený zdravotní dozor nebo karanténa.</p><p>Nebylo-li sjednáno jinak, nástup na ubytováni je po 14:00hod., opuštěni nejpozději do 10:00hod.</p><p>V době od 22:00hod do 07:00hod je nutno dodržovat noční klid. Po dohodě s ubytovatelem je možné večerku posunout na pozdější hodinu. Host osobně převezme a předá zpět chatku ubytovateli s vrácením klíčů.</p><p>Psi nebo jiná zvířata mohou být přítomna za předpokladu, že host prokáže jejich způsobilý stav (očkovací průkaz). Po celou dobu pobytu za zvíře odpovídá majitel. Zvíře nesmí zůstat bez dozoru. Majitelé zvířat jsou povinni zabezpečit, aby zvířata nepobíhala po areálu volně, bez náhubku, a jsou povinni po svém zvířeti uklízet. <span class="bold">Zvířata nesmí spát v posteli určené pro spaní hostů.</span></p><p>Ubytování, pohyb a pobyt osob po areálu EOP je <span class="bold">výhradně na vlastní nebezpečí.</span> Při pobytu dětí a mladistvích je nutné dbát zvýšené opatrnosti. <span class="bold">Ubytovatel nenese zodpovědnost za újmu na zdraví.</span></p><p>Parkování je možné na plochách u chatek. <span class="bold">Je třeba zvýšené opatrnosti při jízdě mezi chatkami.</span></p><p>V ubytovacích prostorách nesmí být bez souhlasu ubytovatele přemísťován nábytek. V areálu EOP je zakázáno kácení a ořezávání jakékoliv vegetace.</p><p>Platí přísný zákaz kouření v chatkách a celém areálu mimo k tomu účelu vyhrazený prostor, nošení zbraní, přechovávání omamných a psychotropních látek, jedů či jiných nebezpečných chemikálií s výjimkou léčivých přípravků pro osobní potřebu hosta.</p><p>Oheň je povoleno rozdělávat pouze na vyhrazeném místě, při vhodných klimatických podmínkách, po předchozím souhlasu ubytovatele, a u ohně musí být osoba starší 18 let. Musí byt dodrženy protipožární předpisy.</p><p>Hosté jsou povinni třídit komunální odpad, odkládat jej do určených nádob jen na vyhrazém místě.</p><p>Do WC mísy patří <span class="bold">pouze toaletní papír</span> (rozložitelné. čističkou). Ostatní použité hygienické pomůcky patří do k tomu určených odpadkových košů.</p><p>V kuchyňce <span class="bold">nedotahovat kohoutky silou</span> (přetlakový systém). Voda se zastaví po chvilce sama.</p><p><span class="bold">Ubytovatel neodpovídá nikomu za ztrátu a škodu majetku.</span> Z cennosti odpovídá zásadně host, vyjma těch, které se hosté u ubytovatele uschovají proti podpisu o převzetí do úschovy.</p><p>Host je povinen dodržovat ustanovení tohoto ubytovacího řádu. V případě, že ubytovací řád poruší, má ubytovatel právo bez předchozího upozornění ukončit ubytování před uplynutím dohodnuté doby bez poskytnutí jakékoliv náhrady pro hosta.</p><p>Eko-Oáza-Prachov přeje příjemný pobyt.</p><p class="text-right">Toto znění ubytovacího řádu platí od 1.1.2019</p><p class="text-right">Ing.Petr Hejna, majitel EOP</p><p><span class="bold">Tísňová volání 112, První pomoc 155, Hasiči 150, Policie 158</span></p>`
             },
             'provozni-rad_en': {
-                'en-rules-info-box': `<h3>Eko-Oáza Prachov</h3><p>The cottage area in The Bohemian Paradise, Prachov 58</p><p><strong>IČO:</strong> 66314364</p><p><strong>Account #:</strong> 19-6866210217/0100</p><p><strong>tel.:</strong> 606 930 170</p><p><strong>e-mail:</strong> e-o-p@seznam.cz</p>`,
-                'en-rules-content': `<h3>Operating rules</h3><p>In principle, one simple rule is to be followed. The accommodated in this small camp are to follow principles of human politeness and common decency and the Rules of Accommodation that are on display in the kitchenette.</p><ul><li>Smoking in cottages is not allowed. Furniture should stay in place.</li><li>Only <strong>toilet</strong> paper should be thrown into the toilets bowls. The purification plant cannot decompose any other material (such as "paper" handkerchiefs, sanitary towels, etc.).</li><li>The hot water tap in the kitchenette should not be turned off excessively. After turning off the tap, there must still be some water leakage which will disappear after several seconds. (pressureless system is used).</li></ul><p>Cooperation with: e-chalupy.cz LevneUbytovani.net chalupy-ubytovani.cz</p>`
+                'en-rules-info-box': `<h3>Eko-Oáza Prachov</h3><p>The cottage area in The Bohemian Paradise, Prachov 58</p><p><strong>IČO:</strong> 66314364</p><p><strong>Account #:</strong> 19-6866210217/0100</p><p><strong>tel.:</strong> 606 930 170</p><p><strong>e-mail:</strong> e-o-p@seznam.cz</p><p>old web:</p>`,
+                'en-rules-content': `<h3>Operating rules</h3><p>In principle, one simple rule is to be followed. The accommodated in this small camp are to follow principles of human politeness and common decency and the Rules of Accommodation that are on display in the kitchenette.</p><ul><li>Smoking in cottages is not allowed. Furniture should stay in place.</li><li>Only <strong>toilet</strong> paper should be thrown into the toilets bowls. The purification plant cannot decompose any other material (such as "paper" handkerchiefs, sanitary towels, etc.).</li><li>The hot water tap in the kitchenette should not be turned off excessively. After turning off the tap, there must still be some water leakage which will disappear after several seconds. (pressureless system is used).</li></ul>`
             }
         };
 
         function getPageDocId(lang) { const path = window.location.pathname; const page = path.split("/").pop().replace(".html", "") || "index"; return `${page}_${lang}`; }
-        function setLanguage(lang) { document.documentElement.lang = lang; document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none'; document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none'; document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none'; document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; refreshContent(true); }
+        function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
+        function setLanguage(lang) { document.documentElement.lang = lang; document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none'; document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none'; document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none'; document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; updateSEO(lang); refreshContent(true); }
         function switchLanguage(lang) { if(checkUnsavedChanges()) { const currentPage = window.location.pathname.split('/').pop() || 'index.html'; window.location.href = `${currentPage}?lang=${lang}`; } }
+        function openModal(element) { if (isAdmin) return; const parentGallery = element.closest('.gallery'); currentGalleryImages = Array.from(parentGallery.querySelectorAll('img')); currentImageIndex = currentGalleryImages.indexOf(element); modal.style.display = "block"; document.body.style.overflow = 'hidden'; showImage(currentImageIndex); }
+        function showImage(index) { modalImg.src = currentGalleryImages[index].src; modalImg.alt = currentGalleryImages[index].alt; modalImg.className = 'modal-content'; modalContentWrapper.scrollTop = 0; modalContentWrapper.scrollLeft = 0; }
+        function closeModal() { modal.style.display = "none"; document.body.style.overflow = 'auto'; }
+        function plusSlides(n) { currentImageIndex = (currentImageIndex + n + currentGalleryImages.length) % currentGalleryImages.length; showImage(currentImageIndex); }
+        function handleImageClick(event) { event.stopPropagation(); const img = event.target; if (img.classList.contains('zoom-2')) { img.classList.remove('zoom-2', 'zoom-1'); } else if (img.classList.contains('zoom-1')) { img.classList.add('zoom-2'); } else { img.classList.add('zoom-1'); } }
+        function handleModalClick(event) { if (event.target === modalContentWrapper) closeModal(); }
         
         auth.onAuthStateChanged(user => { 
             isAdmin = !!user; 
             if (isAdmin) { enableAdminMode(); } 
             else { 
                 disableAdminMode();
-                setInterval(() => { fetchFromDB(); }, 30000); 
+                setInterval(() => { fetchFromDB(); }, 10000); // 10s Polling
             } 
         });
         
@@ -127,17 +177,24 @@
         async function logout() { if(checkUnsavedChanges()) { await auth.signOut(); location.reload(); } }
         
         window.addEventListener('beforeunload', function (e) { if (unsavedChanges) { e.preventDefault(); e.returnValue = ''; } });
-        function checkUnsavedChanges() { if (unsavedChanges) { return confirm("Máte neuložené změny! / Unsaved changes!"); } return true; }
+        function checkUnsavedChanges() { if (unsavedChanges) { return confirm("Máte neuložené změny! Opravdu chcete odejít bez uložení? / Unsaved changes! Leave anyway?"); } return true; }
 
         function enableAdminMode() { 
             document.body.classList.add('admin-mode'); 
-            document.getElementById('admin-toolbar').style.display = 'block'; 
+            document.getElementById('admin-toolbar').style.display = 'flex'; 
             document.querySelectorAll('.editable-text').forEach(el => { 
                 el.contentEditable = true; 
                 el.addEventListener('input', () => { unsavedChanges = true; });
             }); 
+            if (contentRefreshInterval) clearInterval(contentRefreshInterval);
         }
-        function disableAdminMode() { document.body.classList.remove('admin-mode'); document.getElementById('admin-toolbar').style.display = 'none'; document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = false; }); }
+        function disableAdminMode() { 
+            document.body.classList.remove('admin-mode'); 
+            document.body.classList.remove('delete-mode'); 
+            document.getElementById('admin-toolbar').style.display = 'none'; 
+            document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = false; }); 
+            startAutoRefresh();
+        }
 
         async function saveAllChanges() {
             const promises = [];
@@ -153,8 +210,32 @@
             try {
                 await Promise.all(promises);
                 unsavedChanges = false;
-                alert('Stránka uložena do databáze!');
+                alert('Stránka uložena do databáze! / Page saved to DB! ♡');
             } catch (error) { console.error("Error saving:", error); alert("Error saving."); }
+        }
+
+        // NEW FUNCTION: Forces the hardcoded RESTORE_DATA into the DB
+        async function resetToHardcodedData() {
+            if(!confirm("OPRAVDU? Tímto přepíšete databázi původním kódem! / REALLY? This will overwrite the DB with hardcoded code!")) return;
+            
+            const csDoc = getPageDocId('cs');
+            const enDoc = getPageDocId('en');
+            
+            try {
+                if(RESTORE_DATA[csDoc]) await db.collection('content').doc(csDoc).set(RESTORE_DATA[csDoc]);
+                if(RESTORE_DATA[enDoc]) await db.collection('content').doc(enDoc).set(RESTORE_DATA[enDoc]);
+                
+                alert("Databáze resetována na původní hodnoty! Stránka se obnoví.");
+                location.reload();
+            } catch(e) {
+                console.error(e);
+                alert("Chyba při resetu: " + e.message);
+            }
+        }
+
+        async function loadContent() {
+            // ALWAYS FETCH FROM DB
+            fetchFromDB();
         }
 
         async function fetchFromDB() {
@@ -163,18 +244,26 @@
             try {
                 const doc = await db.collection('content').doc(docId).get();
                 if (doc.exists) {
-                    renderData(doc.data());
+                    const data = doc.data();
+                    if (Object.keys(data).length === 0) {
+                        const dataToSeed = RESTORE_DATA[docId];
+                        if (dataToSeed) {
+                             await db.collection('content').doc(docId).set(dataToSeed);
+                             renderData(dataToSeed);
+                        }
+                    } else {
+                        renderData(data);
+                    }
                 } else {
-                     const dataToSeed = RESTORE_DATA[docId];
-                     if (dataToSeed) {
+                    console.log(`Document ${docId} missing. Auto-seeding...`);
+                    const dataToSeed = RESTORE_DATA[docId];
+                    if (dataToSeed) {
                          await db.collection('content').doc(docId).set(dataToSeed);
                          renderData(dataToSeed);
-                     }
+                    }
                 }
             } catch (error) { console.error("Error fetching DB: " + error); }
         }
-
-        function refreshContent(forceFetch = false) { fetchFromDB(); }
 
         function renderData(data) {
             const lang = document.documentElement.lang;
@@ -186,19 +275,55 @@
                     element.classList.add('editable-text');
                     element.dataset.field = fieldId;
                     mainContentContainer.appendChild(element);
-                    if (isAdmin) element.contentEditable = true;
+                    if (isAdmin) {
+                        element.contentEditable = true;
+                        element.addEventListener('input', () => { unsavedChanges = true; });
+                    }
                 }
-                if (element && data[fieldId] && element.innerHTML !== data[fieldId]) {
-                    element.innerHTML = data[fieldId];
+                if (element && data[fieldId]) {
+                    if(element.innerHTML !== data[fieldId]) { element.innerHTML = data[fieldId]; }
                 }
             });
         }
 
+        function startAutoRefresh() {
+            if (contentRefreshInterval) clearInterval(contentRefreshInterval);
+            contentRefreshInterval = setInterval(() => refreshContent(true), 30000);
+        }
+
+        async function refreshContent(forceFetch = false) {
+             const lang = document.documentElement.lang;
+             const docId = getPageDocId(lang);
+             if (isAdmin && unsavedChanges) return; 
+             try {
+                 const doc = await db.collection('content').doc(docId).get();
+                 if (doc.exists) {
+                     const data = doc.data();
+                     renderData(data);
+                 }
+             } catch (error) { console.error("Error loading: " + error); }
+        }
+
         function addTextBox() { const lang = document.documentElement.lang; const newId = `${lang}-custom-${Date.now()}`; const newTextBox = document.createElement('p'); newTextBox.classList.add('editable-text'); newTextBox.dataset.field = newId; newTextBox.textContent = '...'; const mainContent = document.getElementById(`lang-${lang}`); mainContent.appendChild(newTextBox); if(isAdmin) { newTextBox.contentEditable = true; newTextBox.focus(); unsavedChanges = true; newTextBox.addEventListener('input', () => { unsavedChanges = true; }); } }
+        function toggleDeleteMode() { const body = document.body; body.classList.toggle('delete-mode'); const btn = document.getElementById('delete-mode-btn'); if (body.classList.contains('delete-mode')) { btn.textContent = 'Ukončit mazání'; btn.style.background = 'orange'; } else { btn.textContent = 'Smazat text'; btn.style.background = '#3498db'; } }
+        document.getElementById('main-content').addEventListener('click', async function(event) { if (!document.body.classList.contains('delete-mode')) return; const element = event.target.closest('.editable-text'); if (element) { event.preventDefault(); event.stopPropagation(); if (confirm('Delete this?')) { const fieldId = element.dataset.field; const lang = fieldId.startsWith('cs-') ? 'cs' : 'en'; const docId = getPageDocId(lang); try { const fieldToDelete = {}; fieldToDelete[fieldId] = firebase.firestore.FieldValue.delete(); await db.collection('content').doc(docId).update(fieldToDelete); element.remove(); unsavedChanges = false; } catch (error) { console.error("Error deleting:", error); } } } });
+        document.addEventListener('keydown', (event) => { if (event.ctrlKey && event.key === 'l') { event.preventDefault(); loginModal.style.display = 'block'; document.getElementById('password').focus(); } if (event.key === "Escape") { if (modal.style.display === "block") closeModal(); if (loginModal.style.display === 'block') loginModal.style.display = 'none'; } });
         
-        document.addEventListener('keydown', (event) => { if (event.ctrlKey && event.key === 'l') { event.preventDefault(); loginModal.style.display = 'block'; } if (event.key === "Escape") { loginModal.style.display = 'none'; } });
-        document.querySelectorAll('a').forEach(link => { link.addEventListener('click', (e) => { const href = link.getAttribute('href'); if (href && !href.startsWith('#') && !link.onclick) { if (!checkUnsavedChanges()) { e.preventDefault(); } } }); });
-        document.addEventListener('DOMContentLoaded', async () => { const urlParams = new URLSearchParams(window.location.search); const lang = urlParams.get('lang') || 'cs'; setLanguage(lang); });
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href && !href.startsWith('#') && !href.startsWith('mailto:') && !link.onclick) {
+                    if (!checkUnsavedChanges()) { e.preventDefault(); }
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', async () => { 
+            const urlParams = new URLSearchParams(window.location.search); 
+            const lang = urlParams.get('lang') || 'cs'; 
+            setLanguage(lang); 
+            startAutoRefresh();
+        });
     </script>
 </body>
 </html>
