@@ -10,22 +10,36 @@
         :root{--primary-blue:#007bff;--text-color:#333;--background-color:#fff;--container-bg:#2570b8}
         *, *:before, *:after { box-sizing: border-box; }
         body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background-color:var(--container-bg);color:var(--text-color);margin:0;padding:0;display:flex;justify-content:center;font-size:18px;line-height:1.6}
-        /* RESPONSIVE FIX */
-        .container{background-color:var(--background-color);width:100%;max-width:960px;margin:20px;padding:0 20px 20px;box-shadow:0 0 15px rgba(0,0,0,.2); overflow: hidden;}
+        
+        /* FIXED: CSS for Container to prevent text cropping */
+        .container{
+            background-color:var(--background-color);
+            width:100%;
+            max-width:960px;
+            margin:20px;
+            padding:20px; /* Add padding so text doesn't touch edges */
+            box-shadow:0 0 15px rgba(0,0,0,.2); 
+            display: flex;
+            flex-direction: column;
+        }
+
         header{padding:20px 0;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background-color:var(--background-color);z-index:100;border-bottom:1px solid #eee;box-shadow:0 2px 5px rgba(0,0,0,.05)}
         header h1{margin:0;font-size:28px}
         header h1 a{text-decoration:none;color:var(--text-color)}
         nav a{margin-left:15px;text-decoration:none;color:var(--primary-blue);font-weight:700;cursor:pointer}
         nav a:hover{text-decoration:underline}
+        
         .info-box{border:1px solid #ccc;padding:15px;margin-bottom:20px;background-color:#f9f9f9}
         .info-box p{margin:5px 0}
         .bold{font-weight:700}.text-center{text-align:center}.text-right{text-align:right}
         
-        /* RESPONSIVE TEXT FIXES */
+        /* FIXED: Text Wrapping Logic */
         .editable-text { 
-            overflow-wrap: anywhere; 
+            width: 100%;
+            overflow-wrap: anywhere; /* Forces breaks even in long words if needed */
             word-wrap: break-word; 
             word-break: break-word; 
+            hyphens: auto;
             max-width: 100%;
         }
 
@@ -51,7 +65,7 @@
         
         @media screen and (max-width:768px){
             body{font-size:16px}
-            .container{margin:0;padding:0 10px 10px;box-shadow:none}
+            .container{margin:0;padding:15px;box-shadow:none}
             header{flex-direction:column;align-items:flex-start;position:static;box-shadow:none;padding:15px 0}
             header h1{margin-bottom:10px;font-size:24px}
             nav{display:flex;justify-content:space-around;width:100%}
@@ -63,7 +77,7 @@
     <div id="admin-toolbar">
         <span>Režim úprav</span>
         <button id="save-btn" onclick="saveAllChanges()">Uložit změny (Edit)</button>
-        <button id="force-save-btn" onclick="resetToHardcodedData()">⚠ NAHRÁT KÓD DO DB (RESET)</button>
+        <button id="force-save-btn" onclick="uploadEnglishOnly()">⚠ NAHRÁT KÓD ANGLIČTINY (EN ONLY)</button>
         <button onclick="addTextBox()">+ Přidat text</button>
         <button id="delete-mode-btn" onclick="toggleDeleteMode()">Smazat text</button>
         <button id="logout-btn" onclick="logout()">Odhlásit se</button>
@@ -137,7 +151,6 @@
         const modalContentWrapper = document.querySelector(".modal-content-wrapper");
         let currentImageIndex, currentGalleryImages, isAdmin = false;
         let unsavedChanges = false;
-        let contentRefreshInterval;
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Provozní řád | Eko-Oáza Prachov", description: "Provozní a ubytovací řád." }, en: { title: "Operating Rules | Eko-Oáza Prachov", description: "Operating and accommodation rules." } };
 
@@ -149,13 +162,26 @@
             },
             'provozni-rad_en': {
                 'en-rules-info-box': `<h3>Eko-Oáza Prachov</h3><p>The cottage area in The Bohemian Paradise, Prachov 58</p><p><strong>IČO:</strong> 66314364</p><p><strong>Account #:</strong> 19-6866210217/0100</p><p><strong>tel.:</strong> 606 930 170</p><p><strong>e-mail:</strong> e-o-p@seznam.cz</p><p>old web:</p>`,
-                'en-rules-content': `<h3>Operating rules</h3><p>In principle, one simple rule is to be followed. The accommodated in this small camp are to follow principles of human politeness and common decency and the Rules of Accommodation that are on display in the kitchenette.</p><ul><li>Smoking in cottages is not allowed. Furniture should stay in place.</li><li>Only <strong>toilet</strong> paper should be thrown into the toilets bowls. The purification plant cannot decompose any other material (such as "paper" handkerchiefs, sanitary towels, etc.).</li><li>The hot water tap in the kitchenette should not be turned off excessively. After turning off the tap, there must still be some water leakage which will disappear after several seconds. (pressureless system is used).</li></ul>`
+                'en-rules-content': `<h3>Operating rules</h3><p>In principle, one simple rule is to be followed. The accommodated in this small camp are to follow principles of human politeness and common decency and the Rules of Accommodation that are on display in the kitchenette.</p><ul><li>Smoking in cottages is not allowed. Furniture should stay in place.</li><li>Only <strong>toilet</strong> paper should be thrown into the toilets bowls. The purification plant cannot decompose any other material (such as "paper" handkerchiefs, sanitary towels, etc.).</li><li>The hot water tap in the kitchenette should not be turned off excessively. After turning off the tap, there must still be some water leakage which will disappear after several seconds. (pressureless system is used).</li></ul><p>Cooperation with: e-chalupy.cz LevneUbytovani.net chalupy-ubytovani.cz</p>`
             }
         };
 
         function getPageDocId(lang) { const path = window.location.pathname; const page = path.split("/").pop().replace(".html", "") || "index"; return `${page}_${lang}`; }
         function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
-        function setLanguage(lang) { document.documentElement.lang = lang; document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none'; document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none'; document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none'; document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; updateSEO(lang); refreshContent(true); }
+        
+        // FIXED: Replaced undefined refreshContent with fetchFromDB
+        function setLanguage(lang) { 
+            document.documentElement.lang = lang; 
+            document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none'; 
+            document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none'; 
+            document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none'; 
+            document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none'; 
+            document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; 
+            document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; 
+            updateSEO(lang); 
+            fetchFromDB(); // <--- FIXED
+        }
+        
         function switchLanguage(lang) { if(checkUnsavedChanges()) { const currentPage = window.location.pathname.split('/').pop() || 'index.html'; window.location.href = `${currentPage}?lang=${lang}`; } }
         function openModal(element) { if (isAdmin) return; const parentGallery = element.closest('.gallery'); currentGalleryImages = Array.from(parentGallery.querySelectorAll('img')); currentImageIndex = currentGalleryImages.indexOf(element); modal.style.display = "block"; document.body.style.overflow = 'hidden'; showImage(currentImageIndex); }
         function showImage(index) { modalImg.src = currentGalleryImages[index].src; modalImg.alt = currentGalleryImages[index].alt; modalImg.className = 'modal-content'; modalContentWrapper.scrollTop = 0; modalContentWrapper.scrollLeft = 0; }
@@ -169,7 +195,11 @@
             if (isAdmin) { enableAdminMode(); } 
             else { 
                 disableAdminMode();
-                setInterval(() => { fetchFromDB(); }, 10000); // 10s Polling
+                // Frequent polling on load
+                fetchFromDB();
+                setTimeout(fetchFromDB, 500);
+                setTimeout(fetchFromDB, 1000);
+                setInterval(() => { fetchFromDB(); }, 10000); 
             } 
         });
         
@@ -186,14 +216,12 @@
                 el.contentEditable = true; 
                 el.addEventListener('input', () => { unsavedChanges = true; });
             }); 
-            if (contentRefreshInterval) clearInterval(contentRefreshInterval);
         }
         function disableAdminMode() { 
             document.body.classList.remove('admin-mode'); 
             document.body.classList.remove('delete-mode'); 
             document.getElementById('admin-toolbar').style.display = 'none'; 
             document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = false; }); 
-            startAutoRefresh();
         }
 
         async function saveAllChanges() {
@@ -214,22 +242,22 @@
             } catch (error) { console.error("Error saving:", error); alert("Error saving."); }
         }
 
-        // NEW FUNCTION: Forces the hardcoded RESTORE_DATA into the DB
-        async function resetToHardcodedData() {
-            if(!confirm("OPRAVDU? Tímto přepíšete databázi původním kódem! / REALLY? This will overwrite the DB with hardcoded code!")) return;
+        // NEW FUNCTION: Forces ENGLISH ONLY to the DB
+        async function uploadEnglishOnly() {
+            if(!confirm("NAHRÁT JEN ANGLIČTINU? Čeština zůstane nezměněna. / UPLOAD ENGLISH ONLY? Czech will remain untouched.")) return;
             
-            const csDoc = getPageDocId('cs');
             const enDoc = getPageDocId('en');
-            
             try {
-                if(RESTORE_DATA[csDoc]) await db.collection('content').doc(csDoc).set(RESTORE_DATA[csDoc]);
-                if(RESTORE_DATA[enDoc]) await db.collection('content').doc(enDoc).set(RESTORE_DATA[enDoc]);
-                
-                alert("Databáze resetována na původní hodnoty! Stránka se obnoví.");
-                location.reload();
+                if(RESTORE_DATA[enDoc]) {
+                    await db.collection('content').doc(enDoc).set(RESTORE_DATA[enDoc]);
+                    alert("Angličtina nahrána do DB! Stránka se obnoví. / English uploaded!");
+                    location.reload();
+                } else {
+                    alert("Chyba: Data pro angličtinu nebyla nalezena.");
+                }
             } catch(e) {
                 console.error(e);
-                alert("Chyba při resetu: " + e.message);
+                alert("Chyba při nahrávání: " + e.message);
             }
         }
 
@@ -286,24 +314,6 @@
             });
         }
 
-        function startAutoRefresh() {
-            if (contentRefreshInterval) clearInterval(contentRefreshInterval);
-            contentRefreshInterval = setInterval(() => refreshContent(true), 30000);
-        }
-
-        async function refreshContent(forceFetch = false) {
-             const lang = document.documentElement.lang;
-             const docId = getPageDocId(lang);
-             if (isAdmin && unsavedChanges) return; 
-             try {
-                 const doc = await db.collection('content').doc(docId).get();
-                 if (doc.exists) {
-                     const data = doc.data();
-                     renderData(data);
-                 }
-             } catch (error) { console.error("Error loading: " + error); }
-        }
-
         function addTextBox() { const lang = document.documentElement.lang; const newId = `${lang}-custom-${Date.now()}`; const newTextBox = document.createElement('p'); newTextBox.classList.add('editable-text'); newTextBox.dataset.field = newId; newTextBox.textContent = '...'; const mainContent = document.getElementById(`lang-${lang}`); mainContent.appendChild(newTextBox); if(isAdmin) { newTextBox.contentEditable = true; newTextBox.focus(); unsavedChanges = true; newTextBox.addEventListener('input', () => { unsavedChanges = true; }); } }
         function toggleDeleteMode() { const body = document.body; body.classList.toggle('delete-mode'); const btn = document.getElementById('delete-mode-btn'); if (body.classList.contains('delete-mode')) { btn.textContent = 'Ukončit mazání'; btn.style.background = 'orange'; } else { btn.textContent = 'Smazat text'; btn.style.background = '#3498db'; } }
         document.getElementById('main-content').addEventListener('click', async function(event) { if (!document.body.classList.contains('delete-mode')) return; const element = event.target.closest('.editable-text'); if (element) { event.preventDefault(); event.stopPropagation(); if (confirm('Delete this?')) { const fieldId = element.dataset.field; const lang = fieldId.startsWith('cs-') ? 'cs' : 'en'; const docId = getPageDocId(lang); try { const fieldToDelete = {}; fieldToDelete[fieldId] = firebase.firestore.FieldValue.delete(); await db.collection('content').doc(docId).update(fieldToDelete); element.remove(); unsavedChanges = false; } catch (error) { console.error("Error deleting:", error); } } } });
@@ -322,7 +332,7 @@
             const urlParams = new URLSearchParams(window.location.search); 
             const lang = urlParams.get('lang') || 'cs'; 
             setLanguage(lang); 
-            startAutoRefresh();
+            loadContent();
         });
     </script>
 </body>

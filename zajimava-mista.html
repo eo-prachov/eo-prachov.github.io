@@ -11,13 +11,24 @@
         *, *:before, *:after { box-sizing: border-box; }
         body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background-color:var(--container-bg);color:var(--text-color);margin:0;padding:0;display:flex;justify-content:center;font-size:18px;line-height:1.6}
         
-        /* RESPONSIVE FIX */
-        .container{background-color:var(--background-color);width:100%;max-width:960px;margin:20px;padding:0 20px 20px;box-shadow:0 0 15px rgba(0,0,0,.2); overflow: hidden;}
+        /* FIXED: CSS for Container to prevent text cropping */
+        .container{
+            background-color:var(--background-color);
+            width:100%;
+            max-width:960px;
+            margin:20px;
+            padding:20px;
+            box-shadow:0 0 15px rgba(0,0,0,.2); 
+            display: flex;
+            flex-direction: column;
+        }
+
         header{padding:20px 0;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background-color:var(--background-color);z-index:100;border-bottom:1px solid #eee;box-shadow:0 2px 5px rgba(0,0,0,.05)}
         header h1{margin:0;font-size:28px}
         header h1 a{text-decoration:none;color:var(--text-color)}
         nav a{margin-left:15px;text-decoration:none;color:var(--primary-blue);font-weight:700;cursor:pointer}
         nav a:hover{text-decoration:underline}
+        
         .info-box{border:1px solid #ccc;padding:15px;margin-bottom:20px;background-color:#f9f9f9}
         .info-box p{margin:5px 0}
         .gallery{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
@@ -43,18 +54,20 @@
         #login-modal input{width:90%;padding:12px 20px;margin:8px 0;display:inline-block;border:1px solid #ccc;box-sizing:border-box}
         #login-modal button{background-color:#4caf50;color:#fff;padding:14px 20px;margin:8px 0;border:none;cursor:pointer;width:90%}.delete-mode .editable-text{outline:2px dashed red;cursor:crosshair}.delete-mode .editable-text:hover{background-color:#ff000020}
 
-        /* RESPONSIVE TEXT FIXES */
+        /* FIXED: Text Wrapping Logic */
         .editable-text { 
+            width: 100%;
             overflow-wrap: anywhere; 
             word-wrap: break-word; 
             word-break: break-word; 
+            hyphens: auto;
             max-width: 100%;
         }
         img { max-width: 100%; height: auto; }
 
         @media screen and (max-width:768px){
             body{font-size:16px}
-            .container{margin:0;padding:0 10px 10px;box-shadow:none}
+            .container{margin:0;padding:15px;box-shadow:none}
             header{flex-direction:column;align-items:flex-start;position:static;box-shadow:none;padding:15px 0}
             header h1{margin-bottom:10px;font-size:24px}
             nav{display:flex;justify-content:space-around;width:100%}
@@ -67,7 +80,7 @@
     <div id="admin-toolbar">
         <span>Režim úprav</span>
         <button id="save-btn" onclick="saveAllChanges()">Uložit změny (Edit)</button>
-        <button id="force-save-btn" onclick="resetToHardcodedData()">⚠ NAHRÁT KÓD DO DB (RESET)</button>
+        <button id="force-save-btn" onclick="uploadEnglishOnly()">⚠ NAHRÁT KÓD ANGLIČTINY (EN ONLY)</button>
         <button onclick="addTextBox()">+ Přidat text</button>
         <button id="delete-mode-btn" onclick="toggleDeleteMode()">Smazat text</button>
         <button id="logout-btn" onclick="logout()">Odhlásit se</button>
@@ -194,7 +207,20 @@
 
         function getPageDocId(lang) { const path = window.location.pathname; const page = path.split("/").pop().replace(".html", "") || "index"; return `${page}_${lang}`; }
         function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
-        function setLanguage(lang) { document.documentElement.lang = lang; document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none'; document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none'; document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none'; document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; updateSEO(lang); refreshContent(true); }
+        
+        // FIXED: Replaced undefined refreshContent with fetchFromDB
+        function setLanguage(lang) { 
+            document.documentElement.lang = lang; 
+            document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none'; 
+            document.getElementById('lang-en').style.display = lang === 'en' ? 'block' : 'none'; 
+            document.getElementById('nav-cs').style.display = lang === 'cs' ? 'flex' : 'none'; 
+            document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none'; 
+            document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; 
+            document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; 
+            updateSEO(lang); 
+            fetchFromDB(); // <--- FIXED
+        }
+        
         function switchLanguage(lang) { if(checkUnsavedChanges()) { const currentPage = window.location.pathname.split('/').pop() || 'index.html'; window.location.href = `${currentPage}?lang=${lang}`; } }
         function openModal(element) { if (isAdmin) return; const parentGallery = element.closest('.gallery'); currentGalleryImages = Array.from(parentGallery.querySelectorAll('img')); currentImageIndex = currentGalleryImages.indexOf(element); modal.style.display = "block"; document.body.style.overflow = 'hidden'; showImage(currentImageIndex); }
         function showImage(index) { modalImg.src = currentGalleryImages[index].src; modalImg.alt = currentGalleryImages[index].alt; modalImg.className = 'modal-content'; modalContentWrapper.scrollTop = 0; modalContentWrapper.scrollLeft = 0; }
@@ -208,6 +234,10 @@
             if (isAdmin) { enableAdminMode(); } 
             else { 
                 disableAdminMode();
+                // Frequent polling on load
+                fetchFromDB();
+                setTimeout(fetchFromDB, 500);
+                setTimeout(fetchFromDB, 1000);
                 setInterval(() => { fetchFromDB(); }, 10000); 
             } 
         });
@@ -232,7 +262,6 @@
             document.body.classList.remove('delete-mode'); 
             document.getElementById('admin-toolbar').style.display = 'none'; 
             document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = false; }); 
-            startAutoRefresh();
         }
 
         async function saveAllChanges() {
@@ -253,22 +282,22 @@
             } catch (error) { console.error("Error saving:", error); alert("Error saving."); }
         }
 
-        // NEW FUNCTION: Forces the hardcoded RESTORE_DATA into the DB
-        async function resetToHardcodedData() {
-            if(!confirm("OPRAVDU? Tímto přepíšete databázi původním kódem! / REALLY? This will overwrite the DB with hardcoded code!")) return;
+        // NEW FUNCTION: Forces ENGLISH ONLY to the DB
+        async function uploadEnglishOnly() {
+            if(!confirm("NAHRÁT JEN ANGLIČTINU? Čeština zůstane nezměněna. / UPLOAD ENGLISH ONLY? Czech will remain untouched.")) return;
             
-            const csDoc = getPageDocId('cs');
             const enDoc = getPageDocId('en');
-            
             try {
-                if(RESTORE_DATA[csDoc]) await db.collection('content').doc(csDoc).set(RESTORE_DATA[csDoc]);
-                if(RESTORE_DATA[enDoc]) await db.collection('content').doc(enDoc).set(RESTORE_DATA[enDoc]);
-                
-                alert("Databáze resetována na původní hodnoty! Stránka se obnoví.");
-                location.reload();
+                if(RESTORE_DATA[enDoc]) {
+                    await db.collection('content').doc(enDoc).set(RESTORE_DATA[enDoc]);
+                    alert("Angličtina nahrána do DB! Stránka se obnoví. / English uploaded!");
+                    location.reload();
+                } else {
+                    alert("Chyba: Data pro angličtinu nebyla nalezena.");
+                }
             } catch(e) {
                 console.error(e);
-                alert("Chyba při resetu: " + e.message);
+                alert("Chyba při nahrávání: " + e.message);
             }
         }
 
@@ -323,24 +352,6 @@
                     if(element.innerHTML !== data[fieldId]) { element.innerHTML = data[fieldId]; }
                 }
             });
-        }
-
-        function startAutoRefresh() {
-            if (contentRefreshInterval) clearInterval(contentRefreshInterval);
-            contentRefreshInterval = setInterval(() => refreshContent(true), 30000);
-        }
-
-        async function refreshContent(forceFetch = false) {
-             const lang = document.documentElement.lang;
-             const docId = getPageDocId(lang);
-             if (isAdmin && unsavedChanges) return; 
-             try {
-                 const doc = await db.collection('content').doc(docId).get();
-                 if (doc.exists) {
-                     const data = doc.data();
-                     renderData(data);
-                 }
-             } catch (error) { console.error("Error loading: " + error); }
         }
 
         function addTextBox() { const lang = document.documentElement.lang; const newId = `${lang}-custom-${Date.now()}`; const newTextBox = document.createElement('p'); newTextBox.classList.add('editable-text'); newTextBox.dataset.field = newId; newTextBox.textContent = '...'; const mainContent = document.getElementById(`lang-${lang}`); mainContent.appendChild(newTextBox); if(isAdmin) { newTextBox.contentEditable = true; newTextBox.focus(); unsavedChanges = true; newTextBox.addEventListener('input', () => { unsavedChanges = true; }); } }
