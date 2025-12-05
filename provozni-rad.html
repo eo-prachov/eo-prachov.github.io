@@ -11,13 +11,12 @@
         *, *:before, *:after { box-sizing: border-box; }
         body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background-color:var(--container-bg);color:var(--text-color);margin:0;padding:0;display:flex;justify-content:center;font-size:18px;line-height:1.6}
         
-        /* FIXED: CSS for Container to prevent text cropping */
         .container{
             background-color:var(--background-color);
             width:100%;
             max-width:960px;
             margin:20px;
-            padding:20px; /* Add padding so text doesn't touch edges */
+            padding:20px;
             box-shadow:0 0 15px rgba(0,0,0,.2); 
             display: flex;
             flex-direction: column;
@@ -33,10 +32,9 @@
         .info-box p{margin:5px 0}
         .bold{font-weight:700}.text-center{text-align:center}.text-right{text-align:right}
         
-        /* FIXED: Text Wrapping Logic */
         .editable-text { 
             width: 100%;
-            overflow-wrap: anywhere; /* Forces breaks even in long words if needed */
+            overflow-wrap: anywhere;
             word-wrap: break-word; 
             word-break: break-word; 
             hyphens: auto;
@@ -46,7 +44,6 @@
         .modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:hidden;background-color:rgba(0,0,0,.9)}.modal-content-wrapper{position:relative;height:100%;width:100%;display:flex;align-items:center;justify-content:center;overflow:auto}.modal-content{margin:auto;display:block;max-width:90%;max-height:90%;transition:transform .3s ease-in-out;cursor:zoom-in}.modal-content.zoom-1{transform:scale(1.5);cursor:zoom-in}.modal-content.zoom-2{transform:scale(2.5);cursor:zoom-out}.close{position:absolute;top:15px;right:35px;color:#f1f1f1;font-size:40px;font-weight:700;transition:.3s;cursor:pointer;z-index:1001}.close:hover,.close:focus{color:#bbb}.prev,.next{cursor:pointer;position:absolute;top:50%;width:auto;padding:16px;margin-top:-50px;color:#fff;font-weight:700;font-size:30px;transition:.6s ease;border-radius:0 3px 3px 0;user-select:none;-webkit-user-select:none;z-index:1001}.next{right:0;border-radius:3px 0 0 3px}.prev{left:0}.prev:hover,.next:hover{background-color:rgba(0,0,0,.8)}
         footer{text-align:center;margin-top:20px;padding-top:10px;border-top:1px solid #ccc;font-size:14px;line-height:1.8}footer a{margin:0 5px}
         
-        /* Admin Toolbar */
         #admin-toolbar{display:none;position:fixed;top:0;left:0;width:100%;background:#2c3e50;color:#fff;padding:10px;z-index:9999;box-shadow:0 2px 5px rgba(0,0,0,.3);text-align:center; flex-wrap: wrap; justify-content: center;}
         #admin-toolbar button{background:#3498db;color:#fff;border:none;padding:8px 15px;cursor:pointer;border-radius:3px;margin:5px;font-size:14px}
         #admin-toolbar button:hover{background:#2980b9}
@@ -54,8 +51,6 @@
         #admin-toolbar button#save-btn:hover{background:#229954}
         #admin-toolbar button#logout-btn{background:#e74c3c}
         #admin-toolbar button#logout-btn:hover{background:#c0392b}
-        #admin-toolbar button#force-save-btn{background:#d35400; font-weight: bold; border: 1px solid #fff;} 
-        #admin-toolbar button#force-save-btn:hover{background:#e67e22;}
 
         .editable-text[contenteditable=true]{outline:2px dashed #3498db}
         #login-modal{display:none;position:fixed;z-index:10001;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.6)}
@@ -65,7 +60,7 @@
         
         @media screen and (max-width:768px){
             body{font-size:16px}
-            .container{margin:0;padding:15px;box-shadow:none}
+            .container{margin:0;padding:10px;box-shadow:none}
             header{flex-direction:column;align-items:flex-start;position:static;box-shadow:none;padding:15px 0}
             header h1{margin-bottom:10px;font-size:24px}
             nav{display:flex;justify-content:space-around;width:100%}
@@ -76,8 +71,7 @@
 <body>
     <div id="admin-toolbar">
         <span>Režim úprav</span>
-        <button id="save-btn" onclick="saveAllChanges()">Uložit změny (Edit)</button>
-        <button id="force-save-btn" onclick="uploadEnglishOnly()">⚠ NAHRÁT KÓD ANGLIČTINY (EN ONLY)</button>
+        <button id="save-btn" onclick="saveAllChanges()">Uložit změny</button>
         <button onclick="addTextBox()">+ Přidat text</button>
         <button id="delete-mode-btn" onclick="toggleDeleteMode()">Smazat text</button>
         <button id="logout-btn" onclick="logout()">Odhlásit se</button>
@@ -154,7 +148,7 @@
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Provozní řád | Eko-Oáza Prachov", description: "Provozní a ubytovací řád." }, en: { title: "Operating Rules | Eko-Oáza Prachov", description: "Operating and accommodation rules." } };
 
-        // --- HARDCODED RESTORATION DATA ---
+        // --- RESTORE DATA (Kept as fallback only - Invisible to user) ---
         const RESTORE_DATA = {
             'provozni-rad_cs': {
                 'cs-rules-info-box': `<h3>Eko-Oáza Prachov</h3><p><b class="bold">Chatová osada v Českém ráji, Prachov 58, provozovatel:</b> Ing.Petr Hejna</p> <p><b class="bold">IČO:</b> 66314364</p> <p><b class="bold">Provozní doba:</b> červenec-srpen (jen po dohodě s klientem)</p> <p><b class="bold">č.ú.</b> 19-6866210217/0100</p> <p><b class="bold">tel.:</b> 606 930 170 (nejlépe večer)</p> <p><b class="bold">e-mail:</b> e-o-p@seznam.cz</p><p>old web:</p>`,
@@ -169,7 +163,6 @@
         function getPageDocId(lang) { const path = window.location.pathname; const page = path.split("/").pop().replace(".html", "") || "index"; return `${page}_${lang}`; }
         function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
         
-        // FIXED: Replaced undefined refreshContent with fetchFromDB
         function setLanguage(lang) { 
             document.documentElement.lang = lang; 
             document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none'; 
@@ -179,7 +172,7 @@
             document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; 
             document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; 
             updateSEO(lang); 
-            fetchFromDB(); // <--- FIXED
+            fetchFromDB();
         }
         
         function switchLanguage(lang) { if(checkUnsavedChanges()) { const currentPage = window.location.pathname.split('/').pop() || 'index.html'; window.location.href = `${currentPage}?lang=${lang}`; } }
@@ -195,7 +188,6 @@
             if (isAdmin) { enableAdminMode(); } 
             else { 
                 disableAdminMode();
-                // Frequent polling on load
                 fetchFromDB();
                 setTimeout(fetchFromDB, 500);
                 setTimeout(fetchFromDB, 1000);
@@ -242,27 +234,7 @@
             } catch (error) { console.error("Error saving:", error); alert("Error saving."); }
         }
 
-        // NEW FUNCTION: Forces ENGLISH ONLY to the DB
-        async function uploadEnglishOnly() {
-            if(!confirm("NAHRÁT JEN ANGLIČTINU? Čeština zůstane nezměněna. / UPLOAD ENGLISH ONLY? Czech will remain untouched.")) return;
-            
-            const enDoc = getPageDocId('en');
-            try {
-                if(RESTORE_DATA[enDoc]) {
-                    await db.collection('content').doc(enDoc).set(RESTORE_DATA[enDoc]);
-                    alert("Angličtina nahrána do DB! Stránka se obnoví. / English uploaded!");
-                    location.reload();
-                } else {
-                    alert("Chyba: Data pro angličtinu nebyla nalezena.");
-                }
-            } catch(e) {
-                console.error(e);
-                alert("Chyba při nahrávání: " + e.message);
-            }
-        }
-
         async function loadContent() {
-            // ALWAYS FETCH FROM DB
             fetchFromDB();
         }
 
@@ -318,22 +290,8 @@
         function toggleDeleteMode() { const body = document.body; body.classList.toggle('delete-mode'); const btn = document.getElementById('delete-mode-btn'); if (body.classList.contains('delete-mode')) { btn.textContent = 'Ukončit mazání'; btn.style.background = 'orange'; } else { btn.textContent = 'Smazat text'; btn.style.background = '#3498db'; } }
         document.getElementById('main-content').addEventListener('click', async function(event) { if (!document.body.classList.contains('delete-mode')) return; const element = event.target.closest('.editable-text'); if (element) { event.preventDefault(); event.stopPropagation(); if (confirm('Delete this?')) { const fieldId = element.dataset.field; const lang = fieldId.startsWith('cs-') ? 'cs' : 'en'; const docId = getPageDocId(lang); try { const fieldToDelete = {}; fieldToDelete[fieldId] = firebase.firestore.FieldValue.delete(); await db.collection('content').doc(docId).update(fieldToDelete); element.remove(); unsavedChanges = false; } catch (error) { console.error("Error deleting:", error); } } } });
         document.addEventListener('keydown', (event) => { if (event.ctrlKey && event.key === 'l') { event.preventDefault(); loginModal.style.display = 'block'; document.getElementById('password').focus(); } if (event.key === "Escape") { if (modal.style.display === "block") closeModal(); if (loginModal.style.display === 'block') loginModal.style.display = 'none'; } });
-        
-        document.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href');
-                if (href && !href.startsWith('#') && !href.startsWith('mailto:') && !link.onclick) {
-                    if (!checkUnsavedChanges()) { e.preventDefault(); }
-                }
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', async () => { 
-            const urlParams = new URLSearchParams(window.location.search); 
-            const lang = urlParams.get('lang') || 'cs'; 
-            setLanguage(lang); 
-            loadContent();
-        });
+        document.querySelectorAll('a').forEach(link => { link.addEventListener('click', (e) => { const href = link.getAttribute('href'); if (href && !href.startsWith('#') && !href.startsWith('mailto:') && !link.onclick) { if (!checkUnsavedChanges()) { e.preventDefault(); } } }); });
+        document.addEventListener('DOMContentLoaded', async () => { const urlParams = new URLSearchParams(window.location.search); const lang = urlParams.get('lang') || 'cs'; setLanguage(lang); await loadContent(); });
     </script>
 </body>
 </html>

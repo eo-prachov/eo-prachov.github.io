@@ -11,7 +11,6 @@
         *, *:before, *:after { box-sizing: border-box; }
         body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background-color:var(--container-bg);color:var(--text-color);margin:0;padding:0;display:flex;justify-content:center;font-size:18px;line-height:1.6}
         
-        /* FIXED: Removed overflow: hidden so text doesn't get cut off, added proper width handling */
         .container{
             background-color:var(--background-color);
             width:100%;
@@ -38,7 +37,6 @@
         
         .map-container{margin:20px 0}.map-container h3{margin-top:0}.map-embed{width:100%;height:450px;border:0}
         
-        /* Table Scroll Fix */
         .table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .price-table{width:100%;border-collapse:collapse;margin:20px 0; min-width: 500px;}
         .price-table th,.price-table td{border:1px solid #ccc;padding:10px;text-align:left}.price-table th{background-color:#f2f2f2}
@@ -47,20 +45,18 @@
         footer{text-align:center;margin-top:20px;padding-top:10px;border-top:1px solid #ccc;font-size:14px;line-height:1.8}footer a{margin:0 5px}
         .bold{font-weight:700}.text-center{text-align:center}.text-right{text-align:right}
         
-        /* FIXED: Text Alignment and Wrapping */
         .editable-text { 
             width: 100%;
-            overflow-wrap: break-word; 
+            overflow-wrap: anywhere; 
             word-wrap: break-word; 
             word-break: break-word; 
             hyphens: auto;
+            max-width: 100%;
         }
         img { max-width: 100%; height: auto; }
 
-        /* Modal Styles */
         .modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:hidden;background-color:rgba(0,0,0,.9)}.modal-content-wrapper{position:relative;height:100%;width:100%;display:flex;align-items:center;justify-content:center;overflow:auto}.modal-content{margin:auto;display:block;max-width:90%;max-height:90%;transition:transform .3s ease-in-out;cursor:zoom-in}.modal-content.zoom-1{transform:scale(1.5);cursor:zoom-in}.modal-content.zoom-2{transform:scale(2.5);cursor:zoom-out}.close{position:absolute;top:15px;right:35px;color:#f1f1f1;font-size:40px;font-weight:700;transition:.3s;cursor:pointer;z-index:1001}.close:hover,.close:focus{color:#bbb}.prev,.next{cursor:pointer;position:absolute;top:50%;width:auto;padding:16px;margin-top:-50px;color:#fff;font-weight:700;font-size:30px;transition:.6s ease;border-radius:0 3px 3px 0;user-select:none;-webkit-user-select:none;z-index:1001}.next{right:0;border-radius:3px 0 0 3px}.prev{left:0}.prev:hover,.next:hover{background-color:rgba(0,0,0,.8)}
         
-        /* Admin Toolbar */
         #admin-toolbar{display:none;position:fixed;top:0;left:0;width:100%;background:#2c3e50;color:#fff;padding:10px;z-index:9999;box-shadow:0 2px 5px rgba(0,0,0,.3);text-align:center; flex-wrap: wrap; justify-content: center;}
         #admin-toolbar button{background:#3498db;color:#fff;border:none;padding:8px 15px;cursor:pointer;border-radius:3px;margin:5px;font-size:14px}
         #admin-toolbar button:hover{background:#2980b9}
@@ -68,8 +64,6 @@
         #admin-toolbar button#save-btn:hover{background:#229954}
         #admin-toolbar button#logout-btn{background:#e74c3c}
         #admin-toolbar button#logout-btn:hover{background:#c0392b}
-        #admin-toolbar button#force-save-btn{background:#d35400; font-weight: bold; border: 1px solid #fff;} 
-        #admin-toolbar button#force-save-btn:hover{background:#e67e22;}
 
         .editable-text[contenteditable=true]{outline:2px dashed #3498db}
         #login-modal{display:none;position:fixed;z-index:10001;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.6)}
@@ -82,7 +76,7 @@
         
         @media screen and (max-width:768px){
             body{font-size:16px}
-            .container{margin:0;padding:0 10px 10px;box-shadow:none}
+            .container{margin:0;padding:10px;box-shadow:none}
             header{flex-direction:column;align-items:flex-start;position:static;box-shadow:none;padding:15px 0}
             header h1{margin-bottom:10px;font-size:24px}
             nav{display:flex;justify-content:space-around;width:100%}
@@ -94,9 +88,7 @@
 <body>
     <div id="admin-toolbar">
         <span>Režim úprav</span>
-        <button id="save-btn" onclick="saveAllChanges()">Uložit změny (Edit)</button>
-        <!-- THIS BUTTON NOW ONLY UPLOADS ENGLISH! -->
-        <button id="force-save-btn" onclick="uploadEnglishOnly()">⚠ NAHRÁT KÓD ANGLIČTINY (EN ONLY)</button>
+        <button id="save-btn" onclick="saveAllChanges()">Uložit změny</button>
         <button onclick="addTextBox()">+ Přidat text</button>
         <button id="delete-mode-btn" onclick="toggleDeleteMode()">Smazat text</button>
         <button id="logout-btn" onclick="logout()">Odhlásit se</button>
@@ -221,7 +213,7 @@
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Ubytování Chaty Eko-Oáza Prachov | Dovolená v Českém ráji", description: "Nabízíme levné ubytování v chatkách pro rodiny s dětmi." }, en: { title: "Eko-Oáza Prachov Cottages & Accommodation | Bohemian Paradise", description: "Affordable cottage accommodation for families." } };
         
-        // --- HARDCODED DATA (Used only for English Reset) ---
+        // --- RESTORE DATA (Kept as fallback only - Invisible to user) ---
         const RESTORE_DATA = {
             'index_cs': {
                 'cs-activities': `<h3>Co poskytuje dovolená v Chatové dědince v Českém ráji?</h3> <ul> <li>pěší turistiku Prachovskými skalami v Českém ráji s krásnými vyhlídkami</li> <li>cyklistiku po vyznačených cyklotrasách Českým rájem</li> <li>horolezectví v Prachovských skalách a dalších skalních městech, i na "indoor" umělých stěnách</li> <li>plavání a koupání v koupališti u Pelíška ve středu Prachovských skal, ve známých Jinolických rybníkách či Aqua-centru v Jičíně, a dalších lokalitách (rybníky v Podtroseckých údolích)</li> <li>návštěvy a prohlídky četných zámků (Humprecht, Malá skála, Hrubá skála, Valdštein, ...), hradů (Kost, Staré hrady, ...) a zřícenin (Trosky, Valečov....) v celém Českém ráji, míst bitvy u Jičína 1866</li> <li>prohlídky pohádkového města Jičína s krásnou vyhlídkou z Valdštejnské brány po celém kraji i prohlídku zámku Smiřických na náměstí v Jičíně, a také Valdštejnem založenou dvou-kilometrovou lipovou alejí zakončenou Valdštejnskou lodí, druhý týden v září každý rok akce "Jičín-město pohádky"</li> <li>vyhlídkové lety nad Českým rájem z nedalekého letiště</li> <li>návštěvu festivalu Šrámkova Sobotka (v červenci)</li> <li>jízdu na koni pro malé děti</li> <li>klidný pobytdoma v chatové dědince s ohřátím a úpravou svého jídla v kuchyňce.</li> </ul>`,
@@ -254,7 +246,6 @@
         function getPageDocId(lang) { const path = window.location.pathname; const page = path.split("/").pop().replace(".html", "") || "index"; return `${page}_${lang}`; }
         function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
         
-        // FIXED: Replaced undefined refreshContent with fetchFromDB
         function setLanguage(lang) { 
             document.documentElement.lang = lang; 
             document.getElementById('lang-cs').style.display = lang === 'cs' ? 'block' : 'none'; 
@@ -264,7 +255,7 @@
             document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; 
             document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; 
             updateSEO(lang); 
-            fetchFromDB(); // <--- FIXED HERE
+            fetchFromDB();
         }
 
         function switchLanguage(lang) { if(checkUnsavedChanges()) { const currentPage = window.location.pathname.split('/').pop() || 'index.html'; window.location.href = `${currentPage}?lang=${lang}`; } }
@@ -280,7 +271,6 @@
             if (isAdmin) { enableAdminMode(); } 
             else { 
                 disableAdminMode();
-                // Frequent polling during load (0.5s), then slower
                 fetchFromDB();
                 setTimeout(fetchFromDB, 500);
                 setTimeout(fetchFromDB, 1000);
@@ -325,29 +315,7 @@
             } catch (error) { console.error("Error saving:", error); alert("Error saving."); }
         }
 
-        // NEW FUNCTION: Forces ENGLISH ONLY to the DB
-        async function uploadEnglishOnly() {
-            if(!confirm("NAHRÁT JEN ANGLIČTINU? Čeština zůstane nezměněna. / UPLOAD ENGLISH ONLY? Czech will remain untouched.")) return;
-            
-            // We only look for the EN document
-            const enDoc = getPageDocId('en');
-            
-            try {
-                if(RESTORE_DATA[enDoc]) {
-                    await db.collection('content').doc(enDoc).set(RESTORE_DATA[enDoc]);
-                    alert("Angličtina nahrána do DB! Stránka se obnoví. / English uploaded!");
-                    location.reload();
-                } else {
-                    alert("Chyba: Data pro angličtinu nebyla nalezena.");
-                }
-            } catch(e) {
-                console.error(e);
-                alert("Chyba při nahrávání: " + e.message);
-            }
-        }
-
         async function loadContent() {
-            // ALWAYS FETCH FROM DB
             fetchFromDB();
         }
 
@@ -370,7 +338,7 @@
                         renderData(data);
                     }
                 } else {
-                    // DB missing -> Seed
+                    // DB missing -> Seed (Safety Net)
                     console.log(`Document ${docId} missing. Auto-seeding...`);
                     const dataToSeed = RESTORE_DATA[docId];
                     if (dataToSeed) {
