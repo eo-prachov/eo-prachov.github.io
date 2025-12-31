@@ -14,8 +14,7 @@
         .container{
             background-color:var(--background-color);
             width:100%;
-            /* WIDER CONTAINER */
-            max-width: 1200px; 
+            max-width:960px;
             margin:20px;
             padding:20px;
             box-shadow:0 0 15px rgba(0,0,0,.2); 
@@ -42,6 +41,8 @@
         #admin-toolbar button:hover{background:#2980b9}
         #admin-toolbar button#save-btn{background:#27ae60}
         #admin-toolbar button#save-btn:hover{background:#229954}
+        #admin-toolbar button#upload-restore-btn{background:#8e44ad}
+        #admin-toolbar button#upload-restore-btn:hover{background:#732d91}
         #admin-toolbar button#logout-btn{background:#e74c3c}
         #admin-toolbar button#logout-btn:hover{background:#c0392b}
 
@@ -76,6 +77,7 @@
     <div id="admin-toolbar">
         <span>Režim úprav</span>
         <button id="save-btn" onclick="saveAllChanges()">Uložit změny</button>
+        <button id="upload-restore-btn" onclick="forceUploadRESTORE()">Nahrát ZÁLOŽNÍ Data (CODE -> DB)</button>
         <button onclick="addTextBox()">+ Přidat text</button>
         <button id="delete-mode-btn" onclick="toggleDeleteMode()">Smazat text</button>
         <button id="logout-btn" onclick="logout()">Odhlásit se</button>
@@ -180,7 +182,17 @@
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Zajímavá místa v okolí | Eko-Oáza Prachov", description: "Tipy na výlety v okolí." }, en: { title: "Places of Interest | Eko-Oáza Prachov", description: "Trip ideas around Eko-Oáza Prachov." } };
         
-        const RESTORE_DATA = {};
+        // --- RESTORE DATA ---
+        const RESTORE_DATA = {
+            'zajimava-mista_en': {
+                'en-places-header-1': `Prachov Rocks`,
+                'en-places-header-2': `Swimming (natural-Jinolice Ponds (10 min. walk), municipal swimming pool (10 min. by car), indoor aqua center (15 min. by car))`,
+                'en-places-header-3': `Castles, ruins and chateaux of the Bohemian Paradise`,
+                'en-places-header-4': `Interesting places in Jičín and the immediate surroundings`,
+                'en-places-info-box': `<p>Cottage settlement in Bohemian Paradise, Prachov 58, operator: Ing.Petr Hejna</p><p>ID: 66314364</p><p>Opening hours: July-August (by appointment only)</p><p>Bank account: 19-6866210217/0100</p><p>tel.: <span class="bold">+420 606 930 170 (preferably in the evening)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>old website: eo-prachov.cz</p>`,
+                'en-places-intro': `<h3>Interesting Places</h3><p>The Prachov Rocks are located in the heart of the Bohemian Paradise. Below are just some of the tourist attractions.</p>`
+            }
+        };
 
         function getPageDocId(lang) { const path = window.location.pathname; const page = path.split("/").pop().replace(".html", "") || "index"; return `${page}_${lang}`; }
         function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
@@ -249,6 +261,29 @@
             document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = false; }); 
         }
 
+        // --- NEW FUNCTION: FORCE UPLOAD FROM HARDCODED DATA ---
+        async function forceUploadRESTORE() {
+            if(!confirm("OPRAVDU chcete přepsat databázi daty z kódu? Použijte jen pokud je web prázdný.")) return;
+            const lang = document.documentElement.lang;
+            const docId = getPageDocId(lang);
+            const dataToSeed = RESTORE_DATA[docId];
+            
+            if (!dataToSeed) {
+                alert("Pro tuto stránku nejsou připravena žádná záložní data (Code is empty for this page).");
+                return;
+            }
+
+            try {
+                // FORCE SAVE TO DB
+                await db.collection('content').doc(docId).set(dataToSeed);
+                alert("Data úspěšně nahrána z kódu do databáze! Obnovte stránku.");
+                location.reload();
+            } catch (error) {
+                console.error("Error seeding:", error);
+                alert("Chyba při nahrávání.");
+            }
+        }
+
         async function saveAllChanges() {
             const promises = [];
             document.querySelectorAll('.editable-text').forEach(element => {
@@ -272,20 +307,31 @@
         }
 
         async function fetchFromDB() {
+            // STOP OVERWRITING IN ADMIN MODE (Unless DB is empty, handled below)
+            if (isAdmin && !document.querySelector('[data-field]').innerHTML === "") {
+                console.log("Admin mode active: Skipping DB fetch to prevent overwriting your edits.");
+                return;
+            }
+
             const lang = document.documentElement.lang;
             const docId = getPageDocId(lang);
             try {
                 const doc = await db.collection('content').doc(docId).get();
                 if (doc.exists) {
                     const data = doc.data();
-                    if (Object.keys(data).length < 2 && RESTORE_DATA[docId]) {
-                         console.log("DB entry broken. Healing...");
-                         await db.collection('content').doc(docId).set(RESTORE_DATA[docId], { merge: true });
-                         renderData(RESTORE_DATA[docId]);
+                    if (Object.keys(data).length === 0) {
+                        // DB exists but is empty -> AUTO SEED from Hardcoded Data
+                        console.log("DB Empty - Auto-Seeding RESTORE_DATA...");
+                        const dataToSeed = RESTORE_DATA[docId];
+                        if (dataToSeed) {
+                             await db.collection('content').doc(docId).set(dataToSeed);
+                             renderData(dataToSeed);
+                        }
                     } else {
-                        renderData(data);
+                        if (!isAdmin) renderData(data);
                     }
                 } else {
+                    // DB Document Missing -> AUTO SEED from Hardcoded Data
                     console.log(`Document ${docId} missing. Auto-seeding...`);
                     const dataToSeed = RESTORE_DATA[docId];
                     if (dataToSeed) {
