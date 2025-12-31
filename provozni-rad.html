@@ -14,7 +14,8 @@
         .container{
             background-color:var(--background-color);
             width:100%;
-            max-width:1200px;
+            /* WIDER CONTAINER */
+            max-width: 1200px; 
             margin:20px;
             padding:20px;
             box-shadow:0 0 15px rgba(0,0,0,.2); 
@@ -150,7 +151,6 @@
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Provozní řád | Eko-Oáza Prachov", description: "Provozní a ubytovací řád." }, en: { title: "Operating Rules | Eko-Oáza Prachov", description: "Operating and accommodation rules." } };
 
-        // NO HARDCODED DATA
         const RESTORE_DATA = {};
 
         function getPageDocId(lang) { const path = window.location.pathname; const page = path.split("/").pop().replace(".html", "") || "index"; return `${page}_${lang}`; }
@@ -242,13 +242,6 @@
         }
 
         async function fetchFromDB() {
-            // STOP OVERWRITING IN ADMIN MODE
-            // If admin is active, and the page already has content (not blank), do not fetch.
-            if (isAdmin && document.querySelector('.editable-text').innerHTML.trim().length > 0) {
-                console.log("Admin mode active: Skipping DB fetch to prevent overwriting your edits.");
-                return;
-            }
-
             const lang = document.documentElement.lang;
             const docId = getPageDocId(lang);
             try {
@@ -257,7 +250,12 @@
                     const data = doc.data();
                     renderData(data);
                 } else {
-                    console.log(`Document ${docId} missing in DB.`);
+                    console.log(`Document ${docId} missing. Auto-seeding...`);
+                    const dataToSeed = RESTORE_DATA[docId];
+                    if (dataToSeed) {
+                         await db.collection('content').doc(docId).set(dataToSeed);
+                         renderData(dataToSeed);
+                    }
                 }
             } catch (error) { console.error("Error fetching DB: " + error); }
         }

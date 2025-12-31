@@ -14,7 +14,8 @@
         .container{
             background-color:var(--background-color);
             width:100%;
-            max-width:1200px;
+            /* WIDER CONTAINER as requested */
+            max-width: 1200px; 
             margin:20px;
             padding:20px;
             box-shadow:0 0 15px rgba(0,0,0,.2); 
@@ -213,8 +214,22 @@
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Ubytování Chaty Eko-Oáza Prachov | Dovolená v Českém ráji", description: "Nabízíme levné ubytování v chatkách pro rodiny s dětmi." }, en: { title: "Eko-Oáza Prachov Cottages & Accommodation | Bohemian Paradise", description: "Affordable cottage accommodation for families." } };
         
-        // NO HARDCODED DATA
-        const RESTORE_DATA = {};
+        // --- RESTORE DATA (Only used if DB is blank) ---
+        const RESTORE_DATA = {
+            'index_en': {
+                'en-info-box': `<h3>Eko-Oáza Prachov</h3><p>The cottage area in The Bohemian Paradise, Prachov 58</p><p><strong>IČO:</strong> 66314364</p><p><strong>Account #:</strong> 19-6866210217/0100</p><p><strong>tel.:</strong> 606 930 170</p><p><strong>e-mail:</strong> e-o-p@seznam.cz</p><p>old web:</p>`,
+                'en-intro': `These 3-bedded cottages are suitable for parents with children. One more person (child) can be accommodated.`,
+                'en-map-header': `Location`,
+                'en-map-text': `<p>This cottage area is located in a sunny hillside 6km northwest of Jicin, in the very heart of the Prachov Rocks.</p><p><strong>GPS coordinates:</strong> Loc: 50°27'52.835"N, 15°18'23.299"E</p><p>Get off the main road into the No Entry turning (guests to our facilities are allowed in). Entrance after 50m.</p>`,
+                'en-socials-intro': `The cottage area is equipped with brand new toilets.`,
+                'en-kitchen-intro': `There is a kitchenette in the cottage area (refrigerator, hot plate, electric kettle, tableware and utensils, hot/cold tab). The large tent serves as a meeting place for more people.`,
+                'en-video-link': `<a href="https://www.youtube.com/" target="_blank">A bird view of the accommodation facilities</a>`,
+                'en-activities': `<h3>Possible activities</h3><ul><li>walking round the Prachov Rocks in</li><li>cycling along bikeways of the Bohemian Paradise</li><li>climbing real sand rocks, or "indoor" manmade walls (in Sobotka)</li><li>bathing and swimming in Jinolice ponds, Aqua-park in Jičín, and other areas</li><li>sightseeing a varieaty of palaces (Humprecht, Malá skála, Hrubá skála, Valdštein, ...), castles (Kost, Staré hrady, ...) and ruins (Trosky, Valečov....) battlefields of 1866</li><li>city touring (Valdstein tower, the palace of Smiricky, the two-kilometerlipovou lime tree alley,</li><li>sightseeing flights over the Bohemian Paradise</li><li>visiting festivals (Šrámkova Sobotka in July, Fairytale Festival in early September)</li><li>realaxing in the cottage area, enjoying meals prepared in the kitchenette</li></ul>`,
+                'en-price-header': `Pricing`,
+                'en-price-table': `<table class="price-table"><thead><tr><th>Service</th><th>Price</th></tr></thead><tbody><tr><td data-label="Service">1 cottage / 1 night - 2-week stay</td><td data-label="Price">450 CZK</td></tr><tr><td data-label="Service">1 cottage / 1 night - 1-week stay</td><td data-label="Price">600 CZK</td></tr><tr><td data-label="Service">1 cottage / 1 night - less than 1 week stay</td><td data-label="Price">700 CZK</td></tr><tr><td data-label="Service">1 cottage / 1 night - 2 nights stay</td><td data-label="Price">900 CZK</td></tr><tr><td data-label="Service">blanket+pillow/bed/night</td><td data-label="Price">200 CZK/cottage/night</td></tr><tr><td data-label="Service">fourth person (child) in the cottage</td><td data-label="Price">0- 100 CZK/1x night</td></tr><tr><td data-label="Service">Shower</td><td data-label="Price">50 CZK/1x use</td></tr><tr><td data-label="Service">Parking</td><td data-label="Price">free of charge</td></tr><tr><td data-label="Service">Pet</td><td data-label="Price">free of charge</td></tr></tbody></table>`,
+                'en-facebook-link': `Cooperation with: e-chalupy.cz LevneUbytovani.net chalupy-ubytovani.cz`
+            }
+        };
 
         function getPageDocId(lang) { const path = window.location.pathname; const page = path.split("/").pop().replace(".html", "") || "index"; return `${page}_${lang}`; }
         function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
@@ -304,22 +319,27 @@
         }
 
         async function fetchFromDB() {
-            // STOP OVERWRITING IN ADMIN MODE
-            // If admin is active, and the page already has content (not blank), do not fetch.
-            if (isAdmin && document.querySelector('.editable-text').innerHTML.trim().length > 0) {
-                console.log("Admin mode active: Skipping DB fetch to prevent overwriting your edits.");
-                return;
-            }
-
             const lang = document.documentElement.lang;
             const docId = getPageDocId(lang);
             try {
                 const doc = await db.collection('content').doc(docId).get();
                 if (doc.exists) {
                     const data = doc.data();
-                    renderData(data);
+                    // AUTO-HEAL: If DB entry exists but is empty/partial, use RESTORE_DATA if available
+                    if (Object.keys(data).length < 2 && RESTORE_DATA[docId]) {
+                         console.log("DB entry seems broken. Auto-healing from internal backup...");
+                         await db.collection('content').doc(docId).set(RESTORE_DATA[docId], { merge: true });
+                         renderData(RESTORE_DATA[docId]);
+                    } else {
+                        renderData(data);
+                    }
                 } else {
-                    console.log(`Document ${docId} missing in DB.`);
+                    console.log(`Document ${docId} missing. Auto-seeding...`);
+                    const dataToSeed = RESTORE_DATA[docId];
+                    if (dataToSeed) {
+                         await db.collection('content').doc(docId).set(dataToSeed);
+                         renderData(dataToSeed);
+                    }
                 }
             } catch (error) { console.error("Error fetching DB: " + error); }
         }
