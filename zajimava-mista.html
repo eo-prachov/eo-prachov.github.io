@@ -76,8 +76,7 @@
 <body>
     <div id="admin-toolbar">
         <span>Režim úprav</span>
-        <button id="save-btn" onclick="saveAllChanges()">Uložit změny (WEB -> DB)</button>
-        <button id="upload-restore-btn" onclick="forceUploadRESTORE()">Nahrát ZÁLOŽNÍ Data (CODE -> DB)</button>
+        <button id="save-btn" onclick="saveAllChanges()">Uložit změny</button>
         <button onclick="addTextBox()">+ Přidat text</button>
         <button id="delete-mode-btn" onclick="toggleDeleteMode()">Smazat text</button>
         <button id="logout-btn" onclick="logout()">Odhlásit se</button>
@@ -97,12 +96,12 @@
             <h1><a id="logo-link" href="index.html">Eko-Oáza Prachov</a></h1>
             <nav id="nav-cs">
                 <a href="index.html">Úvod</a>
-                <a href="zajimava-mista.html">Zajímavá místa</a>
+                <a href="provozni-rad.html">Provozní řád</a>
                 <a onclick="switchLanguage('en')">English version</a>
             </nav>
             <nav id="nav-en" style="display:none;">
                 <a href="index.html?lang=en">Home</a>
-                <a href="zajimava-mista.html?lang=en">Places of interest</a>
+                <a href="provozni-rad.html?lang=en">Operating rules</a>
                 <a onclick="switchLanguage('cs')">Česká verze</a>
             </nav>
         </header>
@@ -178,7 +177,6 @@
         const modalContentWrapper = document.querySelector(".modal-content-wrapper");
         let currentImageIndex, currentGalleryImages, isAdmin = false;
         let unsavedChanges = false;
-        let contentRefreshInterval;
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Zajímavá místa v okolí | Eko-Oáza Prachov", description: "Tipy na výlety v okolí." }, en: { title: "Places of Interest | Eko-Oáza Prachov", description: "Trip ideas around Eko-Oáza Prachov." } };
         
@@ -232,7 +230,7 @@
         function showImage(index) { modalImg.src = currentGalleryImages[index].src; modalImg.alt = currentGalleryImages[index].alt; modalImg.className = 'modal-content'; modalContentWrapper.scrollTop = 0; modalContentWrapper.scrollLeft = 0; }
         function closeModal() { modal.style.display = "none"; document.body.style.overflow = 'auto'; }
         function plusSlides(n) { currentImageIndex = (currentImageIndex + n + currentGalleryImages.length) % currentGalleryImages.length; showImage(currentImageIndex); }
-        function handleImageClick(event) { event.stopPropagation(); const img = event.target; if (img.classList.contains('zoom-2')) { img.classList.remove('zoom-2', 'zoom-1'); } else if (img.classList.contains('zoom-1')) { img.classList.add('zoom-2'); } else { img.classList.add('zoom-1'); } }
+        function handleImageClick(event) { event.stopPropagation(); const img = event.target; if (img.classList.contains('zoom-2')) { img.classList.remove('zoom-2', 'zoom-1'); } else if (img.classList.contains('zoom-1')) { img.classList.add('zoom-1'); } else { img.classList.add('zoom-1'); } }
         function handleModalClick(event) { if (event.target === modalContentWrapper) closeModal(); }
         
         auth.onAuthStateChanged(user => { 
@@ -260,7 +258,6 @@
                 el.contentEditable = true; 
                 el.addEventListener('input', () => { unsavedChanges = true; });
             }); 
-            if (contentRefreshInterval) clearInterval(contentRefreshInterval);
         }
         function disableAdminMode() { 
             document.body.classList.remove('admin-mode'); 
