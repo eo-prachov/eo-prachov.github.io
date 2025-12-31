@@ -105,7 +105,7 @@
 
     <div class="container">
         <header>
-            <h1><a href="index.html" onclick="if(!checkUnsavedChanges()) return false;">Eko-Oáza Prachov</a></h1>
+            <h1><a id="logo-link" href="index.html">Eko-Oáza Prachov</a></h1>
             <nav id="nav-cs">
                 <a href="provozni-rad.html">Provozní řád</a>
                 <a href="zajimava-mista.html">Zajímavá místa</a>
@@ -213,20 +213,20 @@
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Ubytování Chaty Eko-Oáza Prachov | Dovolená v Českém ráji", description: "Nabízíme levné ubytování v chatkách pro rodiny s dětmi." }, en: { title: "Eko-Oáza Prachov Cottages & Accommodation | Bohemian Paradise", description: "Affordable cottage accommodation for families." } };
         
-        // --- RESTORE DATA (Fallback) ---
+        // --- RESTORE DATA / HARDCODED CZECH DATA HERE ---
         const RESTORE_DATA = {
             'index_cs': {
-                'cs-activities': `<h3>Co poskytuje dovolená v Chatové dědince v Českém ráji?</h3> <ul> <li>pěší turistiku Prachovskými skalami v Českém ráji s krásnými vyhlídkami</li> <li>cyklistiku po vyznačených cyklotrasách Českým rájem</li> <li>horolezectví v Prachovských skalách a dalších skalních městech, i na "indoor" umělých stěnách</li> <li>plavání a koupání v koupališti u Pelíška ve středu Prachovských skal, ve známých Jinolických rybníkách či Aqua-centru v Jičíně, a dalších lokalitách (rybníky v Podtroseckých údolích)</li> <li>návštěvy a prohlídky četných zámků (Humprecht, Malá skála, Hrubá skála, Valdštein, ...), hradů (Kost, Staré hrady, ...) a zřícenin (Trosky, Valečov....) v celém Českém ráji, míst bitvy u Jičína 1866</li> <li>prohlídky pohádkového města Jičína s krásnou vyhlídkou z Valdštejnské brány po celém kraji i prohlídku zámku Smiřických na náměstí v Jičíně, a také Valdštejnem založenou dvou-kilometrovou lipovou alejí zakončenou Valdštejnskou lodí, druhý týden v září každý rok akce "Jičín-město pohádky"</li> <li>vyhlídkové lety nad Českým rájem z nedalekého letiště</li> <li>návštěvu festivalu Šrámkova Sobotka (v červenci)</li> <li>jízdu na koni pro malé děti</li> <li>klidný pobytdoma v chatové dědince s ohřátím a úpravou svého jídla v kuchyňce.</li> </ul>`,
-                'cs-facebook-link': `<a href="https://www.facebook.com/petr.hejna.3762" target="_blank" rel="noopener noreferrer">https://www.facebook.com/petr.hejna.3762</a>`,
                 'cs-info-box': `<h3>Eko-Oáza Prachov</h3><p class="bold">Chatová osada v Českém ráji, Prachov 58, provozovatel: Ing.Petr Hejna</p> <p><b class="bold">IČO:</b> 66314364</p> <p><b class="bold">Provozní doba:</b> červenec-srpen (jen po dohodě s klientem)</p> <p><b class="bold">č.ú.</b> 19-6866210217/0100</p> <p><b class="bold">tel.:</b> 606 930 170 (nejlépe večer)</p> <p><b class="bold">e-mail:</b> e-o-p@seznam.cz</p> <p><b class="bold">staré stránky na:</b> eo-prachov.cz</p>`,
                 'cs-intro': `Jedná se o sedm 3-lůžkových chatek vhodných pro rodiče s dětmi. Přistýlka pro čtvrtou osobu (dítě) ve formě propojení dvou lůžek je možná.`,
-                'cs-kitchen-intro': `V chatové dědince je společná kuchyňka (lednice, dvouplotnový vařič, varná konvice, nádobí, teplá/studená voda).`,
                 'cs-map-header': `Kde nás najdete?`,
                 'cs-map-text': `<p>Chatová osada se nachází na slunné stráni 6km severozápadně od Jičína, v samém centru Prachovských skal.</p> <p><b>GPS souřadnice:</b> Loc: 50°27'52.835"N, 15°18'23.299"E</p> <p>Z hlavní silnice sjet do do cesty označené zákazem vjezdu, který pro ubytováné neplatí. Po 50m je vjezd.</p>`,
+                'cs-socials-intro': `Chatová dědinka je vybavena novým sociálním zařízením se sprchami.`,
+                'cs-kitchen-intro': `V chatové dědince je společná kuchyňka (lednice, dvouplotnový vařič, varná konvice, nádobí, teplá/studená voda).`,
+                'cs-video-link': `<a href="https://www.youtube.com/watch?v=..." target="_blank" rel="noopener noreferrer">Letecký pohled do EOP</a>`,
+                'cs-activities': `<h3>Co poskytuje dovolená v Chatové dědince v Českém ráji?</h3> <ul> <li>pěší turistiku Prachovskými skalami v Českém ráji s krásnými vyhlídkami</li> <li>cyklistiku po vyznačených cyklotrasách Českým rájem</li> <li>horolezectví v Prachovských skalách a dalších skalních městech, i na "indoor" umělých stěnách</li> <li>plavání a koupání v koupališti u Pelíška ve středu Prachovských skal, ve známých Jinolických rybníkách či Aqua-centru v Jičíně, a dalších lokalitách (rybníky v Podtroseckých údolích)</li> <li>návštěvy a prohlídky četných zámků (Humprecht, Malá skála, Hrubá skála, Valdštein, ...), hradů (Kost, Staré hrady, ...) a zřícenin (Trosky, Valečov....) v celém Českém ráji, míst bitvy u Jičína 1866</li> <li>prohlídky pohádkového města Jičína s krásnou vyhlídkou z Valdštejnské brány po celém kraji i prohlídku zámku Smiřických na náměstí v Jičíně, a také Valdštejnem založenou dvou-kilometrovou lipovou alejí zakončenou Valdštejnskou lodí, druhý týden v září každý rok akce "Jičín-město pohádky"</li> <li>vyhlídkové lety nad Českým rájem z nedalekého letiště</li> <li>návštěvu festivalu Šrámkova Sobotka (v červenci)</li> <li>jízdu na koni pro malé děti</li> <li>klidný pobytdoma v chatové dědince s ohřátím a úpravou svého jídla v kuchyňce.</li> </ul>`,
                 'cs-price-header': `Ceník`,
                 'cs-price-table': `<table class="price-table"> <thead> <tr> <th>Služba</th> <th>Cena</th> </tr> </thead> <tbody> <tr><td data-label="Služba">chata (3 osoby)/noc - 2-týdenní a více pobyt (bez lůžkovin, prostěradlo v ceně)</td><td data-label="Cena">450 Kč</td></tr> <tr><td data-label="Služba">chata (3 osoby)/noc - 1-týdenní a více pobyt (bez lůžkovin, prostěradlo v ceně)</td><td data-label="Cena">600,-Kč</td></tr> <tr><td data-label="Služba">chata (3 osoby)/noc -méně než týdenní pobyt (bez lúžkovin, prostěradlo v cenně)</td><td data-label="Cena">700,-Kč</td></tr> <tr><td data-label="Služba">chata (3 osoby)/noc - 2 noci (bez lúžkovin, prostěradlo v cenně)</td><td data-label="Cena">900 Kč</td></tr> <tr><td data-label="Služba">s lůžkovinama: lůžkoviny/lůžko/noc</td><td data-label="Cena">200,- Kč</td></tr> <tr><td data-label="Služba">Čtvrtá osoba v chatce</td><td data-label="Cena">0-100 Kč/1x noc</td></tr> <tr><td data-label="Služba">Sprcha</td><td data-label="Cena">50 Kč/1x použití</td></tr> <tr><td data-label="Služba">Parkování</td><td data-label="Cena">zdarma</td></tr> <tr><td data-label="Služba">Domácí zvíře</td><td data-label="Cena">zdarma</td></tr> </tbody> </table>`,
-                'cs-socials-intro': `Chatová dědinka je vybavena novým sociálním zařízením se sprchami.`,
-                'cs-video-link': `<a href=" target="_blank" rel="noopener noreferrer">Letecký pohled do EOP</a>`
+                'cs-facebook-link': `<a href="https://www.facebook.com/petr.hejna.3762" target="_blank" rel="noopener noreferrer">https://www.facebook.com/petr.hejna.3762</a>`
             },
             'index_en': {
                 'en-info-box': `<h3>Eko-Oáza Prachov</h3><p>The cottage area in The Bohemian Paradise, Prachov 58</p><p><strong>IČO:</strong> 66314364</p><p><strong>Account #:</strong> 19-6866210217/0100</p><p><strong>tel.:</strong> 606 930 170</p><p><strong>e-mail:</strong> e-o-p@seznam.cz</p><p>old web:</p>`,
@@ -235,7 +235,7 @@
                 'en-map-text': `<p>This cottage area is located in a sunny hillside 6km northwest of Jicin, in the very heart of the Prachov Rocks.</p><p><strong>GPS coordinates:</strong> Loc: 50°27'52.835"N, 15°18'23.299"E</p><p>Get off the main road into the No Entry turning (guests to our facilities are allowed in). Entrance after 50m.</p>`,
                 'en-socials-intro': `The cottage area is equipped with brand new toilets.`,
                 'en-kitchen-intro': `There is a kitchenette in the cottage area (refrigerator, hot plate, electric kettle, tableware and utensils, hot/cold tab). The large tent serves as a meeting place for more people.`,
-                'en-video-link': `<a href=" target="_blank">A bird view of the accommodation facilities</a>`,
+                'en-video-link': `<a href="#" target="_blank">A bird view of the accommodation facilities</a>`,
                 'en-activities': `<h3>Possible activities</h3><ul><li>walking round the Prachov Rocks in</li><li>cycling along bikeways of the Bohemian Paradise</li><li>climbing real sand rocks, or "indoor" manmade walls (in Sobotka)</li><li>bathing and swimming in Jinolice ponds, Aqua-park in Jičín, and other areas</li><li>sightseeing a varieaty of palaces (Humprecht, Malá skála, Hrubá skála, Valdštein, ...), castles (Kost, Staré hrady, ...) and ruins (Trosky, Valečov....) battlefields of 1866</li><li>city touring (Valdstein tower, the palace of Smiricky, the two-kilometerlipovou lime tree alley,</li><li>sightseeing flights over the Bohemian Paradise</li><li>visiting festivals (Šrámkova Sobotka in July, Fairytale Festival in early September)</li><li>realaxing in the cottage area, enjoying meals prepared in the kitchenette</li></ul>`,
                 'en-price-header': `Pricing`,
                 'en-price-table': `<table class="price-table"><thead><tr><th>Service</th><th>Price</th></tr></thead><tbody><tr><td data-label="Service">1 cottage / 1 night - 2-week stay</td><td data-label="Price">450 CZK</td></tr><tr><td data-label="Service">1 cottage / 1 night - 1-week stay</td><td data-label="Price">600 CZK</td></tr><tr><td data-label="Service">1 cottage / 1 night - less than 1 week stay</td><td data-label="Price">700 CZK</td></tr><tr><td data-label="Service">1 cottage / 1 night - 2 nights stay</td><td data-label="Price">900 CZK</td></tr><tr><td data-label="Service">blanket+pillow/bed/night</td><td data-label="Price">200 CZK/cottage/night</td></tr><tr><td data-label="Service">fourth person (child) in the cottage</td><td data-label="Price">0- 100 CZK/1x night</td></tr><tr><td data-label="Service">Shower</td><td data-label="Price">50 CZK/1x use</td></tr><tr><td data-label="Service">Parking</td><td data-label="Price">free of charge</td></tr><tr><td data-label="Service">Pet</td><td data-label="Price">free of charge</td></tr></tbody></table>`,
@@ -254,6 +254,17 @@
             document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none'; 
             document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; 
             document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; 
+            
+            // LOGO LINK FIX - Updates the href of the Logo to match current language
+            const logoLink = document.getElementById('logo-link');
+            if(logoLink) {
+                if(lang === 'en') {
+                    logoLink.href = "index.html?lang=en";
+                } else {
+                    logoLink.href = "index.html";
+                }
+            }
+
             updateSEO(lang); 
             fetchFromDB();
         }
@@ -275,8 +286,10 @@
                 setTimeout(fetchFromDB, 500);
                 setTimeout(fetchFromDB, 1000);
                 setInterval(() => {
-                    console.log("Checking for database updates...");
-                    fetchFromDB();
+                    if (!isAdmin) {
+                        console.log("Checking for database updates...");
+                        fetchFromDB();
+                    }
                 }, 10000); 
             } 
         });
@@ -320,8 +333,8 @@
         }
 
         async function fetchFromDB() {
-            // STOP OVERWRITING IN ADMIN MODE
-            if (isAdmin) {
+            // STOP OVERWRITING IN ADMIN MODE (Unless DB is empty, handled below)
+            if (isAdmin && !document.querySelector('[data-field]').innerHTML === "") {
                 console.log("Admin mode active: Skipping DB fetch to prevent overwriting your edits.");
                 return;
             }
@@ -333,15 +346,18 @@
                 if (doc.exists) {
                     const data = doc.data();
                     if (Object.keys(data).length === 0) {
+                        // DB exists but is empty -> AUTO SEED from Hardcoded Data
+                        console.log("DB Empty - Auto-Seeding RESTORE_DATA...");
                         const dataToSeed = RESTORE_DATA[docId];
                         if (dataToSeed) {
                              await db.collection('content').doc(docId).set(dataToSeed);
                              renderData(dataToSeed);
                         }
                     } else {
-                        renderData(data);
+                        if (!isAdmin) renderData(data);
                     }
                 } else {
+                    // DB Document Missing -> AUTO SEED from Hardcoded Data
                     console.log(`Document ${docId} missing. Auto-seeding...`);
                     const dataToSeed = RESTORE_DATA[docId];
                     if (dataToSeed) {

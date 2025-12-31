@@ -32,7 +32,6 @@
         .info-box p{margin:5px 0}
         .bold{font-weight:700}.text-center{text-align:center}.text-right{text-align:right}
         
-        /* Justify alignment for rules text */
         .text-justify { text-align: justify; }
 
         .editable-text { 
@@ -91,7 +90,7 @@
 
     <div class="container">
         <header>
-            <h1><a href="index.html" onclick="if(!checkUnsavedChanges()) return false;">Eko-Oáza Prachov</a></h1>
+            <h1><a id="logo-link" href="index.html">Eko-Oáza Prachov</a></h1>
             <nav id="nav-cs">
                 <a href="index.html">Úvod</a>
                 <a href="zajimava-mista.html">Zajímavá místa</a>
@@ -151,7 +150,7 @@
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Provozní řád | Eko-Oáza Prachov", description: "Provozní a ubytovací řád." }, en: { title: "Operating Rules | Eko-Oáza Prachov", description: "Operating and accommodation rules." } };
 
-        // --- RESTORE DATA (Fallback) ---
+        // --- RESTORE DATA ---
         const RESTORE_DATA = {
             'provozni-rad_cs': {
                 'cs-rules-info-box': `<h3>Eko-Oáza Prachov</h3><p><b class="bold">Chatová osada v Českém ráji, Prachov 58, provozovatel:</b> Ing.Petr Hejna</p> <p><b class="bold">IČO:</b> 66314364</p> <p><b class="bold">Provozní doba:</b> červenec-srpen (jen po dohodě s klientem)</p> <p><b class="bold">č.ú.</b> 19-6866210217/0100</p> <p><b class="bold">tel.:</b> 606 930 170 (nejlépe večer)</p> <p><b class="bold">e-mail:</b> e-o-p@seznam.cz</p><p>old web:</p>`,
@@ -174,6 +173,17 @@
             document.getElementById('nav-en').style.display = lang === 'en' ? 'flex' : 'none'; 
             document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; 
             document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; 
+            
+            // LOGO LINK FIX
+            const logoLink = document.getElementById('logo-link');
+            if(logoLink) {
+                if(lang === 'en') {
+                    logoLink.href = "index.html?lang=en";
+                } else {
+                    logoLink.href = "index.html";
+                }
+            }
+
             updateSEO(lang); 
             fetchFromDB();
         }
@@ -194,7 +204,7 @@
                 fetchFromDB();
                 setTimeout(fetchFromDB, 500);
                 setTimeout(fetchFromDB, 1000);
-                setInterval(() => { fetchFromDB(); }, 10000); 
+                setInterval(() => { if(!isAdmin) fetchFromDB(); }, 10000); 
             } 
         });
         
@@ -242,8 +252,8 @@
         }
 
         async function fetchFromDB() {
-            // STOP OVERWRITING IN ADMIN MODE
-            if (isAdmin) {
+            // STOP OVERWRITING IN ADMIN MODE (Unless DB is empty, handled below)
+            if (isAdmin && !document.querySelector('[data-field]').innerHTML === "") {
                 console.log("Admin mode active: Skipping DB fetch to prevent overwriting your edits.");
                 return;
             }
@@ -255,15 +265,18 @@
                 if (doc.exists) {
                     const data = doc.data();
                     if (Object.keys(data).length === 0) {
+                        // DB exists but is empty -> AUTO SEED from Hardcoded Data
+                        console.log("DB Empty - Auto-Seeding RESTORE_DATA...");
                         const dataToSeed = RESTORE_DATA[docId];
                         if (dataToSeed) {
                              await db.collection('content').doc(docId).set(dataToSeed);
                              renderData(dataToSeed);
                         }
                     } else {
-                        renderData(data);
+                        if (!isAdmin) renderData(data);
                     }
                 } else {
+                    // DB Document Missing -> AUTO SEED from Hardcoded Data
                     console.log(`Document ${docId} missing. Auto-seeding...`);
                     const dataToSeed = RESTORE_DATA[docId];
                     if (dataToSeed) {
