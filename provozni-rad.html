@@ -51,6 +51,8 @@
         #admin-toolbar button:hover{background:#2980b9}
         #admin-toolbar button#save-btn{background:#27ae60}
         #admin-toolbar button#save-btn:hover{background:#229954}
+        #admin-toolbar button#upload-restore-btn{background:#8e44ad}
+        #admin-toolbar button#upload-restore-btn:hover{background:#732d91}
         #admin-toolbar button#logout-btn{background:#e74c3c}
         #admin-toolbar button#logout-btn:hover{background:#c0392b}
 
@@ -73,7 +75,8 @@
 <body>
     <div id="admin-toolbar">
         <span>Režim úprav</span>
-        <button id="save-btn" onclick="saveAllChanges()">Uložit změny</button>
+        <button id="save-btn" onclick="saveAllChanges()">Uložit změny (WEB -> DB)</button>
+        <button id="upload-restore-btn" onclick="forceUploadRESTORE()">Nahrát ZÁLOŽNÍ Data (CODE -> DB)</button>
         <button onclick="addTextBox()">+ Přidat text</button>
         <button id="delete-mode-btn" onclick="toggleDeleteMode()">Smazat text</button>
         <button id="logout-btn" onclick="logout()">Odhlásit se</button>
@@ -148,7 +151,12 @@
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Provozní řád | Eko-Oáza Prachov", description: "Provozní a ubytovací řád." }, en: { title: "Operating Rules | Eko-Oáza Prachov", description: "Operating and accommodation rules." } };
 
-        const RESTORE_DATA = {};
+        const RESTORE_DATA = {
+            'provozni-rad_en': {
+                'en-rules-info-box': `<p>Cottage settlement in Bohemian Paradise, Prachov 58, operator: Ing.Petr Hejna</p><p>ID: 66314364</p><p>Opening hours: July-August (by appointment only)</p><p>Bank account: 19-6866210217/0100</p><p>tel.: <span class="bold">+420 606 930 170 (preferably in the evening)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>old website: eo-prachov.cz</p>`,
+                'en-rules-content': `<h3>Operating Rules</h3><p>Basically, a simple rule applies. The stay in this small cottage settlement is governed by the <span class="bold">principles of human decency and consideration, reason</span> and the <span class="bold">Accommodation Rules</span>, which are available in the kitchen.</p><ul><li>Smoking and rearranging furniture are not allowed in the cottages.</li><li>Only toilet paper should be thrown into the toilet bowls. The treatment plant cannot break down other materials (e.g., "paper" tissues, sanitary napkins, etc.).</li><li>Do not overtighten the hot water tap in the kitchen. After tightening, the hot water must still drip a little; it will stop on its own after a few seconds. (This is a non-pressurized system).</li></ul><h3 class="text-center">ACCOMMODATION RULES</h3><p class="bold text-center">Accommodation in this small cottage settlement is governed mainly by the principles of human decency and consideration, but also by the following rules.</p><p>The operator and owner of the recreational facility Eko-Oáza-Prachov (hereinafter "EOP"), located at Prachov 58, 50601 Jičín, is the natural person Ing.Petr Hejna, with his registered office at Komenského 59, 50601 Jičín, ID: 66314364, registered in the trade register kept by the Municipal Office in Jičín, (hereinafter "the accommodation provider").</p><p>Every guest is obliged to familiarize themselves with these accommodation rules before the start of their stay and is obliged to comply with them throughout their stay. If the guest is a minor child or adolescent, it is the duty of the legal guardian or responsible person to acquaint them, according to their mental and volitional maturity, with the accommodation rules and with the rights and obligations arising from the accommodation rules, and for safety reasons not to leave a child under 10 years of age unattended in the EOP area.</p><p>Only a guest who has duly registered with the accommodation provider, proved their identity with an identity card and has paid the agreed amount by bank transfer can be accommodated in the EOP area. Accommodation is only allowed for guests who are not suffering from infectious or parasitic diseases, nor have they been ordered to be under increased medical supervision or quarantine.</p><p>Unless otherwise agreed, check-in is after 2:00 PM, check-out is by 10:00 AM at the latest.</p><p>Quiet hours must be observed from 10:00 PM to 7:00 AM. By agreement with the accommodation provider, the curfew can be moved to a later hour. The guest personally takes over and hands back the cottage to the accommodation provider with the return of the keys.</p><p>Dogs or other animals may be present provided that the guest proves their eligible condition (vaccination certificate). The owner is responsible for the animal throughout the stay. The animal must not be left unattended. Pet owners are obliged to ensure that the animals do not run freely around the area without a muzzle, and are obliged to clean up after their animal. <span class="bold">Animals must not sleep in the bed intended for guests.</span></p><p>Accommodation, movement and stay of persons in the EOP area is <span class="bold">exclusively at their own risk.</span> When children and adolescents are staying, increased caution must be exercised. <span class="bold">The accommodation provider is not responsible for any personal injury.</span></p><p>Parking is possible on the areas near the cottages. <span class="bold">Increased caution is required when driving between the cottages.</span></p><p>Furniture may not be moved in the accommodation facilities without the consent of the accommodation provider. It is forbidden to cut and trim any vegetation in the EOP area.</p><p>There is a strict ban on smoking in the cottages and the entire area except for the designated space, carrying weapons, storing narcotics and psychotropic substances, poisons or other dangerous chemicals with the exception of medicinal products for the personal use of the guest.</p><p>Fires may only be lit in the designated place, under suitable climatic conditions, with the prior consent of the accommodation provider, and a person over 18 years of age must be present at the fire. Fire safety regulations must be observed.</p><p>Guests are required to sort municipal waste and dispose of it in the designated containers only in the designated place.</p><p>Only <span class="bold">toilet paper</span> (decomposable by the treatment plant) belongs in the toilet bowl. Other used sanitary items belong in the designated waste bins.</p><p>In the kitchen, <span class="bold">do not overtighten the taps</span> (overpressure system). The water will stop by itself after a while.</p><p><span class="bold">The accommodation provider is not responsible for any loss or damage to property.</span> The guest is solely responsible for valuables, except for those that the guest deposits with the accommodation provider against a signature of receipt.</p><p>The guest is obliged to comply with the provisions of these accommodation rules. In the event that the accommodation rules are violated, the accommodation provider has the right to terminate the stay without prior notice before the end of the agreed period without providing any compensation to the guest.</p><p>Eko-Oáza-Prachov wishes you a pleasant stay.</p><p class="text-right">This version of the accommodation rules is valid from 1.1.2019</p><p class="text-right">Ing.Petr Hejna, owner of EOP</p><p><span class="bold">Emergency calls 112, First aid 155, Firefighters 150, Police 158</span></p>`
+            }
+        };
 
         function getPageDocId(lang) { const path = window.location.pathname; const page = path.split("/").pop().replace(".html", "") || "index"; return `${page}_${lang}`; }
         function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
@@ -180,7 +188,7 @@
         function showImage(index) { modalImg.src = currentGalleryImages[index].src; modalImg.alt = currentGalleryImages[index].alt; modalImg.className = 'modal-content'; modalContentWrapper.scrollTop = 0; modalContentWrapper.scrollLeft = 0; }
         function closeModal() { modal.style.display = "none"; document.body.style.overflow = 'auto'; }
         function plusSlides(n) { currentImageIndex = (currentImageIndex + n + currentGalleryImages.length) % currentGalleryImages.length; showImage(currentImageIndex); }
-        function handleImageClick(event) { event.stopPropagation(); const img = event.target; if (img.classList.contains('zoom-2')) { img.classList.remove('zoom-2', 'zoom-1'); } else if (img.classList.contains('zoom-1')) { img.classList.add('zoom-2'); } else { img.classList.add('zoom-1'); } }
+        function handleImageClick(event) { event.stopPropagation(); const img = event.target; if (img.classList.contains('zoom-2')) { img.classList.remove('zoom-2', 'zoom-1'); } else if (img.classList.contains('zoom-1')) { img.classList.add('zoom-1'); } else { img.classList.add('zoom-1'); } }
         function handleModalClick(event) { if (event.target === modalContentWrapper) closeModal(); }
         
         auth.onAuthStateChanged(user => { 
@@ -216,6 +224,27 @@
             document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = false; }); 
         }
 
+        async function forceUploadRESTORE() {
+            if(!confirm("OPRAVDU chcete přepsat databázi daty z kódu? Použijte jen pokud je web prázdný.")) return;
+            const lang = document.documentElement.lang;
+            const docId = getPageDocId(lang);
+            const dataToSeed = RESTORE_DATA[docId];
+            
+            if (!dataToSeed) {
+                alert("Pro tuto stránku nejsou připravena žádná záložní data (Code is empty for this page).");
+                return;
+            }
+
+            try {
+                await db.collection('content').doc(docId).set(dataToSeed);
+                alert("Data úspěšně nahrána z kódu do databáze! Obnovte stránku.");
+                location.reload();
+            } catch (error) {
+                console.error("Error seeding:", error);
+                alert("Chyba při nahrávání.");
+            }
+        }
+
         async function saveAllChanges() {
             const promises = [];
             document.querySelectorAll('.editable-text').forEach(element => {
@@ -249,7 +278,21 @@
                 const doc = await db.collection('content').doc(docId).get();
                 if (doc.exists) {
                     const data = doc.data();
-                    renderData(data);
+                    if (Object.keys(data).length === 0) {
+                        const dataToSeed = RESTORE_DATA[docId];
+                        if (dataToSeed) {
+                             await db.collection('content').doc(docId).set(dataToSeed);
+                             renderData(dataToSeed);
+                        }
+                    } else {
+                        if (!isAdmin) renderData(data);
+                    }
+                } else {
+                    const dataToSeed = RESTORE_DATA[docId];
+                    if (dataToSeed) {
+                         await db.collection('content').doc(docId).set(dataToSeed);
+                         renderData(dataToSeed);
+                    }
                 }
             } catch (error) { console.error("Error fetching DB: " + error); }
         }

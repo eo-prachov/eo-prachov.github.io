@@ -62,6 +62,8 @@
         #admin-toolbar button:hover{background:#2980b9}
         #admin-toolbar button#save-btn{background:#27ae60}
         #admin-toolbar button#save-btn:hover{background:#229954}
+        #admin-toolbar button#upload-restore-btn{background:#8e44ad}
+        #admin-toolbar button#upload-restore-btn:hover{background:#732d91}
         #admin-toolbar button#logout-btn{background:#e74c3c}
         #admin-toolbar button#logout-btn:hover{background:#c0392b}
 
@@ -88,7 +90,8 @@
 <body>
     <div id="admin-toolbar">
         <span>Režim úprav</span>
-        <button id="save-btn" onclick="saveAllChanges()">Uložit změny</button>
+        <button id="save-btn" onclick="saveAllChanges()">Uložit změny (WEB -> DB)</button>
+        <button id="upload-restore-btn" onclick="forceUploadRESTORE()">Nahrát ZÁLOŽNÍ Data (CODE -> DB)</button>
         <button onclick="addTextBox()">+ Přidat text</button>
         <button id="delete-mode-btn" onclick="toggleDeleteMode()">Smazat text</button>
         <button id="logout-btn" onclick="logout()">Odhlásit se</button>
@@ -211,7 +214,21 @@
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Ubytování Chaty Eko-Oáza Prachov | Dovolená v Českém ráji", description: "Nabízíme levné ubytování v chatkách pro rodiny s dětmi." }, en: { title: "Eko-Oáza Prachov Cottages & Accommodation | Bohemian Paradise", description: "Affordable cottage accommodation for families." } };
         
-        const RESTORE_DATA = {};
+        const RESTORE_DATA = {
+            'index_en': {
+                'en-activities': `<h3>Possible activities</h3> <ul> <li>walking round the Prachov Rocks in</li> <li>cycling along bikeways of the Bohemian Paradise</li> <li>climbing real sand rocks, or "indoor" manmade walls (in Sobotka)</li> <li>bathing and swimming in Jinolice ponds, Aqua-park in Jičín, and other areas</li> <li>sightseeing a varieaty of palaces (Humprecht, Malá skála, Hrubá skála, Valdštein, ...), castles (Kost, Staré hrady, ...) and ruins (Trosky, Valečov....) battlefields of 1866</li> <li>city touring (Valdstein tower, the palace of Smiricky, the two-kilometerlipovou lime tree alley,</li> <li>sightseeing flights over the Bohemian Paradise</li> <li>visiting festivals (Šrámkova Sobotka in July, Fairytale Festival in early September)</li> <li>realaxing in the cottage area, enjoying meals prepared in the kitchenette</li> </ul>`,
+                'en-facebook-link': `<a href="https://www.facebook.com/petr.hejna.3762" target="_blank" rel="noopener noreferrer">https://www.facebook.com/petr.hejna.3762</a>`,
+                'en-info-box': ` <p><b class="bold">The cottage area in The Bohemian Paradise, Prachov 58</b></p> <p><b class="bold">IČO:</b> 66314364</p> <p><b class="bold">Account #:</b> 19-6866210217/0100</p> <p><b class="bold">tel.:</b> 606 930 170</p> <p><b class="bold">e-mail:</b> e-o-p@seznam.cz</p> <p><b class="bold">old web:</b></p> `,
+                'en-intro': `These 3-bedded cottages are suitable for parents with children. One more person (child) can be accommodated.`,
+                'en-kitchen-intro': `There is a kitchenette in the coattage area (refrigerator, hot plate, electric kettle, tableware and utensils, hot/cold tab). The large tent serves as a meeting place for more people.`,
+                'en-map-header': `Location`,
+                'en-map-text': ` <p>This cottae area is located in a sunny hillside 6km northwet of Jicin, in the very heart of the Prachov Rocks.</p> <p><b>GPS coordinates:</b> Loc: 50°27'52.835"N, 15°18'23.299"E</p> <p>Get off the main road into the No Entry turning (guests to our facilities are allowed in). Entrance after 50m.</p> `,
+                'en-price-header': `Pricing`,
+                'en-price-table': ` <table class="price-table"> <thead> <tr> <th>Service</th> <th>Price</th> </tr> </thead> <tbody> <tr><td data-label="Service">1 cottage / 1 night - 2-week stay</td><td data-label="Price">450 CZK</td></tr> <tr><td data-label="Service">1 cottage / 1 night - 1-week stay</td><td data-label="Price">600 CZK</td></tr> <tr><td data-label="Service">1 coattage / 1 night - less than 1 week stay</td><td data-label="Price">700 CZK</td></tr> <tr><td data-label="Service">1 coattage / 1 night - 2 nights stay</td><td data-label="Price">900 CZK</td></tr> <tr><td data-label="Service">blanket+pillow/bed/night</td><td data-label="Price">200 CZK/cottage/night</td></tr> <tr><td data-label="Service">fourth person (child) in the cottage</td><td data-label="Price">0- 100 CZK/1x night</td></tr> <tr><td data-label="Service">Shower</td><td data-label="Price">50 CZK/1x use</td></tr> <tr><td data-label="Service">Parking</td><td data-label="Price">free of charge</td></tr> <tr><td data-label="Service">Pet</td><td data-label="Price">free of charge</td></tr> </tbody> </table> `,
+                'en-socials-intro': `The cottage area is equipped with brand new toilets.`,
+                'en-video-link': `<a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">A bird view of the accommodation facilities</a>`
+            }
+        };
 
         function getPageDocId(lang) { const path = window.location.pathname; const page = path.split("/").pop().replace(".html", "") || "index"; return `${page}_${lang}`; }
         function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
@@ -243,7 +260,7 @@
         function showImage(index) { modalImg.src = currentGalleryImages[index].src; modalImg.alt = currentGalleryImages[index].alt; modalImg.className = 'modal-content'; modalContentWrapper.scrollTop = 0; modalContentWrapper.scrollLeft = 0; }
         function closeModal() { modal.style.display = "none"; document.body.style.overflow = 'auto'; }
         function plusSlides(n) { currentImageIndex = (currentImageIndex + n + currentGalleryImages.length) % currentGalleryImages.length; showImage(currentImageIndex); }
-        function handleImageClick(event) { event.stopPropagation(); const img = event.target; if (img.classList.contains('zoom-2')) { img.classList.remove('zoom-2', 'zoom-1'); } else if (img.classList.contains('zoom-1')) { img.classList.add('zoom-2'); } else { img.classList.add('zoom-1'); } }
+        function handleImageClick(event) { event.stopPropagation(); const img = event.target; if (img.classList.contains('zoom-2')) { img.classList.remove('zoom-2', 'zoom-1'); } else if (img.classList.contains('zoom-1')) { img.classList.add('zoom-1'); } else { img.classList.add('zoom-1'); } }
         function handleModalClick(event) { if (event.target === modalContentWrapper) closeModal(); }
         
         auth.onAuthStateChanged(user => { 
@@ -278,6 +295,27 @@
         }
         function disableAdminMode() { document.body.classList.remove('admin-mode'); document.body.classList.remove('delete-mode'); document.getElementById('admin-toolbar').style.display = 'none'; document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = false; }); }
 
+        async function forceUploadRESTORE() {
+            if(!confirm("OPRAVDU chcete přepsat databázi daty z kódu? Použijte jen pokud je web prázdný.")) return;
+            const lang = document.documentElement.lang;
+            const docId = getPageDocId(lang);
+            const dataToSeed = RESTORE_DATA[docId];
+            
+            if (!dataToSeed) {
+                alert("Pro tuto stránku nejsou připravena žádná záložní data (Code is empty for this page).");
+                return;
+            }
+
+            try {
+                await db.collection('content').doc(docId).set(dataToSeed);
+                alert("Data úspěšně nahrána z kódu do databáze! Obnovte stránku.");
+                location.reload();
+            } catch (error) {
+                console.error("Error seeding:", error);
+                alert("Chyba při nahrávání.");
+            }
+        }
+
         async function saveAllChanges() {
             const promises = [];
             document.querySelectorAll('.editable-text').forEach(element => {
@@ -311,7 +349,21 @@
                 const doc = await db.collection('content').doc(docId).get();
                 if (doc.exists) {
                     const data = doc.data();
-                    renderData(data);
+                    if (Object.keys(data).length === 0) {
+                        const dataToSeed = RESTORE_DATA[docId];
+                        if (dataToSeed) {
+                             await db.collection('content').doc(docId).set(dataToSeed);
+                             renderData(dataToSeed);
+                        }
+                    } else {
+                        if (!isAdmin) renderData(data);
+                    }
+                } else {
+                    const dataToSeed = RESTORE_DATA[docId];
+                    if (dataToSeed) {
+                         await db.collection('content').doc(docId).set(dataToSeed);
+                         renderData(dataToSeed);
+                    }
                 }
             } catch (error) { console.error("Error fetching DB: " + error); }
         }
