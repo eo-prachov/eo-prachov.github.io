@@ -122,6 +122,7 @@
         </header>
 
         <main id="main-content">
+            <!-- CZECH CONTENT -->
             <div id="lang-cs">
                 <div class="info-box editable-text" data-field="cs-info-box"></div>
                 <p class="editable-text" data-field="cs-intro"></p>
@@ -155,6 +156,7 @@
                 <div class="socials editable-text" data-field="cs-facebook-link"></div>
             </div>
 
+            <!-- ENGLISH CONTENT -->
             <div id="lang-en" style="display:none;">
                 <div class="info-box editable-text" data-field="en-info-box"></div>
                 <p class="editable-text" data-field="en-intro"></p>
@@ -260,7 +262,7 @@
         function showImage(index) { modalImg.src = currentGalleryImages[index].src; modalImg.alt = currentGalleryImages[index].alt; modalImg.className = 'modal-content'; modalContentWrapper.scrollTop = 0; modalContentWrapper.scrollLeft = 0; }
         function closeModal() { modal.style.display = "none"; document.body.style.overflow = 'auto'; }
         function plusSlides(n) { currentImageIndex = (currentImageIndex + n + currentGalleryImages.length) % currentGalleryImages.length; showImage(currentImageIndex); }
-        function handleImageClick(event) { event.stopPropagation(); const img = event.target; if (img.classList.contains('zoom-2')) { img.classList.remove('zoom-2', 'zoom-1'); } else if (img.classList.contains('zoom-1')) { img.classList.add('zoom-1'); } else { img.classList.add('zoom-1'); } }
+        function handleImageClick(event) { event.stopPropagation(); const img = event.target; if (img.classList.contains('zoom-2')) { img.classList.remove('zoom-2', 'zoom-1'); } else if (img.classList.contains('zoom-1')) { img.classList.add('zoom-2'); } else { img.classList.add('zoom-1'); } }
         function handleModalClick(event) { if (event.target === modalContentWrapper) closeModal(); }
         
         auth.onAuthStateChanged(user => { 
@@ -295,6 +297,7 @@
         }
         function disableAdminMode() { document.body.classList.remove('admin-mode'); document.body.classList.remove('delete-mode'); document.getElementById('admin-toolbar').style.display = 'none'; document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = false; }); }
 
+        // --- NEW FUNCTION: FORCE UPLOAD FROM HARDCODED DATA ---
         async function forceUploadRESTORE() {
             if(!confirm("OPRAVDU chcete přepsat databázi daty z kódu? Použijte jen pokud je web prázdný.")) return;
             const lang = document.documentElement.lang;
@@ -307,6 +310,7 @@
             }
 
             try {
+                // FORCE SAVE TO DB
                 await db.collection('content').doc(docId).set(dataToSeed);
                 alert("Data úspěšně nahrána z kódu do databáze! Obnovte stránku.");
                 location.reload();
@@ -339,30 +343,22 @@
         }
 
         async function fetchFromDB() {
-            if (isAdmin && document.querySelector('.editable-text').innerHTML.trim().length > 0) {
-                return;
-            }
-
+            // Updated logic: ALWAYS fetch once, even if admin.
+            // Only stop automatic refreshes later.
+            // If the page is empty, we must fetch.
+            
             const lang = document.documentElement.lang;
             const docId = getPageDocId(lang);
             try {
                 const doc = await db.collection('content').doc(docId).get();
                 if (doc.exists) {
                     const data = doc.data();
-                    if (Object.keys(data).length === 0) {
-                        const dataToSeed = RESTORE_DATA[docId];
-                        if (dataToSeed) {
-                             await db.collection('content').doc(docId).set(dataToSeed);
-                             renderData(dataToSeed);
-                        }
-                    } else {
-                        if (!isAdmin) renderData(data);
-                    }
+                    renderData(data);
                 } else {
-                    const dataToSeed = RESTORE_DATA[docId];
-                    if (dataToSeed) {
-                         await db.collection('content').doc(docId).set(dataToSeed);
-                         renderData(dataToSeed);
+                    // Try auto-seed if totally missing
+                    if (RESTORE_DATA[docId]) {
+                         await db.collection('content').doc(docId).set(RESTORE_DATA[docId]);
+                         renderData(RESTORE_DATA[docId]);
                     }
                 }
             } catch (error) { console.error("Error fetching DB: " + error); }

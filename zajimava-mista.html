@@ -182,7 +182,16 @@
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Zajímavá místa v okolí | Eko-Oáza Prachov", description: "Tipy na výlety v okolí." }, en: { title: "Places of Interest | Eko-Oáza Prachov", description: "Trip ideas around Eko-Oáza Prachov." } };
         
+        // --- RESTORE DATA ---
         const RESTORE_DATA = {
+            'zajimava-mista_cs': {
+                'cs-places-info-box': `<h3>Eko-Oáza Prachov</h3><p>Chatová osada v Českém ráji, Prachov 58</p><p><strong>IČO:</strong> 66314364</p><p><strong>č.ú.:</strong> 19-6866210217/0100</p><p><strong>tel.:</strong> 606 930 170</p><p><strong>e-mail:</strong> e-o-p@seznam.cz</p><p>old web:</p>`,
+                'cs-places-intro': `<h3>Zajímavá místa</h3><p>Prachovské skály jsou považovány za srdce Českého ráje. Zde můžete vidět jen některé z turistických atrakcí v okolí.</p>`,
+                'cs-places-header-1': `Prachovské skály`,
+                'cs-places-header-2': `Koupání (rybníky, koupaliště, aqua centrum)`,
+                'cs-places-header-3': `Hrady, zříceniny a zámky v Českém ráji`,
+                'cs-places-header-4': `Turistické atrakce v Jičíně a okolí`
+            },
             'zajimava-mista_en': {
                 'en-places-header-1': `Prachov Rocks`,
                 'en-places-header-2': `Swimming (natural-Jinolice Ponds (10 min. walk), municipal swimming pool (10 min. by car), indoor aqua center (15 min. by car))`,
@@ -314,14 +323,12 @@
                 const doc = await db.collection('content').doc(docId).get();
                 if (doc.exists) {
                     const data = doc.data();
-                    if (Object.keys(data).length === 0) {
-                        const dataToSeed = RESTORE_DATA[docId];
-                        if (dataToSeed) {
-                             await db.collection('content').doc(docId).set(dataToSeed);
-                             renderData(dataToSeed);
-                        }
+                    if (Object.keys(data).length < 2 && RESTORE_DATA[docId]) {
+                         console.log("DB entry broken. Healing...");
+                         await db.collection('content').doc(docId).set(RESTORE_DATA[docId], { merge: true });
+                         renderData(RESTORE_DATA[docId]);
                     } else {
-                        if (!isAdmin) renderData(data);
+                        renderData(data);
                     }
                 } else {
                     const dataToSeed = RESTORE_DATA[docId];
