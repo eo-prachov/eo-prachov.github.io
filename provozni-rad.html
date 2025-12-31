@@ -51,8 +51,6 @@
         #admin-toolbar button:hover{background:#2980b9}
         #admin-toolbar button#save-btn{background:#27ae60}
         #admin-toolbar button#save-btn:hover{background:#229954}
-        #admin-toolbar button#upload-restore-btn{background:#8e44ad}
-        #admin-toolbar button#upload-restore-btn:hover{background:#732d91}
         #admin-toolbar button#logout-btn{background:#e74c3c}
         #admin-toolbar button#logout-btn:hover{background:#c0392b}
 
@@ -75,8 +73,7 @@
 <body>
     <div id="admin-toolbar">
         <span>Režim úprav</span>
-        <button id="save-btn" onclick="saveAllChanges()">Uložit změny (WEB -> DB)</button>
-        <button id="upload-restore-btn" onclick="forceUploadRESTORE()">Nahrát ZÁLOŽNÍ Data (CODE -> DB)</button>
+        <button id="save-btn" onclick="saveAllChanges()">Uložit změny</button>
         <button onclick="addTextBox()">+ Přidat text</button>
         <button id="delete-mode-btn" onclick="toggleDeleteMode()">Smazat text</button>
         <button id="logout-btn" onclick="logout()">Odhlásit se</button>
@@ -153,17 +150,8 @@
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Provozní řád | Eko-Oáza Prachov", description: "Provozní a ubytovací řád." }, en: { title: "Operating Rules | Eko-Oáza Prachov", description: "Operating and accommodation rules." } };
 
-        // --- RESTORE DATA ---
-        const RESTORE_DATA = {
-            'provozni-rad_cs': {
-                'cs-rules-info-box': `<h3>Eko-Oáza Prachov</h3><p><b class="bold">Chatová osada v Českém ráji, Prachov 58, provozovatel:</b> Ing.Petr Hejna</p> <p><b class="bold">IČO:</b> 66314364</p> <p><b class="bold">Provozní doba:</b> červenec-srpen (jen po dohodě s klientem)</p> <p><b class="bold">č.ú.</b> 19-6866210217/0100</p> <p><b class="bold">tel.:</b> 606 930 170 (nejlépe večer)</p> <p><b class="bold">e-mail:</b> e-o-p@seznam.cz</p><p>old web:</p>`,
-                'cs-rules-content': `<h3 class="editable-text">Provozní řád</h3><p>V zásadě platí jednoduché pravidlo. Pobyt v této malé chatové osadě se řídí <span class="bold">zásadami lidské slušnosti a ohleduplnosti, rozumem</span> a <span class="bold">Ubytovacím řádem</span>, který je k dispozici v kuchyňce.</p><ul><li>V chatkách se nesmí kouřit a přestavovat nábytek.</li><li>Na WC se do záchodových mís má vhazovat pouze toaletní papír. Čistička nedokáže rozložit jiný materiál (např. "papírové" kapesníčky, hygienické vložky, apod.).</li><li>V kuchyňce nedotahovat přílišnou silou kohoutek teplé vody. Po dotažení musí teplá voda ještě trochu odtékat, po několika vteřinách sama přestane téct. (Jedná se o beztlakový systém).</li></ul><h3 class="text-center">UBYTOVACÍ ŘÁD</h3><p class="bold text-center">Ubytování v této malé chatové osadě se řídí zejména zásadami lidské slušnosti a ohleduplnosti, ale i následujícími pravidly.</p><p>Provozovatelem a vlastníkem rekreačního střediska Eko-Oáza-Prachov (dále jen „EOP“), které se nachází na adrese Prachov 58, 50601 Jičín, je fyzická osoba Ing.Petr Hejna, se sídlem Komenského 59, 50601 Jičín, IČO:66314364, zapsaná v živnostenském rejstříku vedeném Městským úřadem v Jičíně, (dále jen „ubytovatel“).</p><p>Každý host je povinen seznámit se s tímto ubytovacím řádem před zahájením ubytování a je povinen jej dodržovat po celou dobu ubytování. V případě, že hostem je nezletilé dítě nebo mladiství, je povinností zákonného zástupce, příp. odpovědné osoby seznámit je, vzhledem k jeho rozumové a volní vyspělosti, s ubytovacím řádem a s právy a povinnostmi z ubytovacího řádu vyplývajícími, a z bezpečnostních důvodů nenechávat nezletilé dítě do 10ti let bez dozoru v areálu EOP.</p><p>V prostoru EOP se může ubytovat pouze host, která se řádně zaevidoval u ubytovatele, prokázal svou totožnost průkazem totožnosti a má zaplacenu sjednanou částku převodem z účtu na účet. Ubytování je povoleno pouze hostům, kteří nejsou postiženi infekčními nebo parazitními nemocemi, ani jim nebyl nařízen zvýšený zdravotní dozor nebo karanténa.</p><p>Nebylo-li sjednáno jinak, nástup na ubytováni je po 14:00hod., opuštěni nejpozději do 10:00hod.</p><p>V době od 22:00hod do 07:00hod je nutno dodržovat noční klid. Po dohodě s ubytovatelem je možné večerku posunout na pozdější hodinu. Host osobně převezme a předá zpět chatku ubytovateli s vrácením klíčů.</p><p>Psi nebo jiná zvířata mohou být přítomna za předpokladu, že host prokáže jejich způsobilý stav (očkovací průkaz). Po celou dobu pobytu za zvíře odpovídá majitel. Zvíře nesmí zůstat bez dozoru. Majitelé zvířat jsou povinni zabezpečit, aby zvířata nepobíhala po areálu volně, bez náhubku, a jsou povinni po svém zvířeti uklízet. <span class="bold">Zvířata nesmí spát v posteli určené pro spaní hostů.</span></p><p>Ubytování, pohyb a pobyt osob po areálu EOP je <span class="bold">výhradně na vlastní nebezpečí.</span> Při pobytu dětí a mladistvích je nutné dbát zvýšené opatrnosti. <span class="bold">Ubytovatel nenese zodpovědnost za újmu na zdraví.</span></p><p>Parkování je možné na plochách u chatek. <span class="bold">Je třeba zvýšené opatrnosti při jízdě mezi chatkami.</span></p><p>V ubytovacích prostorách nesmí být bez souhlasu ubytovatele přemísťován nábytek. V areálu EOP je zakázáno kácení a ořezávání jakékoliv vegetace.</p><p>Platí přísný zákaz kouření v chatkách a celém areálu mimo k tomu účelu vyhrazený prostor, nošení zbraní, přechovávání omamných a psychotropních látek, jedů či jiných nebezpečných chemikálií s výjimkou léčivých přípravků pro osobní potřebu hosta.</p><p>Oheň je povoleno rozdělávat pouze na vyhrazeném místě, při vhodných klimatických podmínkách, po předchozím souhlasu ubytovatele, a u ohně musí být osoba starší 18 let. Musí byt dodrženy protipožární předpisy.</p><p>Hosté jsou povinni třídit komunální odpad, odkládat jej do určených nádob jen na vyhrazém místě.</p><p>Do WC mísy patří <span class="bold">pouze toaletní papír</span> (rozložitelné. čističkou). Ostatní použité hygienické pomůcky patří do k tomu určených odpadkových košů.</p><p>V kuchyňce <span class="bold">nedotahovat kohoutky silou</span> (přetlakový systém). Voda se zastaví po chvilce sama.</p><p><span class="bold">Ubytovatel neodpovídá nikomu za ztrátu a škodu majetku.</span> Z cennosti odpovídá zásadně host, vyjma těch, které se hosté u ubytovatele uschovají proti podpisu o převzetí do úschovy.</p><p>Host je povinen dodržovat ustanovení tohoto ubytovacího řádu. V případě, že ubytovací řád poruší, má ubytovatel právo bez předchozího upozornění ukončit ubytování před uplynutím dohodnuté doby bez poskytnutí jakékoliv náhrady pro hosta.</p><p>Eko-Oáza-Prachov přeje příjemný pobyt.</p><p class="text-right">Toto znění ubytovacího řádu platí od 1.1.2019</p><p class="text-right">Ing.Petr Hejna, majitel EOP</p><p><span class="bold">Tísňová volání 112, První pomoc 155, Hasiči 150, Policie 158</span></p>`
-            },
-            'provozni-rad_en': {
-                'en-rules-info-box': `<h3>Eko-Oáza Prachov</h3><p>The cottage area in The Bohemian Paradise, Prachov 58</p><p><strong>IČO:</strong> 66314364</p><p><strong>Account #:</strong> 19-6866210217/0100</p><p><strong>tel.:</strong> 606 930 170</p><p><strong>e-mail:</strong> e-o-p@seznam.cz</p><p>old web:</p>`,
-                'en-rules-content': `<h3>Operating rules</h3><p>In principle, one simple rule is to be followed. The accommodated in this small camp are to follow principles of human politeness and common decency and the <strong>Rules of Accommodation</strong> that are on display in the kitchenette.</p><ul><li>Smoking in cottages is not allowed. Furniture should stay in place.</li><li>Only <strong>toilet paper</strong> should be thrown into the toilets bowls. The purification plant cannot decompose any other material (such as "paper" handkerchiefs, sanitary towels, etc.).</li><li>The hot water tap in the kitchenette should not be turned off excessively. After turning off the tap, there must still be some water leakage which will disappear after several seconds. (pressureless system is used).</li></ul><p>Cooperation with: e-chalupy.cz LevneUbytovani.net chalupy-ubytovani.cz</p>`
-            }
-        };
+        // NO HARDCODED DATA
+        const RESTORE_DATA = {};
 
         function getPageDocId(lang) { const path = window.location.pathname; const page = path.split("/").pop().replace(".html", "") || "index"; return `${page}_${lang}`; }
         function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
@@ -231,28 +219,6 @@
             document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = false; }); 
         }
 
-        // --- NEW FUNCTION: FORCE UPLOAD FROM HARDCODED DATA ---
-        async function forceUploadRESTORE() {
-            if(!confirm("OPRAVDU chcete přepsat databázi daty z kódu? Použijte jen pokud je web prázdný.")) return;
-            const lang = document.documentElement.lang;
-            const docId = getPageDocId(lang);
-            const dataToSeed = RESTORE_DATA[docId];
-            
-            if (!dataToSeed) {
-                alert("Pro tuto stránku nejsou připravena žádná záložní data.");
-                return;
-            }
-
-            try {
-                await db.collection('content').doc(docId).set(dataToSeed);
-                alert("Data úspěšně nahrána z kódu do databáze! Obnovte stránku.");
-                location.reload();
-            } catch (error) {
-                console.error("Error seeding:", error);
-                alert("Chyba při nahrávání.");
-            }
-        }
-
         async function saveAllChanges() {
             const promises = [];
             document.querySelectorAll('.editable-text').forEach(element => {
@@ -276,8 +242,9 @@
         }
 
         async function fetchFromDB() {
-            // STOP OVERWRITING IN ADMIN MODE (Unless DB is empty, handled below)
-            if (isAdmin && !document.querySelector('[data-field]').innerHTML === "") {
+            // STOP OVERWRITING IN ADMIN MODE
+            // If admin is active, and the page already has content (not blank), do not fetch.
+            if (isAdmin && document.querySelector('.editable-text').innerHTML.trim().length > 0) {
                 console.log("Admin mode active: Skipping DB fetch to prevent overwriting your edits.");
                 return;
             }
@@ -288,25 +255,9 @@
                 const doc = await db.collection('content').doc(docId).get();
                 if (doc.exists) {
                     const data = doc.data();
-                    if (Object.keys(data).length === 0) {
-                        // DB exists but is empty -> AUTO SEED from Hardcoded Data
-                        console.log("DB Empty - Auto-Seeding RESTORE_DATA...");
-                        const dataToSeed = RESTORE_DATA[docId];
-                        if (dataToSeed) {
-                             await db.collection('content').doc(docId).set(dataToSeed);
-                             renderData(dataToSeed);
-                        }
-                    } else {
-                        if (!isAdmin) renderData(data);
-                    }
+                    renderData(data);
                 } else {
-                    // DB Document Missing -> AUTO SEED from Hardcoded Data
-                    console.log(`Document ${docId} missing. Auto-seeding...`);
-                    const dataToSeed = RESTORE_DATA[docId];
-                    if (dataToSeed) {
-                         await db.collection('content').doc(docId).set(dataToSeed);
-                         renderData(dataToSeed);
-                    }
+                    console.log(`Document ${docId} missing in DB.`);
                 }
             } catch (error) { console.error("Error fetching DB: " + error); }
         }
