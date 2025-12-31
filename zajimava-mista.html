@@ -46,7 +46,9 @@
         #admin-toolbar button#logout-btn{background:#e74c3c}
         #admin-toolbar button#logout-btn:hover{background:#c0392b}
 
-        .editable-text[contenteditable=true]{outline:2px dashed #3498db}
+        /* STRICT CSS: Only show outline if body has admin-mode class */
+        body.admin-mode .editable-text[contenteditable=true]{outline:2px dashed #3498db}
+        
         #login-modal{display:none;position:fixed;z-index:10001;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.6)}
         #login-modal form{background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;max-width:400px;text-align:center;border-radius:5px}
         #login-modal input{width:90%;padding:12px 20px;margin:8px 0;display:inline-block;border:1px solid #ccc;box-sizing:border-box}
@@ -96,12 +98,12 @@
             <h1><a id="logo-link" href="index.html">Eko-Oáza Prachov</a></h1>
             <nav id="nav-cs">
                 <a href="index.html">Úvod</a>
-                <a href="provozni-rad.html">Provozní řád</a>
+                <a href="zajimava-mista.html">Zajímavá místa</a>
                 <a onclick="switchLanguage('en')">English version</a>
             </nav>
             <nav id="nav-en" style="display:none;">
                 <a href="index.html?lang=en">Home</a>
-                <a href="provozni-rad.html?lang=en">Operating rules</a>
+                <a href="zajimava-mista.html?lang=en">Places of interest</a>
                 <a onclick="switchLanguage('cs')">Česká verze</a>
             </nav>
         </header>
@@ -180,25 +182,7 @@
         const loginModal = document.getElementById('login-modal');
         const seoData = { cs: { title: "Zajímavá místa v okolí | Eko-Oáza Prachov", description: "Tipy na výlety v okolí." }, en: { title: "Places of Interest | Eko-Oáza Prachov", description: "Trip ideas around Eko-Oáza Prachov." } };
         
-        // --- RESTORE DATA ---
-        const RESTORE_DATA = {
-            'zajimava-mista_cs': {
-                'cs-places-info-box': `<h3>Eko-Oáza Prachov</h3><p>Chatová osada v Českém ráji, Prachov 58</p><p><strong>IČO:</strong> 66314364</p><p><strong>č.ú.:</strong> 19-6866210217/0100</p><p><strong>tel.:</strong> 606 930 170</p><p><strong>e-mail:</strong> e-o-p@seznam.cz</p><p>old web:</p>`,
-                'cs-places-intro': `<h3>Zajímavá místa</h3><p>Prachovské skály jsou považovány za srdce Českého ráje. Zde můžete vidět jen některé z turistických atrakcí v okolí.</p>`,
-                'cs-places-header-1': `Prachovské skály`,
-                'cs-places-header-2': `Koupání (rybníky, koupaliště, aqua centrum)`,
-                'cs-places-header-3': `Hrady, zříceniny a zámky v Českém ráji`,
-                'cs-places-header-4': `Turistické atrakce v Jičíně a okolí`
-            },
-            'zajimava-mista_en': {
-                'en-places-header-1': `Prachov Rocks`,
-                'en-places-header-2': `Swimming (natural-Jinolice Ponds (10 min. walk), municipal swimming pool (10 min. by car), indoor aqua center (15 min. by car))`,
-                'en-places-header-3': `Castles, ruins and chateaux of the Bohemian Paradise`,
-                'en-places-header-4': `Interesting places in Jičín and the immediate surroundings`,
-                'en-places-info-box': `<p>Cottage settlement in Bohemian Paradise, Prachov 58, operator: Ing.Petr Hejna</p><p>ID: 66314364</p><p>Opening hours: July-August (by appointment only)</p><p>Bank account: 19-6866210217/0100</p><p>tel.: <span class="bold">+420 606 930 170 (preferably in the evening)</span></p><p>e-mail: <a href="mailto:e-o-p@seznam.cz">e-o-p@seznam.cz</a></p><p>old website: eo-prachov.cz</p>`,
-                'en-places-intro': `<h3>Interesting Places</h3><p>The Prachov Rocks are located in the heart of the Bohemian Paradise. Below are just some of the tourist attractions.</p>`
-            }
-        };
+        const RESTORE_DATA = {};
 
         function getPageDocId(lang) { const path = window.location.pathname; const page = path.split("/").pop().replace(".html", "") || "index"; return `${page}_${lang}`; }
         function updateSEO(lang) { document.title = seoData[lang].title; document.querySelector('meta[name="description"]').setAttribute('content', seoData[lang].description); }
@@ -258,6 +242,7 @@
                 el.contentEditable = true; 
                 el.addEventListener('input', () => { unsavedChanges = true; });
             }); 
+            if (contentRefreshInterval) clearInterval(contentRefreshInterval);
         }
         function disableAdminMode() { 
             document.body.classList.remove('admin-mode'); 
@@ -266,7 +251,6 @@
             document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = false; }); 
         }
 
-        // --- FIXED SAVE LOGIC ---
         async function saveAllChanges() {
             const promises = [];
             const currentLang = document.documentElement.lang;
@@ -290,32 +274,15 @@
             } catch (error) { console.error("Error saving:", error); alert("Error saving."); }
         }
 
-        async function forceUploadRESTORE() {
-            if(!confirm("OPRAVDU chcete přepsat databázi daty z kódu? Použijte jen pokud je web prázdný.")) return;
-            const lang = document.documentElement.lang;
-            const docId = getPageDocId(lang);
-            const dataToSeed = RESTORE_DATA[docId];
-            
-            if (!dataToSeed) {
-                alert("Pro tuto stránku nejsou připravena žádná záložní data (Code is empty for this page).");
-                return;
-            }
-
-            try {
-                await db.collection('content').doc(docId).set(dataToSeed);
-                alert("Data úspěšně nahrána z kódu do databáze! Obnovte stránku.");
-                location.reload();
-            } catch (error) {
-                console.error("Error seeding:", error);
-                alert("Chyba při nahrávání.");
-            }
-        }
-
         async function loadContent() {
             fetchFromDB();
         }
 
         async function fetchFromDB() {
+            if (isAdmin && document.querySelector('.editable-text').innerHTML.trim().length > 0) {
+                return;
+            }
+
             const lang = document.documentElement.lang;
             const docId = getPageDocId(lang);
             try {
@@ -345,6 +312,10 @@
                 if (element && data[fieldId]) {
                     if(element.innerHTML !== data[fieldId]) {
                         element.innerHTML = data[fieldId];
+                        // FORCE CONTENT EDITABLE FALSE IF NOT ADMIN (Security)
+                        if(!isAdmin) {
+                            element.contentEditable = "false";
+                        }
                     }
                 }
             });

@@ -54,11 +54,15 @@
         #admin-toolbar button#logout-btn{background:#e74c3c}
         #admin-toolbar button#logout-btn:hover{background:#c0392b}
 
-        .editable-text[contenteditable=true]{outline:2px dashed #3498db}
+        /* STRICT CSS: Only show outline if body has admin-mode class */
+        body.admin-mode .editable-text[contenteditable=true]{outline:2px dashed #3498db}
+        
         #login-modal{display:none;position:fixed;z-index:10001;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.6)}
         #login-modal form{background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;max-width:400px;text-align:center;border-radius:5px}
         #login-modal input{width:90%;padding:12px 20px;margin:8px 0;display:inline-block;border:1px solid #ccc;box-sizing:border-box}
-        #login-modal button{background-color:#4caf50;color:#fff;padding:14px 20px;margin:8px 0;border:none;cursor:pointer;width:90%}.delete-mode .editable-text{outline:2px dashed red;cursor:crosshair}.delete-mode .editable-text:hover{background-color:#ff000020}
+        #login-modal button{background-color:#4caf50;color:#fff;padding:14px 20px;margin:8px 0;border:none;cursor:pointer;width:90%}
+        
+        .delete-mode .editable-text{outline:2px dashed red;cursor:crosshair}.delete-mode .editable-text:hover{background-color:#ff000020}
         
         @media screen and (max-width:768px){
             body{font-size:16px}
@@ -104,10 +108,12 @@
         </header>
 
         <main id="main-content">
+            <!-- CZECH CONTENT -->
             <div id="lang-cs">
                  <div class="info-box editable-text" data-field="cs-rules-info-box"></div>
                  <div class="editable-text text-justify" data-field="cs-rules-content"></div>
             </div>
+            <!-- ENGLISH CONTENT -->
             <div id="lang-en" style="display:none;">
                 <div class="info-box editable-text" data-field="en-rules-info-box"></div>
                 <div class="editable-text text-justify" data-field="en-rules-content"></div>
@@ -180,7 +186,7 @@
         function showImage(index) { modalImg.src = currentGalleryImages[index].src; modalImg.alt = currentGalleryImages[index].alt; modalImg.className = 'modal-content'; modalContentWrapper.scrollTop = 0; modalContentWrapper.scrollLeft = 0; }
         function closeModal() { modal.style.display = "none"; document.body.style.overflow = 'auto'; }
         function plusSlides(n) { currentImageIndex = (currentImageIndex + n + currentGalleryImages.length) % currentGalleryImages.length; showImage(currentImageIndex); }
-        function handleImageClick(event) { event.stopPropagation(); const img = event.target; if (img.classList.contains('zoom-2')) { img.classList.remove('zoom-2', 'zoom-1'); } else if (img.classList.contains('zoom-1')) { img.classList.add('zoom-2'); } else { img.classList.add('zoom-1'); } }
+        function handleImageClick(event) { event.stopPropagation(); const img = event.target; if (img.classList.contains('zoom-2')) { img.classList.remove('zoom-2', 'zoom-1'); } else if (img.classList.contains('zoom-1')) { img.classList.add('zoom-1'); } else { img.classList.add('zoom-1'); } }
         function handleModalClick(event) { if (event.target === modalContentWrapper) closeModal(); }
         
         auth.onAuthStateChanged(user => { 
@@ -225,7 +231,7 @@
                 if (!fieldId) return;
 
                 const fieldLang = fieldId.startsWith('cs-') ? 'cs' : 'en';
-                if (fieldLang !== currentLang) return; 
+                if (fieldLang !== currentLang) return; // Only save current lang fields
 
                 const content = element.innerHTML;
                 const docId = getPageDocId(fieldLang);
@@ -275,7 +281,13 @@
                     }
                 }
                 if (element && data[fieldId]) {
-                    if(element.innerHTML !== data[fieldId]) { element.innerHTML = data[fieldId]; }
+                    if(element.innerHTML !== data[fieldId]) {
+                        element.innerHTML = data[fieldId];
+                        // FORCE CONTENT EDITABLE FALSE IF NOT ADMIN (Security)
+                        if(!isAdmin) {
+                            element.contentEditable = "false";
+                        }
+                    }
                 }
             });
         }
