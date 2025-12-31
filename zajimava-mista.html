@@ -41,6 +41,8 @@
         #admin-toolbar button:hover{background:#2980b9}
         #admin-toolbar button#save-btn{background:#27ae60}
         #admin-toolbar button#save-btn:hover{background:#229954}
+        #admin-toolbar button#upload-restore-btn{background:#8e44ad}
+        #admin-toolbar button#upload-restore-btn:hover{background:#732d91}
         #admin-toolbar button#logout-btn{background:#e74c3c}
         #admin-toolbar button#logout-btn:hover{background:#c0392b}
 
@@ -74,7 +76,8 @@
 <body>
     <div id="admin-toolbar">
         <span>Režim úprav</span>
-        <button id="save-btn" onclick="saveAllChanges()">Uložit změny</button>
+        <button id="save-btn" onclick="saveAllChanges()">Uložit změny (WEB -> DB)</button>
+        <button id="upload-restore-btn" onclick="forceUploadRESTORE()">Nahrát ZÁLOŽNÍ Data (CODE -> DB)</button>
         <button onclick="addTextBox()">+ Přidat text</button>
         <button id="delete-mode-btn" onclick="toggleDeleteMode()">Smazat text</button>
         <button id="logout-btn" onclick="logout()">Odhlásit se</button>
@@ -211,7 +214,6 @@
             document.getElementById('footer-cs').style.display = lang === 'cs' ? 'block' : 'none'; 
             document.getElementById('footer-en').style.display = lang === 'en' ? 'block' : 'none'; 
             
-            // LOGO LINK FIX
             const logoLink = document.getElementById('logo-link');
             if(logoLink) {
                 if(lang === 'en') {
@@ -265,6 +267,28 @@
             document.body.classList.remove('delete-mode'); 
             document.getElementById('admin-toolbar').style.display = 'none'; 
             document.querySelectorAll('.editable-text').forEach(el => { el.contentEditable = false; }); 
+        }
+
+        // --- NEW FUNCTION: FORCE UPLOAD FROM HARDCODED DATA ---
+        async function forceUploadRESTORE() {
+            if(!confirm("OPRAVDU chcete přepsat databázi daty z kódu? Použijte jen pokud je web prázdný.")) return;
+            const lang = document.documentElement.lang;
+            const docId = getPageDocId(lang);
+            const dataToSeed = RESTORE_DATA[docId];
+            
+            if (!dataToSeed) {
+                alert("Pro tuto stránku nejsou připravena žádná záložní data.");
+                return;
+            }
+
+            try {
+                await db.collection('content').doc(docId).set(dataToSeed);
+                alert("Data úspěšně nahrána z kódu do databáze! Obnovte stránku.");
+                location.reload();
+            } catch (error) {
+                console.error("Error seeding:", error);
+                alert("Chyba při nahrávání.");
+            }
         }
 
         async function saveAllChanges() {
